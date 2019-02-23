@@ -1,11 +1,12 @@
 package scraper;
 
 
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Price;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import scraper.model.Price;
-import scraper.model.Product;
+
 
 
 public class PrismaScraper {
