@@ -1,8 +1,13 @@
 package scraper;
 
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class PrismaScraper {
 
