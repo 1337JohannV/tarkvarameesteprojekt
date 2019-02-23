@@ -1,25 +1,62 @@
-package scraper;
+package scraper.prisma;
 
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Price;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import scraper.DocumentManager;
+import scraper.Scraper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
-public class PrismaScraper {
+public class PrismaScraper implements Scraper {
 
 
-    public void example(Document doc) {
-        Elements products = doc.select("li.item");
-        for (Element product : products) {
-            System.out.println(product.attr("data-ean"));
-            System.out.println(product.selectFirst("a.js-link-item").attr("href"));
+    @Override
+    public HashMap<Category, List<Product>> scrapeCategories() {
+        return null;
+    }
+
+    private PrismaCategoryScrapingStrategy selectStrategy(Document doc) {
+
+        int numberOfItemsOnPage = Integer.parseInt(doc.getElementsByClass("category-items")
+                .first().text().split("\\s+",2)[0]);
+        System.out.println(numberOfItemsOnPage);
+
+        if (numberOfItemsOnPage <= 48) {
+            System.out.println("alphabeticalOnce");
+            return new AZStrategy();
         }
+        if(numberOfItemsOnPage <= 96) {
+            System.out.println("alphabeticalTwice");
+            return new AZandZAStrategy();
+
+        } else {
+            //Praegu ei leia kõiki tooteid, tuleks lisada see, et vaatab odavamad/kallimad ka, siis peaks loodetavasti
+            //saama kõik tooted kätte.
+
+            System.out.println("HopingForTheBest");
+            return new AlphabeticalsAndPopularityStrategy();
+        }
+
+    }
+
+    public List<String> getProductUrlsFromCategory(String url) {
+
+        Document doc = DocumentManager.getDocument(url);
+
+        PrismaCategoryScrapingStrategy strat = selectStrategy(doc);
+
+        return strat.getProductUrlsFromCategory(url);
+
+
+
     }
 
     private String getOrigin(Document doc) {
@@ -99,7 +136,10 @@ public class PrismaScraper {
 
     public static void main(String[] args) {
         PrismaScraper prismaScraper = new PrismaScraper();
-        System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/pipraveski-17-cm/6412988352042"));
-        // prismaScraper.example(DocumentManager.getDocument("https://www.prismamarket.ee/products/19273"));
+        System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/seesamiseemne-urdi-hummus--175-g/4058094300021"));
+        System.out.println(prismaScraper.getProductUrlsFromCategory("https://www.prismamarket.ee/products/17097"));
+        //prismaScraper.getProductUrlsFromCategory(DocumentManager.getDocument("https://www.prismamarket.ee/products/17636"));
+        //prismaScraper.selectStrategy("https://www.prismamarket.ee/products/16974");
+        //System.out.println(DocumentManager.getDocument("https://www.prismamarket.ee/products/16972"));
     }
 }
