@@ -18,6 +18,7 @@ public class DocumentManager {
                     .referrer(REFERRERER)
                     .timeout(12000)
                     .followRedirects(true)
+                    .validateTLSCertificates(false)
                     .execute().parse();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -13,7 +13,6 @@ import java.util.List;
 
 public class SelverScraper {
 
-
     private List<String> getUrls(Document doc) {
         Elements products = doc.getElementById("products-grid").children();
         List<String> urls = new ArrayList<>();
