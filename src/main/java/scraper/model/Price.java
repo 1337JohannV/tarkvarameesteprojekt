@@ -7,6 +7,7 @@ public class Price {
     private String specialPrice;
     private double amount;
     private String unitPrice;
+    private String quantity;
 
     public Price(String store, String currency, String unitPrice, double amount, String specialPrice) {
         this.store = store;
@@ -17,6 +18,14 @@ public class Price {
     }
 
     public Price() {
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 
     public String getStore() {
