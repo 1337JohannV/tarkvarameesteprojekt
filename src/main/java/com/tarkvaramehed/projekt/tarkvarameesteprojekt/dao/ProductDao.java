@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface ProductDao {
 
-    Product getById();
+    Product getById(Long id);
 
     List<Product> getAll();
 
     List<Product> getProductsByCategory();
+
+    void insert(Product product);
 
 }

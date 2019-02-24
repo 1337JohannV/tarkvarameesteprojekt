@@ -7,8 +7,8 @@ public class SelverUrlManager {
     private static final String BASE_URL = "https://www.selver.ee/";
     private static final String RESULT_LIMIT = "96";
 
-    static String getCategoryName(Category categoryEnum) {
-        switch (categoryEnum) {
+    static String getCategoryName(Category category) {
+        switch (category) {
             case PUU_JA_KOOGIVILJAD: return "puu-ja-koogiviljad";
             case LIHA_JA_KALA: return "liha-ja-kalatooted";
             case PIIMATOOTED_MUNAD_VOID: return"piimatooted-munad-void";
