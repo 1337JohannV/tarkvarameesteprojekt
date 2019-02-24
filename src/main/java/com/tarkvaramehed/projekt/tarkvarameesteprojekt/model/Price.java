@@ -1,23 +1,11 @@
 package com.tarkvaramehed.projekt.tarkvarameesteprojekt.model;
 
-
-import lombok.*;
-
-import javax.persistence.Entity;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Currency;
+import lombok.Data;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
 public class Price {
 
-    private String store;
-    private String url;
-    private String currency;
-    private String specialPrice;
+    private Currency currency;
     private double amount;
-    private String unitPrice;
-    private String quantity;
-
-
 }

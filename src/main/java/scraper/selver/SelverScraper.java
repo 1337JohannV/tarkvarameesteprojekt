@@ -1,11 +1,15 @@
-package scraper;
+package scraper.selver;
 
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Price;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.ProductPrice;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Price;
-import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
+import scraper.DocumentManager;
+import scraper.RegexMatcher;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class SelverScraper implements Scraper {
+public class SelverScraper {
 
     private List<String> getUrls(Document doc) {
         Elements products = doc.getElementById("products-grid").children();
@@ -29,29 +33,39 @@ public class SelverScraper implements Scraper {
         Document doc = DocumentManager.getDocument(url);
 
         Product product = new Product();
-        Price price = new Price();
+        ProductPrice productPrice = new ProductPrice();
 
         product.setName(doc.selectFirst("div.page-title h1").html());
+        product.setQuantity(RegexMatcher.extractQuantity(product.getName()));
 
         Element priceBox = doc.selectFirst("div.price-box span.price");
         Element offer = doc.selectFirst("div[itemprop=offers]");
 
-        price.setUrl(url);
-        price.setStore("Selver");
-        price.setAmount(Double.valueOf(offer.selectFirst("span[itemprop=price]").attr("content")));
-        price.setCurrency(offer.selectFirst("span[itemprop=priceCurrency]").attr("content"));
-        price.setUnitPrice(priceBox.selectFirst("span.unit-price").html());
-        product.setPrices(Arrays.asList(price));
+        productPrice.setStore(Store.SELVER);
+        productPrice.setUrl(url);
+
+        Price regularPrice = new Price();
+        regularPrice.setAmount(Double.valueOf(offer.selectFirst("span[itemprop=price]").attr("content")));
+        regularPrice.setCurrency(RegexMatcher.matchCurrency(offer.selectFirst("span[itemprop=priceCurrency]").attr("content")));
+
+        productPrice.setRegularPrice(regularPrice);
+        productPrice.setUnitPrice(RegexMatcher.extractUnitPrice(priceBox.selectFirst("span.unit-price").html()));
 
         HashMap<String, String> tableData = extractTableData(doc.selectFirst("table.product-attributes tbody"));
-
-        if (tableData.containsKey("ribakood")) product.setEan(tableData.get("ribakood"));
-        if (tableData.containsKey("tootja")) product.setProducer(tableData.get("tootja"));
-        if (tableData.containsKey("päritolumaa")) product.setOrigin(tableData.get("päritolumaa"));
+        if (tableData.containsKey("ribakood")) {
+            product.setEan(tableData.get("ribakood"));
+        }
+        if (tableData.containsKey("tootja")) {
+            product.setProducer(tableData.get("tootja"));
+        }
+        if (tableData.containsKey("päritolumaa")) {
+            product.setOrigin(tableData.get("päritolumaa"));
+        }
         if (tableData.containsKey("hind partnerkaardiga")) {
-            price.setSpecialPrice(tableData.get("hind partnerkaardiga"));
+            productPrice.setSpecialPrice(RegexMatcher.extractPrice(tableData.get("hind partnerkaardiga")));
         }
 
+        product.setPrices(Arrays.asList(productPrice));
         System.out.println(product);
         return product;
     }
@@ -90,18 +104,12 @@ public class SelverScraper implements Scraper {
         }
         return products;
     }
-
-
-    public HashMap<Category, List<Product>> scrapeCategories() {
+    HashMap<Category, List<Product>> scrapeCategories() {
         HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
         for (Category category : Category.values()) {
-
             System.out.println("scraping category: " + category);
-
             List<Product> products = scrapeCategory(SelverUrlManager.buildCategoryUrl(category));
-
             System.out.println(String.format("category finished, scraped %d products\n\n", products.size()));
-
             productsByCategory.put(category, products);
         }
         return productsByCategory;
@@ -110,17 +118,21 @@ public class SelverScraper implements Scraper {
     public static void main(String[] args) throws IOException {
 
         SelverScraper selverScraper = new SelverScraper();
+        //selverScraper.getPageCount(UrlManager.buildCategoryUrl(UrlManager.CategoryModel.PUU_JA_KOOGIVILJAD));
         /**
-        HashMap<SelverUrlManager.Category, List<Product>> products = selverScraper.scrapeCategories();
-        for (SelverUrlManager.Category category : products.keySet()) {
-            System.out.println(category);
-            for (Product product : products.get(category)) {
-                System.out.println(product);
-            }
-            System.out.println("\n\n");
-        }
-        **/
+         HashMap<UrlManager.CategoryModel, List<Product>> products = selverScraper.scrapeCategories();
+         for (UrlManager.CategoryModel category : products.keySet()) {
+         System.out.println(category);
+         for (Product product : products.get(category)) {
+         System.out.println(product);
+         }
+         System.out.println("\n\n");
+         }
+         **/
+        //selverScraper.scrapeCategory(UrlManager.buildCategoryUrl(UrlManager.CategoryModel.VALMISTOIDUD));
+        //selverScraper.getPageCount(UrlManager.buildCategoryUrl(UrlManager.CategoryModel.VALMISTOIDUD));
 
+        //selverScraper.scrapeProductPage("https://www.selver.ee/r-maapahkel-sinihallitusjuustu-taffel-150-g");
         selverScraper.scrapeCategories();
 
 

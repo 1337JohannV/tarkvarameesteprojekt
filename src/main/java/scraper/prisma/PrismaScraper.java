@@ -118,18 +118,18 @@ public class PrismaScraper implements Scraper {
         product.setOrigin(getOrigin(doc));
 
 
-        price.setCurrency("€");
-        price.setStore("Prisma");
-        price.setAmount(getPrice(doc));
-        price.setQuantity(quantity);
-        price.setUnitPrice(getUnitPrice(doc));
-        price.setUrl(getProductUrl(doc));
+        //price.setCurrency("€");
+        //price.setStore(Store.PRISMA);
+        //price.setAmount(getPrice(doc));
+        //price.setQuantity(quantity);
+        //price.setUnitPrice(getUnitPrice(doc));
+        //price.setUrl(getProductUrl(doc));
 
 
 
         List<Price> prices = new ArrayList();
         prices.add(price);
-        product.setPrices(prices);
+        //product.setPrices(prices);
 
         return product;
     }
