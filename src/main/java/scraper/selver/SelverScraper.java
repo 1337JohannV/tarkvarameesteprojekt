@@ -10,13 +10,48 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import scraper.DocumentManager;
 import scraper.RegexMatcher;
+import scraper.Scraper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class SelverScraper {
+public class SelverScraper implements Scraper {
+
+    @Override
+    public HashMap<Category, List<Product>> scrapeCategories() {
+        HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
+        for (Category category : Category.values()) {
+            System.out.println("scraping category: " + category);
+            List<Product> products = scrapeCategory(SelverUrlManager.buildCategoryUrl(category));
+            System.out.println(String.format("category finished, scraped %d products\n\n", products.size()));
+            productsByCategory.put(category, products);
+        }
+        return productsByCategory;
+    }
+
+    private List<Product> scrapeCategory(String url) {
+        List<Product> products = new ArrayList<>();
+        for (int i = 1; i <= getPageCount(url); i++) {
+            int productsSize = products.size();
+            System.out.println(String.format("scraping page %d", i));
+            getUrls(DocumentManager.getDocument(String.format(url, i)))
+                    .parallelStream()
+                    .forEach(u -> products.add(scrapeProductPage(u)));
+            System.out.println(String.format("page finished, scraped %d products", products.size() - productsSize));
+        }
+        return products;
+    }
+
+    private int getPageCount(String url) {
+        return Integer.parseInt(
+                DocumentManager.getDocument(url)
+                        .selectFirst("ol.pagination")
+                        .selectFirst("a.last")
+                        .html()
+        );
+    }
 
     private List<String> getUrls(Document doc) {
         Elements products = doc.getElementById("products-grid").children();
@@ -44,13 +79,21 @@ public class SelverScraper {
         productPrice.setUrl(url);
 
         Price regularPrice = new Price();
-        regularPrice.setAmount(Double.valueOf(offer.selectFirst("span[itemprop=price]").attr("content")));
-        regularPrice.setCurrency(RegexMatcher.matchCurrency(offer.selectFirst("span[itemprop=priceCurrency]").attr("content")));
+        regularPrice.setAmount(Double.valueOf(
+                offer.selectFirst("span[itemprop=price]").attr("content")
+        ));
+        regularPrice.setCurrency(RegexMatcher.matchCurrency(
+                offer.selectFirst("span[itemprop=priceCurrency]").attr("content")
+        ));
 
         productPrice.setRegularPrice(regularPrice);
-        productPrice.setUnitPrice(RegexMatcher.extractUnitPrice(priceBox.selectFirst("span.unit-price").html()));
+        productPrice.setUnitPrice(RegexMatcher.extractUnitPrice(
+                priceBox.selectFirst("span.unit-price").html()
+        ));
 
-        HashMap<String, String> tableData = extractTableData(doc.selectFirst("table.product-attributes tbody"));
+        HashMap<String, String> tableData = extractTableData(
+                doc.selectFirst("table.product-attributes tbody")
+        );
         if (tableData.containsKey("ribakood")) {
             product.setEan(tableData.get("ribakood"));
         }
@@ -61,11 +104,12 @@ public class SelverScraper {
             product.setOrigin(tableData.get("päritolumaa"));
         }
         if (tableData.containsKey("hind partnerkaardiga")) {
-            productPrice.setSpecialPrice(RegexMatcher.extractPrice(tableData.get("hind partnerkaardiga")));
+            productPrice.setSpecialPrice(RegexMatcher.extractPrice(
+                    tableData.get("hind partnerkaardiga")
+            ));
         }
 
         product.setProductPrices(Arrays.asList(productPrice));
-        //System.out.println(product);
         return product;
     }
 
@@ -79,38 +123,7 @@ public class SelverScraper {
         return tableData;
     }
 
-    private int getPageCount(String url) {
-        Document doc = DocumentManager.getDocument(url);
-        Element pagination = doc.selectFirst("ol.pagination");
-        Element lastPage = pagination.selectFirst("a.last");
-        return Integer.parseInt(lastPage.html());
-    }
-
-    private List<Product> scrapeCategory(String url) {
-        List<Product> products = new ArrayList<>();
-        int pageCount = getPageCount(url);
-        for (int i = 1; i <= pageCount; i++) {
-            int productsSize = products.size();
-            System.out.println(String.format("scraping page %d", i));
-            getUrls(DocumentManager.getDocument(String.format(url, i)))
-                    .parallelStream()
-                    .forEach(u -> products.add(scrapeProductPage(u)));
-            System.out.println(String.format("page finished, scraped %d products", products.size() - productsSize));
-        }
-        return products;
-    }
-
-    public HashMap<Category, List<Product>> scrapeCategories() {
-        HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
-        for (Category category : Category.values()) {
-            System.out.println("scraping category: " + category);
-            List<Product> products = scrapeCategory(SelverUrlManager.buildCategoryUrl(category));
-            System.out.println(String.format("category finished, scraped %d products\n\n", products.size()));
-            productsByCategory.put(category, products);
-        }
-        return productsByCategory;
-    }
-
+    // For testing purposes only
     private List<Product> simpleCategoryScraper(String url) {
         List<Product> products = new ArrayList<>();
         getUrls(DocumentManager.getDocument(String.format(url, 1)))
@@ -119,6 +132,7 @@ public class SelverScraper {
         return products;
     }
 
+    // For testing purposes only
     public HashMap<Category, List<Product>> getSampleData() {
         HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
         List<Product> products = simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(Category.LIHA_JA_KALA));
@@ -127,25 +141,8 @@ public class SelverScraper {
     }
 
     public static void main(String[] args) {
-
         SelverScraper selverScraper = new SelverScraper();
-        //selverScraper.getPageCount(UrlManager.buildCategoryUrl(UrlManager.CategoryModel.PUU_JA_KOOGIVILJAD));
-        /**
-         HashMap<Category, List<Product>> products = selverScraper.scrapeCategories();
-         for (Category category : products.keySet()) {
-         System.out.println(category);
-         System.out.println(products.get(category).size());
-         System.out.println("\n\n");
-         }
-         **/
-        //selverScraper.scrapeCategory(UrlManager.buildCategoryUrl(UrlManager.CategoryModel.VALMISTOIDUD));
-        //selverScraper.getPageCount(UrlManager.buildCategoryUrl(UrlManager.CategoryModel.VALMISTOIDUD));
-
-        //selverScraper.scrapeProductPage("https://www.selver.ee/r-maapahkel-sinihallitusjuustu-taffel-150-g");
-        //selverScraper.scrapeCategories();
         selverScraper.getSampleData();
-
-
 
     }
 }
