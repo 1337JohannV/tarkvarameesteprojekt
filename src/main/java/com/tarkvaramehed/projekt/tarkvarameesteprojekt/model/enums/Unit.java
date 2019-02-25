@@ -5,5 +5,6 @@ public enum Unit {
     G,
     ML,
     TK,
-    L;
+    L,
+    CL
 }

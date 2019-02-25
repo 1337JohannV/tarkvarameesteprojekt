@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Primary
@@ -21,12 +22,25 @@ public class JpaProductDao implements ProductDao {
     }
 
     @Override
-    public Product getById() {
-        return null;
+    public Product getById(Long id) {
+        return em.find(Product.class, id);
     }
 
     @Override
     public List<Product> getAll() {
-        return null;
+        return em.createQuery("select p from Product p", Product.class).getResultList();
+    }
+
+    @Transactional
+    public void insert(Product product) {
+        System.out.println(product);
+        if (product.getId() == null) {
+            em.persist(product);
+        } else {
+            em.merge(product);
+        }
+    }
+
+    public static void main(String[] args) {
     }
 }
