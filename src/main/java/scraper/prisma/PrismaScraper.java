@@ -18,6 +18,7 @@ import scraper.prisma.strategies.PrismaCategoryScrapingStrategy;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -186,10 +187,7 @@ public class PrismaScraper implements Scraper {
         System.out.println(productName);
         productPrice.setUnitPrice(RegexMatcher.extractUnitPrice(getUnitPrice(doc)));
 
-
-        List<ProductPrice> prices = new ArrayList();
-        prices.add(productPrice);
-        product.setPrices(prices);
+        product.setProductPrices(Arrays.asList(productPrice));
 
 
         return product;

@@ -1,5 +1,6 @@
 package com.tarkvaramehed.projekt.tarkvarameesteprojekt.model;
 
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,6 +18,9 @@ public class Product implements Serializable {
     private String name;
 
     private String ean;
+
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<ProductPrice> productPrices;
