@@ -3,11 +3,12 @@ package com.tarkvaramehed.projekt.tarkvarameesteprojekt.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity
-public class Product {
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue
@@ -17,10 +18,10 @@ public class Product {
 
     private String ean;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<ProductPrice> prices;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<ProductPrice> productPrices;
 
-    @OneToOne
+    @Embedded
     private Quantity quantity;
 
     private String producer;

@@ -54,7 +54,7 @@ public class SelverScraper {
         if (tableData.containsKey("ribakood")) {
             product.setEan(tableData.get("ribakood"));
         }
-        if (tableData.containsKey("tootja")) {
+        if (tableData.containsKey("tootja") && !tableData.get("tootja").equals("määramata")) {
             product.setProducer(tableData.get("tootja"));
         }
         if (tableData.containsKey("päritolumaa")) {
@@ -64,7 +64,7 @@ public class SelverScraper {
             productPrice.setSpecialPrice(RegexMatcher.extractPrice(tableData.get("hind partnerkaardiga")));
         }
 
-        product.setPrices(Arrays.asList(productPrice));
+        product.setProductPrices(Arrays.asList(productPrice));
         //System.out.println(product);
         return product;
     }

@@ -3,15 +3,14 @@ package com.tarkvaramehed.projekt.tarkvarameesteprojekt.model;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Currency;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
-@Entity
-public class Price {
+@Embeddable
+public class Price implements Serializable {
 
-    private double amount;
+    private Double amount;
 
     @Enumerated(EnumType.STRING)
     private Currency currency;

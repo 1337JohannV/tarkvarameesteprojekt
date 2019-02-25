@@ -3,15 +3,14 @@ package com.tarkvaramehed.projekt.tarkvarameesteprojekt.model;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Unit;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
-@Entity
-public class Quantity {
+@Embeddable
+public class Quantity implements Serializable {
 
-    private double value;
+    private Double value;
 
     @Enumerated(EnumType.STRING)
     private Unit unit;

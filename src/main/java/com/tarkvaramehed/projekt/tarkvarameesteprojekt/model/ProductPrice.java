@@ -3,27 +3,33 @@ package com.tarkvaramehed.projekt.tarkvarameesteprojekt.model;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
-@Entity
-public class ProductPrice {
+@Embeddable
+public class ProductPrice implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private Store store;
 
     private String url;
 
-    @OneToOne
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "amount", column = @Column(name = "regularPriceAmount")),
+            @AttributeOverride(name = "currency", column = @Column(name = "regularPriceCurrency"))
+    })
     private Price regularPrice;
 
-    @OneToOne
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "amount", column = @Column(name = "specialPriceAmount")),
+            @AttributeOverride(name = "currency", column = @Column(name = "specialPriceCurrency"))
+    })
     private Price specialPrice;
 
-    @OneToOne
+    @Embedded
     private UnitPrice unitPrice;
 
 }

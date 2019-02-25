@@ -1,10 +1,10 @@
-package com.tarkvaramehed.projekt.tarkvarameesteprojekt.dao;
+package com.tarkvaramehed.projekt.tarkvarameesteprojekt.data;
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 
 import java.util.List;
 
-public interface ProductDao {
+public interface ProductService {
 
     Product getById(Long id);
 
@@ -12,6 +12,6 @@ public interface ProductDao {
 
     List<Product> getProductsByCategory();
 
-    void insert(Product product);
+    void add(Product product);
 
 }

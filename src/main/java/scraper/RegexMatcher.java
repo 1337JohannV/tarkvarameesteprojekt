@@ -30,7 +30,7 @@ public class RegexMatcher {
                         quantity.setValue(Double.parseDouble(m.group(1).replace(",", ".")));
                     }
                 } else {
-                    quantity.setValue(1f);
+                    quantity.setValue(1.0);
                 }
                 if (m.group(3) != null){
                     quantity.setUnit(matchUnit(m.group(3)));
@@ -56,7 +56,7 @@ public class RegexMatcher {
                 if (m.group(1) != null) {
                     price.setAmount(Double.parseDouble(m.group(1).replace(",", ".")));
                 } else {
-                    price.setAmount(1f);
+                    price.setAmount(1.0);
                 }
                 if (m.group(3) != null){
                     price.setCurrency(matchCurrency(m.group(3)));
@@ -80,7 +80,7 @@ public class RegexMatcher {
                 if (m.group(1) != null) {
                     unitPrice.setAmount(Double.parseDouble(m.group(1).replace(",", ".")));
                 } else {
-                    unitPrice.setAmount(1f);
+                    unitPrice.setAmount(1.0);
                 }
                 if (m.group(3) != null){
                     String[] splitString = m.group(3).split("/");

@@ -1,9 +1,11 @@
 package com.tarkvaramehed.projekt.tarkvarameesteprojekt.conf;
 
 import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -16,14 +18,17 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan(basePackages = {"com.tarkvaramehed.projekt.tarkvarameesteprojekt.dao"})
+@ComponentScan(basePackages = {"com.tarkvaramehed.projekt.tarkvarameesteprojekt.data"})
 public class PersistenceJPAConfig{
+
+    @Autowired
+    private Environment env;
 
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        factory.setPackagesToScan("model");
+        factory.setPackagesToScan("com.tarkvaramehed.projekt.tarkvarameesteprojekt.model");
         factory.setDataSource(dataSource());
         factory.setJpaProperties(additionalProperties());
         factory.afterPropertiesSet();
@@ -33,10 +38,10 @@ public class PersistenceJPAConfig{
     @Bean
     public DataSource dataSource(){
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.hsqldb.jdbcDriver");
-        dataSource.setUrl("db.url");
-        dataSource.setUsername("user");
-        dataSource.setPassword("pass");
+        dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
+        dataSource.setUrl("jdbc:hsqldb:mem:productDb");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("sa");
         return dataSource;
     }
 
@@ -48,9 +53,9 @@ public class PersistenceJPAConfig{
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-        properties.setProperty("hibernate.show_sql", "false");
+        properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.format_sql", "true");
         return properties;
     }
