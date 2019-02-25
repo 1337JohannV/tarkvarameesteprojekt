@@ -2,7 +2,7 @@
   <div id="contentcontainer">
             <p>SIIN ON TOOTED</p>
             <div id="products">
-              <div id="toode" v-for="n in 9" :key="n"></div>
+              <div id="toode" v-for="n in 9" :key="n"><p>{{info}}</p></div>
             </div>
             <button id="buttonNext">Next</button> <button id="buttonPrevious">Previous</button>
         </div>
@@ -13,18 +13,15 @@ export default {
   name: 'Products',
   data () {
     return {
-      info:null
+      info:''
     }
   },
   methods: {
     initialLoad(){
+      fetch('http://localhost:8080/Product')
+          .then(function(response) {
 
-      fetch('http://localhost:8080/Product', {
-        method: "GET",
-        mode: "cors",
-      }).then(function(response) {
-          console.log(response);
-          return response;
+          return response.text();
           })
           .then(function(response) {
             console.log(response);
