@@ -38,26 +38,6 @@
     width: 100%;
     display: flex;
     justify-content: flex-end;
+    background-color: white;
 
-}
-
-#sidemenucontainer{
-    width: 30%;
-    border-right: black solid 2px;
-    height: 800px;
-}
-
-#contentcontainer{
-    width: 70%;
-    height: 800px;
-}
-
-#content{
-    border: black solid 2px;
-    width: 100%;
-    display: flex;
-}
-
-body{
-    margin: 1 1 1 1;
 }
