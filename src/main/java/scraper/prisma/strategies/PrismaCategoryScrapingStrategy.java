@@ -1,6 +1,4 @@
-package scraper.prisma;
-
-import org.jsoup.nodes.Document;
+package scraper.prisma.strategies;
 
 import java.util.List;
 
