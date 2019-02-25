@@ -140,9 +140,16 @@ public class SelverScraper implements Scraper {
         return productsByCategory;
     }
 
-    public static void main(String[] args) {
-        SelverScraper selverScraper = new SelverScraper();
-        selverScraper.getSampleData();
+    // For testing purposes only
+    public HashMap<Category, List<Product>> getMoreSampleData() {
+        HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
+        for (Category category : Category.values()) {
+            List<Product> products = simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(category));
+            productsByCategory.put(category, products);
+        }
+        return productsByCategory;
+    }
 
+    public static void main(String[] args) {
     }
 }
