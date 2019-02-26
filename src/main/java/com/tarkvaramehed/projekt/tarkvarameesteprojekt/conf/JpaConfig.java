@@ -11,6 +11,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import scraper.selver.SelverScraper;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -59,4 +60,10 @@ public class JpaConfig {
         properties.setProperty("hibernate.format_sql", "true");
         return properties;
     }
+
+    @Bean
+    public SelverScraper selverScraper() {
+        return new SelverScraper();
+    }
+
 }
