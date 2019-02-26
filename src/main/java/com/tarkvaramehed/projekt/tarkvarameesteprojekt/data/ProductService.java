@@ -17,6 +17,4 @@ public interface ProductService {
 
     void addAll(Iterable<Product> products);
 
-
-
 }

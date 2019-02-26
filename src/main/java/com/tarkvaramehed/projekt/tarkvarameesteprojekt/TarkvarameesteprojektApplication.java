@@ -19,6 +19,7 @@ public class TarkvarameesteprojektApplication {
 		SpringApplication.run(TarkvarameesteprojektApplication.class, args);
 	}
 
+	/**
     @Bean
     public CommandLineRunner demo(ProductService productService) {
 	    return (args) -> {
@@ -29,6 +30,7 @@ public class TarkvarameesteprojektApplication {
             }
         };
     }
+    **/
 
 }
 

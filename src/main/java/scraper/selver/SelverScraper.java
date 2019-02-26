@@ -23,10 +23,12 @@ public class SelverScraper implements Scraper {
     public HashMap<Category, List<Product>> scrapeCategories() {
         HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
         for (Category category : Category.values()) {
-            System.out.println("scraping category: " + category);
-            List<Product> products = scrapeCategory(SelverUrlManager.buildCategoryUrl(category));
-            System.out.println(String.format("category finished, scraped %d products\n\n", products.size()));
-            productsByCategory.put(category, products);
+            //System.out.println("scraping category: " + category);
+            productsByCategory.put(
+                    category,
+                    scrapeCategory(SelverUrlManager.buildCategoryUrl(category))
+            );
+            //System.out.println(String.format("category finished, scraped %d products\n\n", products.size()));
         }
         return productsByCategory;
     }
@@ -34,12 +36,12 @@ public class SelverScraper implements Scraper {
     private List<Product> scrapeCategory(String url) {
         List<Product> products = new ArrayList<>();
         for (int i = 1; i <= getPageCount(url); i++) {
-            int productsSize = products.size();
-            System.out.println(String.format("scraping page %d", i));
+            //int productsSize = products.size();
+            //System.out.println(String.format("scraping page %d", i));
             getUrls(DocumentManager.getDocument(String.format(url, i)))
                     .parallelStream()
                     .forEach(u -> products.add(scrapeProductPage(u)));
-            System.out.println(String.format("page finished, scraped %d products", products.size() - productsSize));
+            //System.out.println(String.format("page finished, scraped %d products", products.size() - productsSize));
         }
         return products;
     }
@@ -57,8 +59,7 @@ public class SelverScraper implements Scraper {
         Elements products = doc.getElementById("products-grid").children();
         List<String> urls = new ArrayList<>();
         for (Element product : products) {
-            Element url = product.selectFirst("a.product-image");
-            urls.add(url.attr("href"));
+            urls.add(product.selectFirst("a.product-image").attr("href"));
         }
         return urls;
     }
@@ -116,9 +117,10 @@ public class SelverScraper implements Scraper {
     private HashMap<String, String> extractTableData(Element table) {
         HashMap<String, String> tableData = new HashMap<>();
         for (Element row : table.children()) {
-            String key = row.selectFirst("th").html().toLowerCase();
-            String value = row.selectFirst("td").html();
-            tableData.put(key, value);
+            tableData.put(
+                    row.selectFirst("th").html().toLowerCase(),
+                    row.selectFirst("td").html()
+            );
         }
         return tableData;
     }
@@ -135,8 +137,10 @@ public class SelverScraper implements Scraper {
     // For testing purposes only
     public HashMap<Category, List<Product>> getSampleData() {
         HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
-        List<Product> products = simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(Category.LIHA_JA_KALA));
-        productsByCategory.put(Category.LIHA_JA_KALA, products);
+        productsByCategory.put(
+                Category.LIHA_JA_KALA,
+                simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(Category.LIHA_JA_KALA)
+        ));
         return productsByCategory;
     }
 
@@ -144,12 +148,18 @@ public class SelverScraper implements Scraper {
     public HashMap<Category, List<Product>> getMoreSampleData() {
         HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
         for (Category category : Category.values()) {
-            List<Product> products = simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(category));
-            productsByCategory.put(category, products);
+            productsByCategory.put(
+                    category,
+                    simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(category))
+            );
         }
         return productsByCategory;
     }
 
     public static void main(String[] args) {
+        SelverScraper scraper = new SelverScraper();
+        double start = System.currentTimeMillis();
+        scraper.scrapeProductPage("https://www.selver.ee/pulgakomm-fruit-with-juice-cola-chupa-chups-12-g");
+        System.out.println((System.currentTimeMillis() - start) / 1000);
     }
 }

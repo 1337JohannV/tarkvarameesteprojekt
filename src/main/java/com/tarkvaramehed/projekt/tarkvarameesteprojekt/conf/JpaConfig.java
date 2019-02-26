@@ -19,7 +19,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"com.tarkvaramehed.projekt.tarkvarameesteprojekt.data"})
-public class PersistenceJPAConfig{
+public class JpaConfig {
 
     @Autowired
     private Environment env;

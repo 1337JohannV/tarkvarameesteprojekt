@@ -9,4 +9,5 @@ import java.util.List;
 public interface Scraper {
 
     HashMap<Category, List<Product>> scrapeCategories();
+
 }

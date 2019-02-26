@@ -13,16 +13,15 @@ class PrismaUrlManager {
 
             case PUU_JA_KOOGIVILJAD:
 
-                String[] vegetableArray = {"https://www.prismamarket.ee/products/16972",
+                return Arrays.asList("https://www.prismamarket.ee/products/16972",
                         "https://www.prismamarket.ee/products/16974",
                         "https://www.prismamarket.ee/products/16977", "https://www.prismamarket.ee/products/16973",
                         "https://www.prismamarket.ee/products/16975",
-                        "https://www.prismamarket.ee/products/16976", "https://www.prismamarket.ee/products/17336"};
-
-                return Arrays.asList(vegetableArray);
+                        "https://www.prismamarket.ee/products/16976", "https://www.prismamarket.ee/products/17336");
 
             case LIHA_JA_KALA:
-                String[] meatArray = {"https://www.prismamarket.ee/products/19273",
+
+                return Arrays.asList("https://www.prismamarket.ee/products/19273",
                         "https://www.prismamarket.ee/products/19274", "https://www.prismamarket.ee/products/19275",
                         "https://www.prismamarket.ee/products/19276", "https://www.prismamarket.ee/products/19290",
                         "https://www.prismamarket.ee/products/19280", "https://www.prismamarket.ee/products/19281",
@@ -34,12 +33,11 @@ class PrismaUrlManager {
                         "https://www.prismamarket.ee/products/17158", "https://www.prismamarket.ee/products/17159",
                         "https://www.prismamarket.ee/products/17160", "https://www.prismamarket.ee/products/17161",
                         "https://www.prismamarket.ee/products/17162", "https://www.prismamarket.ee/products/17163",
-                        "https://www.prismamarket.ee/products/17164", "https://www.prismamarket.ee/products/17157"
-                };
-                return Arrays.asList(meatArray);
+                        "https://www.prismamarket.ee/products/17164", "https://www.prismamarket.ee/products/17157");
 
             case PIIMATOOTED_MUNAD_VOID:
-                String[] milkArray = {"https://www.prismamarket.ee/products/17097",
+
+                return Arrays.asList("https://www.prismamarket.ee/products/17097",
                         "https://www.prismamarket.ee/products/17099", "https://www.prismamarket.ee/products/17100",
                         "https://www.prismamarket.ee/products/17101", "https://www.prismamarket.ee/products/17102",
                         "https://www.prismamarket.ee/products/17103", "https://www.prismamarket.ee/products/17104",
@@ -49,16 +47,13 @@ class PrismaUrlManager {
                         "https://www.prismamarket.ee/products/17118", "https://www.prismamarket.ee/products/17119",
                         "https://www.prismamarket.ee/products/17115", "https://www.prismamarket.ee/products/17178",
                         "https://www.prismamarket.ee/products/17176", "https://www.prismamarket.ee/products/17175",
-                        "https://www.prismamarket.ee/products/17177"
-                };
-                return Arrays.asList(milkArray);
+                        "https://www.prismamarket.ee/products/17177");
 
             case JUUSTUD:
-                String[] cheeseArray = {"https://www.prismamarket.ee/products/17147",
+
+                return Arrays.asList("https://www.prismamarket.ee/products/17147",
                         "https://www.prismamarket.ee/products/17148", "https://www.prismamarket.ee/products/17149",
-                        "https://www.prismamarket.ee/products/17150"
-                };
-                return Arrays.asList(cheeseArray);
+                        "https://www.prismamarket.ee/products/17150");
 
             case LEIVAD_SAIAD_KONDIITRITOOTED:
                 String[] breadArray = {"https://www.prismamarket.ee/products/17205",

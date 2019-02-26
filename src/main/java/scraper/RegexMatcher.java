@@ -11,34 +11,37 @@ import java.util.regex.Pattern;
 
 public class RegexMatcher {
 
+    private static final String QUANTITY_PATTERN = "(\\d+(.\\d+)?)?\\s(kg|g|ml|l|tk|cl)\\b";
+    private static final String PRICE_PATTERN = "(\\d+(.\\d+)?)?\\s*(€|eur)";
+    private static final String UNIT_PRICE_PATTERN = "(\\d+(.\\d+)?)?\\s*(€/kg|€/l|€/tk)\\b";
 
     public static Quantity extractQuantity(String s) {
-        String pattern = "(\\d+(.\\d+)?)?\\s(kg|g|ml|l|tk|cl)\\b";
-        Matcher m = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(s);
+        Matcher m = Pattern.compile(QUANTITY_PATTERN, Pattern.CASE_INSENSITIVE).matcher(s);
         try {
-            while (m.find()) {
+            if (m.find()) {
                 Quantity quantity = new Quantity();
                 if (m.group(1) != null) {
                     if (m.group(1).toLowerCase().contains("x")) {
                         String[] splitString = m.group(1).toLowerCase().split("x");
-                        quantity.setValue(Double.parseDouble(splitString[0]) * Double.parseDouble(splitString[1]));
-
-                    }  else if (m.group(1).contains("-")) {
+                        quantity.setValue(
+                                Double.parseDouble(splitString[0]) * Double.parseDouble(splitString[1])
+                        );
+                    } else if (m.group(1).contains("-")) {
                         String[] splitString = m.group(1).split("-");
-                        quantity.setValue((Double.parseDouble(splitString[0]) + Double.parseDouble(splitString[1])) / 2);
+                        quantity.setValue(
+                                (Double.parseDouble(splitString[0]) + Double.parseDouble(splitString[1])) / 2
+                        );
                     } else {
-                        quantity.setValue(Double.parseDouble(m.group(1).replace(",", ".")));
+                        quantity.setValue(
+                                Double.parseDouble(m.group(1).replace(",", "."))
+                        );
                     }
                 } else {
                     quantity.setValue(1.0);
                 }
-                if (m.group(3) != null){
+                if (m.group(3) != null) {
                     quantity.setUnit(matchUnit(m.group(3)));
-                } else {
-                    quantity.setUnit(null);
                 }
-
-                quantity.setUnit(matchUnit(m.group(3)));
                 return quantity;
             }
         } catch (Exception e) {
@@ -48,20 +51,19 @@ public class RegexMatcher {
     }
 
     public static Price extractPrice(String s) {
-        String pattern = "(\\d+(.\\d+)?)?\\s*(€|eur)";
-        Matcher m = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(s);
+        Matcher m = Pattern.compile(PRICE_PATTERN, Pattern.CASE_INSENSITIVE).matcher(s);
         try {
-            while (m.find()) {
+            if (m.find()) {
                 Price price = new Price();
                 if (m.group(1) != null) {
-                    price.setAmount(Double.parseDouble(m.group(1).replace(",", ".")));
+                    price.setAmount(
+                            Double.parseDouble(m.group(1).replace(",", "."))
+                    );
                 } else {
                     price.setAmount(1.0);
                 }
                 if (m.group(3) != null){
                     price.setCurrency(matchCurrency(m.group(3)));
-                } else {
-                    price.setCurrency(null);
                 }
                 return price;
             }
@@ -72,10 +74,9 @@ public class RegexMatcher {
     }
 
     public static UnitPrice extractUnitPrice(String s) {
-        String pattern = "(\\d+(.\\d+)?)?\\s*(€/kg|€/l|€/tk)\\b";
-        Matcher m = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(s);
+        Matcher m = Pattern.compile(UNIT_PRICE_PATTERN, Pattern.CASE_INSENSITIVE).matcher(s);
         try {
-            while (m.find()) {
+            if (m.find()) {
                 UnitPrice unitPrice = new UnitPrice();
                 if (m.group(1) != null) {
                     unitPrice.setAmount(Double.parseDouble(m.group(1).replace(",", ".")));
@@ -86,9 +87,6 @@ public class RegexMatcher {
                     String[] splitString = m.group(3).split("/");
                     unitPrice.setCurrency(matchCurrency(splitString[0]));
                     unitPrice.setPerUnit(matchUnit(splitString[1]));
-                } else {
-                    unitPrice.setCurrency(null);
-                    unitPrice.setPerUnit(null);
                 }
                 return unitPrice;
             }
@@ -125,19 +123,9 @@ public class RegexMatcher {
         UnitPrice unitPrice = extractUnitPrice("7,29 €/tk");
         Quantity quantity = extractQuantity("Liviko Laua viin 50 cl");
 
-        System.out.println("price:");
-        System.out.println(price.getAmount());
-        System.out.println(price.getCurrency());
-
-        System.out.println("unitPrice:");
-        System.out.println(unitPrice.getAmount());
-        System.out.println(unitPrice.getCurrency());
-        System.out.println(unitPrice.getPerUnit());
-
-
-        System.out.println("quantity:");
-        System.out.println(quantity.getValue());
-        System.out.println(quantity.getUnit());
+        System.out.println(price);
+        System.out.println(unitPrice);
+        System.out.println(quantity);
     }
 
 }

@@ -200,11 +200,15 @@ public class PrismaScraper implements Scraper {
         PrismaScraper prismaScraper = new PrismaScraper();
         //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/mandlitukkide-ja-sokolaadiga-jogurt--150-g/4740125539042"));
         //System.out.println(PrismaUrlManager.getSubCatUrls(Category.PUU_JA_KOOGIVILJAD));
-        System.out.println(prismaScraper.scrapeCategory(Category.PUU_JA_KOOGIVILJAD));
+        //System.out.println(prismaScraper.scrapeCategory(Category.PUU_JA_KOOGIVILJAD));
        // System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/viinamari-victoria--i-klass/2060460600002"));
         //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/ananass/2060490100008"));
         //System.out.println(prismaScraper.getProductUrlsFromCategory("https://www.prismamarket.ee/products/17097"));\
         //prismaScraper.scrapeCategories();
+        double start = System.currentTimeMillis();
+        prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/kodune-hakkliha-400-g/4740003003771");
+        System.out.println((System.currentTimeMillis() - start) / 1000);
+
 
     }
 }
