@@ -15,8 +15,6 @@ import scraper.prisma.strategies.AZStrategy;
 import scraper.prisma.strategies.AZandZAStrategy;
 import scraper.prisma.strategies.AlphabeticalsAndPopularityStrategy;
 import scraper.prisma.strategies.PrismaCategoryScrapingStrategy;
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,16 +26,21 @@ public class PrismaScraper implements Scraper {
 
     @Override
     public HashMap<Category, List<Product>> scrapeCategories() {
+        int amountOfProducts = 0;
         long t1 =System.currentTimeMillis();
         HashMap<Category,List<Product>> productsFromEachCategory = new HashMap<>();
 
         for (Category c: Category.values()) {
-            productsFromEachCategory.put(c,scrapeCategory(c));
+            List<Product> productsFromCategory = scrapeCategory(c);
+            amountOfProducts += productsFromCategory.size();
+            productsFromEachCategory.put(c,productsFromCategory);
         }
 
         long t2 = System.currentTimeMillis();
         System.out.println("TIME");
         System.out.println((t2 - t1) / 1000);
+        System.out.println("AMOUNT");
+        System.out.println(amountOfProducts);
         return productsFromEachCategory;
     }
 
@@ -48,18 +51,16 @@ public class PrismaScraper implements Scraper {
         System.out.println(numberOfItemsOnPage);
 
         if (numberOfItemsOnPage <= 48) {
-            System.out.println("alphabeticalOnce");
+
             return new AZStrategy();
         }
         if (numberOfItemsOnPage <= 96) {
-            System.out.println("alphabeticalTwice");
+
             return new AZandZAStrategy();
 
         } else {
             //Praegu ei leia kõiki tooteid, tuleks lisada see, et vaatab odavamad/kallimad ka, siis peaks loodetavasti
             //saama kõik tooted kätte.
-
-            System.out.println("HopingForTheBest");
             return new AlphabeticalsAndPopularityStrategy();
         }
 
@@ -187,7 +188,6 @@ public class PrismaScraper implements Scraper {
         productPrice.setRegularPrice(price);
         productPrice.setStore(Store.PRISMA);
         productPrice.setUrl(getProductUrl(doc));
-        System.out.println(productName);
         productPrice.setUnitPrice(RegexMatcher.extractUnitPrice(getUnitPrice(doc)));
 
         product.setProductPrices(Arrays.asList(productPrice));
@@ -204,11 +204,8 @@ public class PrismaScraper implements Scraper {
        // System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/viinamari-victoria--i-klass/2060460600002"));
         //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/ananass/2060490100008"));
         //System.out.println(prismaScraper.getProductUrlsFromCategory("https://www.prismamarket.ee/products/17097"));\
-        //prismaScraper.scrapeCategories();
-        double start = System.currentTimeMillis();
-        prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/kodune-hakkliha-400-g/4740003003771");
-        System.out.println((System.currentTimeMillis() - start) / 1000);
-
+       // prismaScraper.scrapeCategories();
+        System.out.println(DocumentManager.getDocument("https://ecoop.ee/et/kategooriad/kuivained-kastmed/"));
 
     }
 }
