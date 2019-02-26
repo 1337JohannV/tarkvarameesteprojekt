@@ -15,8 +15,6 @@ import scraper.prisma.strategies.AZStrategy;
 import scraper.prisma.strategies.AZandZAStrategy;
 import scraper.prisma.strategies.AlphabeticalsAndPopularityStrategy;
 import scraper.prisma.strategies.PrismaCategoryScrapingStrategy;
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,16 +26,21 @@ public class PrismaScraper implements Scraper {
 
     @Override
     public HashMap<Category, List<Product>> scrapeCategories() {
+        int amountOfProducts = 0;
         long t1 =System.currentTimeMillis();
         HashMap<Category,List<Product>> productsFromEachCategory = new HashMap<>();
 
         for (Category c: Category.values()) {
-            productsFromEachCategory.put(c,scrapeCategory(c));
+            List<Product> productsFromCategory = scrapeCategory(c);
+            amountOfProducts += productsFromCategory.size();
+            productsFromEachCategory.put(c,productsFromCategory);
         }
 
         long t2 = System.currentTimeMillis();
         System.out.println("TIME");
         System.out.println((t2 - t1) / 1000);
+        System.out.println("AMOUNT");
+        System.out.println(amountOfProducts);
         return productsFromEachCategory;
     }
 
@@ -200,11 +203,12 @@ public class PrismaScraper implements Scraper {
         PrismaScraper prismaScraper = new PrismaScraper();
         //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/mandlitukkide-ja-sokolaadiga-jogurt--150-g/4740125539042"));
         //System.out.println(PrismaUrlManager.getSubCatUrls(Category.PUU_JA_KOOGIVILJAD));
-        System.out.println(prismaScraper.scrapeCategory(Category.PUU_JA_KOOGIVILJAD));
+        //System.out.println(prismaScraper.scrapeCategory(Category.PUU_JA_KOOGIVILJAD));
        // System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/viinamari-victoria--i-klass/2060460600002"));
         //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/ananass/2060490100008"));
         //System.out.println(prismaScraper.getProductUrlsFromCategory("https://www.prismamarket.ee/products/17097"));\
-        //prismaScraper.scrapeCategories();
+       // prismaScraper.scrapeCategories();
+        System.out.println(DocumentManager.getDocument("https://ecoop.ee/et/kategooriad/kuivained-kastmed/"));
 
     }
 }
