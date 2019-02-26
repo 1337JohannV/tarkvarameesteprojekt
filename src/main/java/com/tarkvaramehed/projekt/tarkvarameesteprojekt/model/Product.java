@@ -32,4 +32,6 @@ public class Product implements Serializable {
 
     private String origin;
 
+    private String imgUrl;
+
 }
