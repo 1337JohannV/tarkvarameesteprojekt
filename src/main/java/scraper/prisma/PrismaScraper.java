@@ -51,18 +51,16 @@ public class PrismaScraper implements Scraper {
         System.out.println(numberOfItemsOnPage);
 
         if (numberOfItemsOnPage <= 48) {
-            System.out.println("alphabeticalOnce");
+
             return new AZStrategy();
         }
         if (numberOfItemsOnPage <= 96) {
-            System.out.println("alphabeticalTwice");
+
             return new AZandZAStrategy();
 
         } else {
             //Praegu ei leia kõiki tooteid, tuleks lisada see, et vaatab odavamad/kallimad ka, siis peaks loodetavasti
             //saama kõik tooted kätte.
-
-            System.out.println("HopingForTheBest");
             return new AlphabeticalsAndPopularityStrategy();
         }
 
@@ -190,7 +188,6 @@ public class PrismaScraper implements Scraper {
         productPrice.setRegularPrice(price);
         productPrice.setStore(Store.PRISMA);
         productPrice.setUrl(getProductUrl(doc));
-        System.out.println(productName);
         productPrice.setUnitPrice(RegexMatcher.extractUnitPrice(getUnitPrice(doc)));
 
         product.setProductPrices(Arrays.asList(productPrice));
