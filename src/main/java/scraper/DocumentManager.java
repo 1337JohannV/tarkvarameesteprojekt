@@ -23,6 +23,6 @@ public class DocumentManager {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
+
 }

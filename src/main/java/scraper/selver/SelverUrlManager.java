@@ -34,6 +34,8 @@ public class SelverUrlManager {
     }
 
     public static void main(String[] args) {
+        double start = System.currentTimeMillis();
         System.out.println(buildCategoryUrl(Category.PUU_JA_KOOGIVILJAD));
-    }
+        System.out.println((System.currentTimeMillis() - start) / 1000);
+}
 }

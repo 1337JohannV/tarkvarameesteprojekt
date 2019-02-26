@@ -11,6 +11,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import scraper.selver.SelverScraper;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -19,7 +20,7 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"com.tarkvaramehed.projekt.tarkvarameesteprojekt.data"})
-public class PersistenceJPAConfig{
+public class JpaConfig {
 
     @Autowired
     private Environment env;
@@ -59,4 +60,10 @@ public class PersistenceJPAConfig{
         properties.setProperty("hibernate.format_sql", "true");
         return properties;
     }
+
+    @Bean
+    public SelverScraper selverScraper() {
+        return new SelverScraper();
+    }
+
 }
