@@ -134,8 +134,8 @@ public class SelverScraper implements Scraper {
         HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
         productsByCategory.put(
                 Category.LIHA_JA_KALA,
-                simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(Category.LIHA_JA_KALA)
-        ));
+                simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(Category.LIHA_JA_KALA))
+        );
         return productsByCategory;
     }
 

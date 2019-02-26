@@ -24,13 +24,13 @@ public class SelverUrlManager {
     }
 
     public static String buildCategoryUrl(Category category) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(BASE_URL);
-        sb.append(getCategoryName(category));
-        sb.append("?limit=");
-        sb.append(RESULT_LIMIT);
-        sb.append("&p=%d");
-        return sb.toString();
+        return new StringBuilder()
+                .append(BASE_URL)
+                .append(getCategoryName(category))
+                .append("?limit=")
+                .append(RESULT_LIMIT)
+                .append(("&p=%d"))
+                .toString();
     }
 
     public static void main(String[] args) {
