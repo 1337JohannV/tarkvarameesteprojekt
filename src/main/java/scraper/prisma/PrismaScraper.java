@@ -8,6 +8,7 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Currency;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import scraper.DocumentManager;
 import scraper.RegexMatcher;
 import scraper.Scraper;
@@ -15,6 +16,7 @@ import scraper.prisma.strategies.AZStrategy;
 import scraper.prisma.strategies.AZandZAStrategy;
 import scraper.prisma.strategies.AlphabeticalsAndPopularityStrategy;
 import scraper.prisma.strategies.PrismaCategoryScrapingStrategy;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,13 +29,13 @@ public class PrismaScraper implements Scraper {
     @Override
     public HashMap<Category, List<Product>> scrapeCategories() {
         int amountOfProducts = 0;
-        long t1 =System.currentTimeMillis();
-        HashMap<Category,List<Product>> productsFromEachCategory = new HashMap<>();
+        long t1 = System.currentTimeMillis();
+        HashMap<Category, List<Product>> productsFromEachCategory = new HashMap<>();
 
-        for (Category c: Category.values()) {
+        for (Category c : Category.values()) {
             List<Product> productsFromCategory = scrapeCategory(c);
             amountOfProducts += productsFromCategory.size();
-            productsFromEachCategory.put(c,productsFromCategory);
+            productsFromEachCategory.put(c, productsFromCategory);
         }
 
         long t2 = System.currentTimeMillis();
@@ -66,6 +68,12 @@ public class PrismaScraper implements Scraper {
 
     }
 
+    private String getProductImgUrl(Document doc) {
+
+        Element img = doc.getElementById("product-image-zoom");
+        return img.absUrl("src");
+    }
+
     public List<String> getProductUrlsFromCategory(String url) {
 
         Document doc = DocumentManager.getDocument(url);
@@ -77,7 +85,7 @@ public class PrismaScraper implements Scraper {
 
     }
 
-    private List<Product> scrapeCategory(Category cat) {
+    public List<Product> scrapeCategory(Category cat) {
 
         List<Product> products = new ArrayList<>();
         List<String> catUrls = PrismaUrlManager.getSubCatUrls(cat);
@@ -181,6 +189,7 @@ public class PrismaScraper implements Scraper {
         product.setEan(ean);
         product.setOrigin(getOrigin(doc));
         product.setQuantity(RegexMatcher.extractQuantity(getQuantity(doc)));
+        product.setImgUrl(getProductImgUrl(doc));
 
         price.setAmount(getPrice(doc));
         price.setCurrency(Currency.EUR);
@@ -192,20 +201,20 @@ public class PrismaScraper implements Scraper {
 
         product.setProductPrices(Arrays.asList(productPrice));
 
-
         return product;
     }
 
     public static void main(String[] args) {
         PrismaScraper prismaScraper = new PrismaScraper();
-        //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/mandlitukkide-ja-sokolaadiga-jogurt--150-g/4740125539042"));
+        System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/roheline-papaia/2060494800003"));
+
         //System.out.println(PrismaUrlManager.getSubCatUrls(Category.PUU_JA_KOOGIVILJAD));
         //System.out.println(prismaScraper.scrapeCategory(Category.PUU_JA_KOOGIVILJAD));
-       // System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/viinamari-victoria--i-klass/2060460600002"));
+        // System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/viinamari-victoria--i-klass/2060460600002"));
         //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/ananass/2060490100008"));
         //System.out.println(prismaScraper.getProductUrlsFromCategory("https://www.prismamarket.ee/products/17097"));\
-       // prismaScraper.scrapeCategories();
-        System.out.println(DocumentManager.getDocument("https://ecoop.ee/et/kategooriad/kuivained-kastmed/"));
+        // prismaScraper.scrapeCategories();
+        //System.out.println(DocumentManager.getDocument("https://ecoop.ee/et/kategooriad/kuivained-kastmed/"));
 
     }
 }

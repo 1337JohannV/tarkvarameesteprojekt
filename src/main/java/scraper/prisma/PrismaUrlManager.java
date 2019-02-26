@@ -5,9 +5,9 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import java.util.Arrays;
 import java.util.List;
 
-class PrismaUrlManager {
+public class PrismaUrlManager {
 
-    static List<String> getSubCatUrls(Category category) {
+    public static List<String> getSubCatUrls(Category category) {
 
         switch (category) {
 
