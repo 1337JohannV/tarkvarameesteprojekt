@@ -3,7 +3,7 @@
     <TopBar />
     <div id="content">
         <SideMenu />
-        <Products />
+        <ProductView/>
     </div>
   </div>
 </template>
@@ -11,14 +11,14 @@
 <script>
 import TopBar from './components/TopBar.vue'
 import SideMenu from './components/SideMenu.vue'
-import Products from './components/Products.vue'
+import ProductView from './components/ProductView.vue'
 
 export default {
   name: 'app',
   components: {
     TopBar,
     SideMenu,
-    Products
+    ProductView
   }
 }
 </script>
@@ -27,7 +27,8 @@ export default {
 
   #content{
     border: black solid 2px;
-    width: 100%;
+    
+    width: 80%;
     display: flex;
 }
 

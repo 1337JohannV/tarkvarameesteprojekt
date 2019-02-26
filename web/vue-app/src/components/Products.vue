@@ -23,9 +23,9 @@ export default {
       ajaxDone: false,
       LIHA_JA_KALA: [ 
         {
-        category: null,
+        category: '',
         ean: '',
-        id: null,
+        id: 0,
         name: '',
         origin: '',
         producer: '',
@@ -62,7 +62,7 @@ export default {
   created(){
     let self = this;
 
-    fetch('http://localhost:8080/Product')
+    fetch('http://localhost:8080/products/')
           .then(function(response) {
           return response.json();
           })
@@ -76,4 +76,6 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style src="./Products.css" scoped></style>
+<style src="./Products.css" scoped>
+
+</style>
