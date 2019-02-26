@@ -23,12 +23,10 @@ public class SelverScraper implements Scraper {
     public HashMap<Category, List<Product>> scrapeCategories() {
         HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
         for (Category category : Category.values()) {
-            //System.out.println("scraping category: " + category);
             productsByCategory.put(
                     category,
                     scrapeCategory(SelverUrlManager.buildCategoryUrl(category))
             );
-            //System.out.println(String.format("category finished, scraped %d products\n\n", products.size()));
         }
         return productsByCategory;
     }
@@ -36,12 +34,9 @@ public class SelverScraper implements Scraper {
     private List<Product> scrapeCategory(String url) {
         List<Product> products = new ArrayList<>();
         for (int i = 1; i <= getPageCount(url); i++) {
-            //int productsSize = products.size();
-            //System.out.println(String.format("scraping page %d", i));
             getUrls(DocumentManager.getDocument(String.format(url, i)))
                     .parallelStream()
                     .forEach(u -> products.add(scrapeProductPage(u)));
-            //System.out.println(String.format("page finished, scraped %d products", products.size() - productsSize));
         }
         return products;
     }
