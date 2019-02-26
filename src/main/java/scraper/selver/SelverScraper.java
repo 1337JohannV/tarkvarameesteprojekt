@@ -8,6 +8,7 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.context.annotation.Bean;
 import scraper.DocumentManager;
 import scraper.RegexMatcher;
 import scraper.Scraper;
@@ -148,8 +149,5 @@ public class SelverScraper implements Scraper {
             productsByCategory.put(category, products);
         }
         return productsByCategory;
-    }
-
-    public static void main(String[] args) {
     }
 }
