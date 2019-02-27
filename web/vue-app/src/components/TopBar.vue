@@ -22,7 +22,7 @@ export default {
   name: 'TopBar',
   data: function() {
     return {
-      buttonText: ["Selver", "Prisma", "Empty1","Empty2"],
+      buttonText: ["Segu", "Prisma", "Empty1","Empty2"],
       products: null
 
     }
