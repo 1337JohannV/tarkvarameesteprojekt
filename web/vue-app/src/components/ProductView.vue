@@ -71,7 +71,6 @@
 </template>
 
 <script>
-var address2 = 'http://localhost:8080/products/test/';
 var address = 'http://localhost:8080/products/';
 
 export default {
@@ -112,7 +111,7 @@ export default {
         },
     },
     created: function() {
-        fetch(address2)
+        fetch(address)
         .then(r => r.json())
         .then(json => this.products = json);
     },
