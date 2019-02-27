@@ -13,4 +13,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style src="./SideMenu.css" scoped></style>
+<style scoped>
+#sidemenucontainer{
+    background-color: white;
+    width: 150px;
+    height: 700px;
+    float: left;
+}
+</style>

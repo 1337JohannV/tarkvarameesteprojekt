@@ -16,15 +16,14 @@
                 </div>
                 <div id="productPrice">
                     <p id="bestPrice">Parim hind:</p>
-                    <p id="productPriceStore">{{p.productPrices[0].store}}</p>
                     <p>
-                        Hind: 
+                        {{p.productPrices[0].store}}:
                         {{p.productPrices[0].regularPrice.amount}} {{p.productPrices[0].regularPrice.currency}} - 
                         {{p.productPrices[0].unitPrice.amount}} {{p.productPrices[0].unitPrice.currency}}/
                         {{p.productPrices[0].unitPrice.perUnit}}
                     </p>
                     <p v-if="p.productPrices[0].specialPrice != null">
-                        Kliendi hind: {{p.productPrices[0].specialPrice.amount}} {{p.productPrices[0].specialPrice.currency}}
+                        Kliendikaardiga: {{p.productPrices[0].specialPrice.amount}} {{p.productPrices[0].specialPrice.currency}}
                     </p>
                 </div>
             </div>
@@ -57,8 +56,7 @@ export default {
 
 #productView {
     overflow-y: scroll;
-    height: 800px;
-    background-color: white;
+    height: 700px;
 }
 
 .flex-container {
@@ -74,9 +72,10 @@ export default {
 
 #productContainer {
     box-shadow: 1px 1px 1px 1px gray;
-    width: 200px;
-    height: 200px;
+    width: 185px;
+    height: 185px;
     padding: 5px;
+    float: right;
 }
 
 p {
@@ -84,12 +83,7 @@ p {
 
 }
 
-#productTitle {
-    font-size: 14px;
-    font-weight: bold;
-}
-
-#bestPrice {
+#productTitle, #bestPrice {
     font-size: 14px;
     font-weight: bold;
 }

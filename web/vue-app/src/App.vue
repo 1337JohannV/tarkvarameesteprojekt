@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <TopBar />
+    <TopBar/>
     <div id="content">
-        <SideMenu />
+        <SideMenu/>
         <ProductView/>
     </div>
   </div>
@@ -25,15 +25,18 @@ export default {
 
 <style>
 
-  #content{
-    border: black solid 2px;
-    
-    width: 80%;
-    display: flex;
+#app {
+  position: absolute;
+  width: 1024px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-  body{
-    background-color: rgb(89, 217, 240);
-    margin: 1 1 1 1;
-  }
+#content {
+  margin: auto;
+}
+
+body {
+}
 </style>
