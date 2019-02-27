@@ -2,28 +2,20 @@
 
     <div class="flex-container" id="productView">
         <div class="flex-item" v-for="p in end" :key="p" v-if="p > start">
-            <div id="productContainer">
+            <div id="productContainer" v-on:click.prevent="showInfo(p)">
                 <div id="productInfo">
                     <p id="productTitle">{{products[p].name}}</p>
-                    <!-- 
-                    <p>EAN: {{p.ean}}</p>
-                    <p>Tootja: {{p.producer}}</p> 
-                    <p>Päritolumaa: {{p.origin}}</p> 
-                    -->
                     <p v-if="products[p].quantity != null">
-                        Kogus: {{products[p].quantity.value}} {{products[p].quantity.unit}}
+                        <b>Kogus:</b> {{products[p].quantity.value}} {{products[p].quantity.unit}}
                     </p>
                 </div>
-                <div id="productPrice">
-                    <p id="bestPrice">Parim hind:</p>
-                    <p>
-                        {{products[p].productPrices[0].store}}:
-                        {{products[p].productPrices[0].regularPrice.amount}} {{products[p].productPrices[0].regularPrice.currency}} - 
-                        {{products[p].productPrices[0].unitPrice.amount}} {{products[p].productPrices[0].unitPrice.currency}}/
+                <div id="productPrice" v-on:click.prevent="showInfo">
+                    <p> <b>Parim hind:</b> 
+                        {{products[p].productPrices[0].unitPrice.amount}} {{products[p].productPrices[0].unitPrice.currency}} /
                         {{products[p].productPrices[0].unitPrice.perUnit}}
                     </p>
-                    <p v-if="products[p].productPrices[0].specialPrice != null">
-                        Kliendikaardiga: {{products[p].productPrices[0].specialPrice.amount}} {{products[p].productPrices[0].specialPrice.currency}}
+                    <p> <b>Pood:</b> 
+                        {{products[p].productPrices[0].store}}
                     </p>
                 </div>
             </div>
@@ -32,7 +24,46 @@
             <button v-on:click.prevent="previous" v-if="this.start > 0">Previous</button> 
             <button id="navButton" v-on:click.prevent="next" v-if="this.end != this.products.length-1">Next</button>
         </div>
-    </div>
+
+
+        <!-- Eraldi screen mis, ilmub toote peale vajutades -->
+    
+        <div v-if="this.infoShow" class="popup">
+
+        
+            <div class="modal-content">
+                <p id="productTitle">{{products[this.currentProduct].name}}</p>
+                    <!-- 
+                    <p>EAN: {{p.ean}}</p>
+                    -->
+                <p><b>Tootja:</b> {{products[this.currentProduct].producer}}</p> 
+                <p><b>Päritolumaa:</b> {{products[this.currentProduct].origin}}</p> 
+
+                <p v-if="products[this.currentProduct].quantity != null">
+                    <b>Kogus:</b> {{products[this.currentProduct].quantity.value}} {{products[this.currentProduct].quantity.unit}}
+                </p>
+                <div id="productPrice" v-on:click.prevent="showInfo">
+                    <p> <b>Parim hind:</b> 
+                        {{products[this.currentProduct].productPrices[0].unitPrice.amount}} {{products[this.currentProduct].productPrices[0].unitPrice.currency}} /
+                        {{products[this.currentProduct].productPrices[0].unitPrice.perUnit}}
+                    </p>
+                    <p> 
+                        <b>Pood:</b> {{products[this.currentProduct].productPrices[0].store}}
+                    </p>
+                    <p v-if="products[this.currentProduct].productPrices[0].specialPrice != null">
+                        <b>Kliendikaardiga:</b> {{products[this.currentProduct].productPrices[0].specialPrice.amount}} {{products[this.currentProduct].productPrices[0].specialPrice.currency}}
+                    </p>
+                    <p v-else>
+                        <b>Kliendikaardiga:</b> Hind ei muutu
+                    </p>
+                </div>
+                <button v-on:click.prevent="hideInfo">Close</button>
+            </div>
+        </div>
+</div>
+
+
+
     
 
 </template>
@@ -48,6 +79,8 @@ export default {
             products: null,
             start: 0,
             end: 20,
+            infoShow: false,
+            currentProduct: -1,
         }
     },
 
@@ -64,6 +97,15 @@ export default {
         previous(){
             this.end = this.start;
             this.start = this.start - 20;
+        },
+        showInfo(p){
+            this.currentProduct = p;
+            console.log(this.products[p]);
+            this.infoShow = true;
+        },
+        hideInfo(){
+            this.currentProduct = -1;
+            this.infoShow = false;
         }
     },
     created: function() {
@@ -76,6 +118,7 @@ export default {
 </script>
 
 <style scoped>
+
 
 Button{
     background-image: linear-gradient(-45deg, rgb(122, 235, 255), rgb(0, 195, 255));
@@ -119,11 +162,14 @@ Button:hover{
 
 
 #productContainer {
-    box-shadow: 1px 1px 1px 1px gray;
+    box-shadow: 1px 1px 1px 1px rgb(228, 228, 228);
     width: 185px;
-    height: 190px;
+    height: 220px;
     padding: 5px;
-    float: right;
+}
+
+#productContainer:hover{
+    background-color: rgb(235, 232, 232);
 }
 
 p {
@@ -134,6 +180,23 @@ p {
 #productTitle, #bestPrice {
     font-size: 14px;
     font-weight: bold;
+}
+
+.popup {
+  position: fixed; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  width: 30%; /* Could be more or less, depending on screen size */
 }
 
 </style>

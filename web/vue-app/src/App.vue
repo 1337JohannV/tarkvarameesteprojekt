@@ -26,16 +26,14 @@ export default {
   position: absolute;
   width: 1060px;
   left: 20%;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 #content {
   
 }
 
-body {
-  margin-bottom: 50 px;
-}
+
 
 
 </style>

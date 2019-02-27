@@ -15,7 +15,7 @@ export default {
   name: 'TopBar',
   data() {
     return {
-      buttonText: ["Selver", "Prisma", "Empty","Empty"]
+      buttonText: ["Selver", "Prisma", "Empty1","Empty2"]
     }
   }
 }
