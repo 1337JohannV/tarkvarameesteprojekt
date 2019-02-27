@@ -11,6 +11,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import scraper.Demo;
 import scraper.selver.SelverScraper;
 
 import javax.persistence.EntityManagerFactory;
@@ -37,7 +38,7 @@ public class JpaConfig {
     }
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
         dataSource.setUrl("jdbc:hsqldb:mem:productDb");
@@ -64,6 +65,11 @@ public class JpaConfig {
     @Bean
     public SelverScraper selverScraper() {
         return new SelverScraper();
+    }
+
+    @Bean
+    public Demo demo() {
+        return new Demo();
     }
 
 }

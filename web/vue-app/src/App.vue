@@ -1,23 +1,20 @@
 <template>
-  <div id="app">
-    <TopBar/>
-    <div id="content">
-        <SideMenu/>
-        <ProductView/>
+    <div id="app">
+      <TopBar/>
+      <div id="content">
+          <ProductView/>
+      </div>
     </div>
-  </div>
 </template>
 
 <script>
 import TopBar from './components/TopBar.vue'
-import SideMenu from './components/SideMenu.vue'
 import ProductView from './components/ProductView.vue'
 
 export default {
   name: 'app',
   components: {
     TopBar,
-    SideMenu,
     ProductView
   }
 }
@@ -27,16 +24,18 @@ export default {
 
 #app {
   position: absolute;
-  width: 1024px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 1060px;
+  left: 20%;
+  margin-bottom: 40px;
 }
 
 #content {
-  margin: auto;
+  
 }
 
 body {
+  margin-bottom: 50 px;
 }
+
+
 </style>
