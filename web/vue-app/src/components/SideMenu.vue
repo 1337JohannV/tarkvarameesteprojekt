@@ -17,7 +17,7 @@ export default {
 #sidemenucontainer{
     background-color: white;
     width: 150px;
-    height: 700px;
+    height: 00px;
     float: left;
 }
 </style>
