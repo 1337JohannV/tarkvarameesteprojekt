@@ -38,7 +38,6 @@ public class ProductController {
 
     @GetMapping("/test")
     public List<Product> getProducts() {
-        System.out.println("huh??");
-        return testScraper.getDemoData(Category.PUU_JA_KOOGIVILJAD).get(Category.PUU_JA_KOOGIVILJAD);
+        return testScraper.getDemoData(Category.PUU_JA_KOOGIVILJAD);
     }
 }

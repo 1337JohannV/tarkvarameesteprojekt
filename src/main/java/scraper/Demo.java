@@ -12,16 +12,15 @@ public class Demo {
 
 
 
-    public HashMap<Category, List<Product>> getDemoData(Category category) {
+    public List<Product> getDemoData(Category category) {
 
-        HashMap<Category,List<Product>> demoData = new HashMap<>();
+        List<Product> demoData = new ArrayList<>();
 
         PrismaScraper prismaScraper = new PrismaScraper();
 
-        List<Product> products = new ArrayList<>();
         List<String> catUrls = PrismaUrlManager.getSubCatUrls(category);
 
-        int count = 100;
+        int count = 80;
 
         assert catUrls != null;
 
@@ -35,7 +34,7 @@ public class Demo {
                 String searchUrl = "https://www.prismamarket.ee" + productUrl;
                 Product product = prismaScraper.getProductDetails(searchUrl);
                 product.setCategory(category);
-                products.add(product);
+                demoData.add(product);
                 if(count == 0) {
 
                     break;
@@ -46,8 +45,6 @@ public class Demo {
             }
 
         }
-        demoData.put(category,products);
-        System.out.println(demoData.get(category).size());
         return demoData;
 
 
