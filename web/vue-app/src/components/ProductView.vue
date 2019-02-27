@@ -37,7 +37,8 @@
                     <!-- 
                     <p>EAN: {{p.ean}}</p>
                     -->
-                <p><b>Tootja:</b> {{products[this.currentProduct].producer}}</p> 
+                <p v-if="products[this.currentProduct].producer != ''"><b>Tootja:</b> {{products[this.currentProduct].producer}}</p>
+                <p v-else><b>Tootja:</b> -</p>  
                 <p><b>Päritolumaa:</b> {{products[this.currentProduct].origin}}</p> 
 
                 <p v-if="products[this.currentProduct].quantity != null">
@@ -70,7 +71,6 @@
 </template>
 
 <script>
-
 var address2 = 'http://localhost:8080/products/test/';
 var address = 'http://localhost:8080/products/';
 
@@ -109,12 +109,24 @@ export default {
         hideInfo(){
             this.currentProduct = -1;
             this.infoShow = false;
-        }
+        },
     },
     created: function() {
         fetch(address2)
         .then(r => r.json())
         .then(json => this.products = json);
+    },
+    props:{
+        productsData: null
+    },
+    watch:{
+        productsData: function(){
+            if(this.productsData != null){
+                this.products = this.productsData;
+                
+            }
+            
+        }
     }
 }
 
@@ -198,9 +210,9 @@ p {
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
+  margin: 15% auto;
   padding: 20px;
-  width: 30%; /* Could be more or less, depending on screen size */
+  width: 30%; 
 }
 
 #productImage{

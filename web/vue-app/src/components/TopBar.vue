@@ -1,9 +1,15 @@
 <template>
   <div id="menucontainer">
-            <div id="welcometextcontainer"><p id="welcometext">The future of product price locating is here!</p></div>
+            <div id="welcometextcontainer"><p id="welcometext">Product price locator</p></div>
             
             <div id="buttoncontainer" v-for="item in buttonText" :key="item">
-                <button id="menubutton">
+                <button id="menubutton" v-if="item == 'Selver'" v-on:click.prevent="initiateSelver">
+                    <p>{{ item }}</p>
+                </button>
+                <button id="menubutton" v-else-if="item == 'Prisma'" v-on:click.prevent="initiatePrisma">
+                    <p>{{ item }}</p>
+                </button>
+                <button id="menubutton" v-else>
                     <p>{{ item }}</p>
                 </button>
             </div>
@@ -11,11 +17,29 @@
 </template>
 
 <script>
+
 export default {
   name: 'TopBar',
-  data() {
+  data: function() {
     return {
-      buttonText: ["Selver", "Prisma", "Empty1","Empty2"]
+      buttonText: ["Selver", "Prisma", "Empty1","Empty2"],
+      products: null
+
+    }
+  },
+  methods:{
+    initiateSelver: function(){
+      fetch('http://localhost:8080/products/')
+        .then(r => r.json())
+        .then(json => this.products = json);
+        this.$emit("productsData", this.products);
+    },
+
+    initiatePrisma: function(){
+      fetch('http://localhost:8080/products/test/')
+        .then(r => r.json())
+        .then(json => this.products = json);
+        this.$emit("productsData", this.products);
     }
   }
 }

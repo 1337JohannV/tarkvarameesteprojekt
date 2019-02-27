@@ -1,8 +1,8 @@
 <template>
     <div id="app">
-      <TopBar/>
+      <TopBar @productsData="updateProduct"/>
       <div id="content">
-          <ProductView/>
+          <ProductView :productsData="productsData"/>
       </div>
     </div>
 </template>
@@ -16,6 +16,16 @@ export default {
   components: {
     TopBar,
     ProductView
+  },
+  data: function(){
+    return {
+      productsData: null
+    };
+  },
+  methods: {
+    updateProduct(products){
+      this.productsData = products;
+    }
   }
 }
 </script>
