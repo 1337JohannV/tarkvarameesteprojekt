@@ -12,22 +12,11 @@ import scraper.selver.SelverScraper;
 import java.util.HashMap;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @RestController
 public class IndexController {
 
-    @Autowired
-    Demo testScraper;
 
-    @RequestMapping("/")
-    public String displayIndex() {
-        return "index";
-    }
-
-    @CrossOrigin
-    @RequestMapping("/Product")
-    public HashMap<Category, List<Product>> getProducts() {
-        return testScraper.getDemoData(Category.PUU_JA_KOOGIVILJAD);
-    }
 
 
 }

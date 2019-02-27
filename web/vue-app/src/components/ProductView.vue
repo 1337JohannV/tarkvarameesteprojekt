@@ -14,9 +14,10 @@
                         {{products[p].productPrices[0].unitPrice.amount}} {{products[p].productPrices[0].unitPrice.currency}} /
                         {{products[p].productPrices[0].unitPrice.perUnit}}
                     </p>
-                    <p> <b>Pood:</b> 
-                        {{products[p].productPrices[0].store}}
-                    </p>
+                    <div id="productImage">
+                        <img v-bind:src="products[p].imgUrl" alt="Toode" height="100" width="100" v-on:click.prevent="showInfo(p)">
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -70,6 +71,7 @@
 
 <script>
 
+var address2 = 'http://localhost:8080/products/test/';
 var address = 'http://localhost:8080/products/';
 
 export default {
@@ -81,6 +83,7 @@ export default {
             end: 20,
             infoShow: false,
             currentProduct: -1,
+            currentImage: '',
         }
     },
 
@@ -109,7 +112,7 @@ export default {
         }
     },
     created: function() {
-        fetch(address)
+        fetch(address2)
         .then(r => r.json())
         .then(json => this.products = json);
     }
@@ -166,6 +169,7 @@ Button:hover{
     width: 185px;
     height: 220px;
     padding: 5px;
+    overflow: hidden;
 }
 
 #productContainer:hover{
@@ -197,6 +201,12 @@ p {
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   width: 30%; /* Could be more or less, depending on screen size */
+}
+
+#productImage{
+    align-items: center;
+    justify-items: center;
+    width: 100%;
 }
 
 </style>
