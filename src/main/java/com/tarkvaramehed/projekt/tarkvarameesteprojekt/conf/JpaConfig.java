@@ -40,10 +40,8 @@ public class JpaConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.hsqldb.jdbc.JDBCDriver");
-        dataSource.setUrl("jdbc:hsqldb:mem:productDb");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("sa");
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:file:~/products");
         return dataSource;
     }
 
@@ -56,7 +54,9 @@ public class JpaConfig {
     Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        properties.setProperty("spring.h2.console.enabled", "true");
+        properties.setProperty("spring.h2.console.path", "/h2");
         properties.setProperty("hibernate.show_sql", "false");
         properties.setProperty("hibernate.format_sql", "true");
         return properties;

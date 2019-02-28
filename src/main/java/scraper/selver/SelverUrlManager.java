@@ -29,13 +29,19 @@ public class SelverUrlManager {
                 .append(getCategoryName(category))
                 .append("?limit=")
                 .append(RESULT_LIMIT)
-                .append(("&p=%d"))
+                .append(("&p="))
+                .toString();
+    }
+
+    public static String buildCategoryUrl(Category category, int i) {
+        return new StringBuilder(buildCategoryUrl(category))
+                .append(i)
                 .toString();
     }
 
     public static void main(String[] args) {
         double start = System.currentTimeMillis();
-        System.out.println(buildCategoryUrl(Category.PUU_JA_KOOGIVILJAD));
+        System.out.println(buildCategoryUrl(Category.PUU_JA_KOOGIVILJAD, 1));
         System.out.println((System.currentTimeMillis() - start) / 1000);
 }
 }

@@ -20,11 +20,15 @@ public class DataInitializingBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        SelverScraper selverScraper = new SelverScraper();
-        HashMap<Category, List<Product>> sampleData = selverScraper.getSampleData();
-        for (Category category : sampleData.keySet()) {
+        if (productService.getAll().size() == 0) {
+            System.out.println("DB is empty");
+            SelverScraper selverScraper = new SelverScraper();
+            HashMap<Category, List<Product>> sampleData = selverScraper.getSampleData();
+            for (Category category : sampleData.keySet()) {
             sampleData.get(category).forEach(p -> p.setCategory(category));
             productService.addAll(sampleData.get(category));
+            }
         }
+        System.out.println(productService.getAll().size());
     }
 }

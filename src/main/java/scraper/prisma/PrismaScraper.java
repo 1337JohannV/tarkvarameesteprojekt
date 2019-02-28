@@ -19,150 +19,96 @@ import scraper.prisma.strategies.PrismaCategoryScrapingStrategy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-
 
 public class PrismaScraper implements Scraper {
 
-
     @Override
-    public HashMap<Category, List<Product>> scrapeCategories() {
-        int amountOfProducts = 0;
-        long t1 = System.currentTimeMillis();
-        HashMap<Category, List<Product>> productsFromEachCategory = new HashMap<>();
-
+    public List<Product> getProducts() {
+        List<Product> products = new ArrayList<>();
         for (Category c : Category.values()) {
             List<Product> productsFromCategory = scrapeCategory(c);
-            amountOfProducts += productsFromCategory.size();
-            productsFromEachCategory.put(c, productsFromCategory);
+            productsFromCategory.forEach(p -> p.setCategory(c));
+            products.addAll(productsFromCategory);
         }
-
-        long t2 = System.currentTimeMillis();
-        System.out.println("TIME");
-        System.out.println((t2 - t1) / 1000);
-        System.out.println("AMOUNT");
-        System.out.println(amountOfProducts);
-        return productsFromEachCategory;
+        return products;
     }
 
     private PrismaCategoryScrapingStrategy selectStrategy(Document doc) {
-
         int numberOfItemsOnPage = Integer.parseInt(doc.getElementsByClass("category-items")
                 .first().text().split("\\s+", 2)[0]);
-        System.out.println(numberOfItemsOnPage);
-
         if (numberOfItemsOnPage <= 48) {
-
             return new AZStrategy();
         }
         if (numberOfItemsOnPage <= 96) {
-
             return new AZandZAStrategy();
-
         } else {
             //Praegu ei leia kõiki tooteid, tuleks lisada see, et vaatab odavamad/kallimad ka, siis peaks loodetavasti
             //saama kõik tooted kätte.
             return new AlphabeticalsAndPopularityStrategy();
         }
-
     }
 
     private String getProductImgUrl(Document doc) {
-
         Element img = doc.getElementById("product-image-zoom");
         return img.absUrl("src");
     }
 
     public List<String> getProductUrlsFromCategory(String url) {
-
         Document doc = DocumentManager.getDocument(url);
-
         PrismaCategoryScrapingStrategy strat = selectStrategy(doc);
-
         return strat.getProductUrlsFromCategory(url);
-
-
     }
 
     public List<Product> scrapeCategory(Category cat) {
-
         List<Product> products = new ArrayList<>();
         List<String> catUrls = PrismaUrlManager.getSubCatUrls(cat);
-
         assert catUrls != null;
-
         for (String url : catUrls) {
-
             List<String> productUrls = getProductUrlsFromCategory(url);
-
             for (String productUrl : productUrls) {
-
                 String searchUrl = "https://www.prismamarket.ee" + productUrl;
-
                 Product product = getProductDetails(searchUrl);
                 product.setCategory(cat);
-
                 products.add(product);
             }
-
         }
-        System.out.println(products.size());
         return products;
-
-
     }
 
     private String getOrigin(Document doc) {
-        String origin;
-        try {
-
-            origin = doc.getElementsByClass("tab-content padding").first().text().split("Toitumisalane")[0]
-                    .split("Päritolumaa")[1];
-            return origin;
-
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Unknown origin");
-            return "-";
+        Element info = doc.getElementById("info");
+        if (!info.html().equals("") ) {
+            String origin = info.children().last().html().trim();
+            if (origin.length() < 15) {
+                return origin;
+            }
         }
+        return null;
     }
 
     private String getUnitPrice(Document doc) {
-
-        String unitPrice;
-        if (!doc.getElementsByClass("js-details").first().text().contains("~")) {
-            if (!doc.getElementsByClass("js-details").first().text().toLowerCase().contains("kampaania")
-                    && doc.getElementsByClass("js-details").first().text().toLowerCase().contains("/")) {
-                unitPrice = doc.getElementsByClass("js-details")
-                        .first().text().split("\\s+", 3)[2];
-                return unitPrice;
-            }
-            if (doc.getElementsByClass("js-details").first().text().toLowerCase().contains("kampaania")) {
-                unitPrice = doc.getElementsByClass("js-details")
-                        .first().text().split("\\s+", 5)[2] +
-                        " " + doc.getElementsByClass("js-details")
-                        .first().text().split("\\s+", 5)[3];
-                return unitPrice;
-
-            } else {
-                return getPrice(doc) + "€/" + getQuantity(doc).split("\\s+")[1];
-            }
-        } else {
-            return getPrice(doc) + "€/" + getQuantity(doc).split("\\s+")[1];
-
+        if (!doc.selectFirst("span.unit").text().equals("")) {
+            return new StringBuilder()
+                    .append(getPrice(doc))
+                    .append(" €")
+                    .append(doc.selectFirst("span.unit").text())
+                    .toString();
         }
-
-
+        return doc.selectFirst(".js-details").text();
     }
 
     private String getProductUrl(Document doc) {
         return doc.getElementsByTag("link").first().attr("href");
-
     }
 
     private double getPrice(Document doc) {
-        return Double.parseDouble(doc.getElementsByClass("whole-number").first().text()
-                + "." + doc.getElementsByClass("decimal").first().text());
+        return Double.parseDouble(
+                new StringBuilder()
+                        .append(doc.getElementsByClass("whole-number").first().text())
+                        .append(".")
+                        .append(doc.getElementsByClass("decimal").first().text())
+                        .toString());
     }
 
     private String getQuantity(Document doc) {
@@ -170,15 +116,11 @@ public class PrismaScraper implements Scraper {
     }
 
     public Product getProductDetails(String url) {
-
         Document doc = DocumentManager.getDocument(url);
 
         String producer = doc.getElementById("product-subname").text();
-
         String productName = doc.getElementById("product-name").text();
-
         String ean = doc.select("span[itemprop = sku]").first().text();
-
 
         Product product = new Product();
         ProductPrice productPrice = new ProductPrice();
@@ -201,19 +143,21 @@ public class PrismaScraper implements Scraper {
 
         product.setProductPrices(Arrays.asList(productPrice));
 
+        System.out.println(product);
         return product;
     }
 
     public static void main(String[] args) {
         PrismaScraper prismaScraper = new PrismaScraper();
-        System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/roheline-papaia/2060494800003"));
+        prismaScraper.getProducts();
+        //prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/pom-bel-ouna-mango-puuviljamiks--4x100-g/8437010537165");
 
         //System.out.println(PrismaUrlManager.getSubCatUrls(Category.PUU_JA_KOOGIVILJAD));
         //System.out.println(prismaScraper.scrapeCategory(Category.PUU_JA_KOOGIVILJAD));
         // System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/viinamari-victoria--i-klass/2060460600002"));
         //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/ananass/2060490100008"));
         //System.out.println(prismaScraper.getProductUrlsFromCategory("https://www.prismamarket.ee/products/17097"));\
-        // prismaScraper.scrapeCategories();
+        // prismaScraper.getProducts();
         //System.out.println(DocumentManager.getDocument("https://ecoop.ee/et/kategooriad/kuivained-kastmed/"));
 
     }
