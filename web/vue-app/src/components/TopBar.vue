@@ -3,7 +3,7 @@
             <div id="welcometextcontainer"><p id="welcometext">Product price locator</p></div>
             
             <div id="buttoncontainer" v-for="item in buttonText" :key="item">
-                <button id="menubutton" v-if="item == 'Selver'" v-on:click.prevent="initiateSelver">
+                <button id="menubutton" v-if="item == 'Segu'" v-on:click.prevent="initiateSelver">
                     <p>{{ item }}</p>
                 </button>
                 <button id="menubutton" v-else-if="item == 'Prisma'" v-on:click.prevent="initiatePrisma">
@@ -22,7 +22,7 @@ export default {
   name: 'TopBar',
   data: function() {
     return {
-      buttonText: ["Selver", "Prisma", "Empty1","Empty2"],
+      buttonText: ["Segu", "Prisma", "Empty1","Empty2"],
       products: null
 
     }
