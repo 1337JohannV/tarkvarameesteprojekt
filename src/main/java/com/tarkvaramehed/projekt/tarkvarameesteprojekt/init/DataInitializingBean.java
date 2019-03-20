@@ -6,8 +6,6 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import scraper.Demo;
-import scraper.prisma.PrismaScraper;
 import scraper.selver.SelverScraper;
 
 import java.util.HashMap;
@@ -22,14 +20,15 @@ public class DataInitializingBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        SelverScraper selverScraper = new SelverScraper();
-        Demo demo = new Demo();
-
-        HashMap<Category, List<Product>> sampleData = selverScraper.getSampleData();
-        for (Category category : sampleData.keySet()) {
+        if (productService.getAll().size() == 0) {
+            System.out.println("DB is empty");
+            SelverScraper selverScraper = new SelverScraper();
+            HashMap<Category, List<Product>> sampleData = selverScraper.getSampleData();
+            for (Category category : sampleData.keySet()) {
             sampleData.get(category).forEach(p -> p.setCategory(category));
             productService.addAll(sampleData.get(category));
+            }
         }
-        productService.addAll(demo.getDemoData(Category.PUU_JA_KOOGIVILJAD));
+        System.out.println(productService.getAll().size());
     }
 }

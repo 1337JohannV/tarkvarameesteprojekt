@@ -37,6 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/test")
+
     public List<Product> getProducts() {
         return testScraper.getDemoData(Category.PUU_JA_KOOGIVILJAD);
     }
