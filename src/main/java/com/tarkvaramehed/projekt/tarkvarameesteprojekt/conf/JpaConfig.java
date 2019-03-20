@@ -41,7 +41,7 @@ public class JpaConfig {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:file:~/products");
+        dataSource.setUrl("jdbc:h2:file:db/products");
         return dataSource;
     }
 
