@@ -206,7 +206,6 @@ export default {
     overflow: hidden;
 }
 
-
 #productContainer {
     padding: 8px 0px 0px 0px;
     width: 100%;

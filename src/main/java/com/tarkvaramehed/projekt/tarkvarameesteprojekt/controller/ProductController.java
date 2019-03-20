@@ -10,7 +10,7 @@ import scraper.Demo;
 import java.util.HashMap;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
+//@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @RequestMapping("/products")
 @RestController
 public class ProductController {

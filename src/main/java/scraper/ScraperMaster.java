@@ -5,7 +5,6 @@ import scraper.prisma.PrismaScraper;
 import scraper.selver.SelverScraper;
 
 import java.util.*;
-import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,8 +12,6 @@ public class ScraperMaster {
 
     public List<Product> scrapeProducts(Scraper prisma, Scraper selver) {
         HashMap<String, List<Product>> eanMap = new HashMap<>();
-
-
 
         ScraperThread prismaThread = new ScraperThread(prisma);
         ScraperThread selverThread = new ScraperThread(selver);

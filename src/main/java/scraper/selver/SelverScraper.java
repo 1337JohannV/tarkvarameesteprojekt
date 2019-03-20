@@ -12,8 +12,10 @@ import scraper.RegexMatcher;
 import scraper.Scraper;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class SelverScraper implements Scraper {
 
@@ -21,18 +23,17 @@ public class SelverScraper implements Scraper {
     public List<Product> getProducts() {
         return Arrays.stream(Category.values())
                 .map(this::getProductsFromCategory)
-                .flatMap(Collection::stream)
+                .flatMap(Function.identity())
                 .collect(Collectors.toList());
     }
 
-    private List<Product> getProductsFromCategory(Category category) {
+    private Stream<Product> getProductsFromCategory(Category category) {
          return IntStream.rangeClosed(1, getPageCount(SelverUrlManager.buildCategoryUrl(category)))
                  .mapToObj(i -> getProductPages(DocumentManager.getDocument(SelverUrlManager.buildCategoryUrl(category, i))))
-                 .flatMap(Collection::stream)
+                 .flatMap(Function.identity())
                  .map(this::scrapeProductPage)
                  .peek(p -> p.setCategory(category))
-                 .peek(System.out::println)
-                 .collect(Collectors.toList());
+                 .peek(System.out::println);
     }
 
     private int getPageCount(String url) {
@@ -44,12 +45,11 @@ public class SelverScraper implements Scraper {
         );
     }
 
-    private List<String> getProductPages(Document doc) {
+    private Stream<String> getProductPages(Document doc) {
          return doc.getElementById("products-grid")
                  .children()
                  .stream()
-                 .map(p -> p.selectFirst("a.product-image").attr("href"))
-                 .collect(Collectors.toList());
+                 .map(p -> p.selectFirst("a.product-image").attr("href"));
     }
 
     private Product scrapeProductPage(String url) {
@@ -108,7 +108,7 @@ public class SelverScraper implements Scraper {
     private List<Product> simpleCategoryScraper(String url) {
         List<Product> products = new ArrayList<>();
         getProductPages(DocumentManager.getDocument(String.format(url, 1)))
-                .parallelStream()
+                .parallel()
                 .forEach(u -> products.add(scrapeProductPage(u)));
         return products;
     }
