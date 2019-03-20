@@ -1,19 +1,21 @@
 <template>
   <div id="menucontainer">
-            <div id="welcometextcontainer"><p id="welcometext">Product price locator</p></div>
+    <div id="welcometextcontainer">
+      <p id="welcometext">Product price locator</p>
+    </div>
             
-            <div id="buttoncontainer" v-for="item in buttonText" :key="item">
-                <button id="menubutton" v-if="item == 'Segu'" v-on:click.prevent="initiateSelver">
-                    <p>{{ item }}</p>
-                </button>
-                <button id="menubutton" v-else-if="item == 'Prisma'" v-on:click.prevent="initiatePrisma">
-                    <p>{{ item }}</p>
-                </button>
-                <button id="menubutton" v-else>
-                    <p>{{ item }}</p>
-                </button>
-            </div>
-        </div>
+    <div id="buttoncontainer" v-for="item in buttonText" :key="item">
+      <button id="menubutton" v-if="item == 'Segu'" v-on:click.prevent="initiateSelver">
+        <p>{{ item }}</p>
+      </button>
+      <button id="menubutton" v-else-if="item == 'Prisma'" v-on:click.prevent="initiatePrisma">
+        <p>{{ item }}</p>
+      </button>
+      <button id="menubutton" v-else>
+        <p>{{ item }}</p>
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -47,47 +49,64 @@ export default {
 
 <style scoped>
 
-#menubutton{
-    width: 100%;
-    background-image: linear-gradient(-45deg, rgb(122, 235, 255), rgb(0, 195, 255));
-    text-align: center;
-    border: black solid 2px;
-    color: white;
-    font-family: monospace;
-    font-size:30px;
-}
 
-#menubutton:hover{
-    opacity: 0.8;
-}
-
-#welcometext{
-    display: inline-block;
-    vertical-align: middle;
-    font-family: monospace;
-    font-size:30px;
+#menucontainer{
+  background-color: rgb(148, 221, 221);
+  display: inline-block;
+  width: 100%;
+  height: 150px;
 }
 
 #welcometextcontainer{
-    width: 40%;
-    margin-left: 10px;
-    display: flex;
-    justify-content: center; /* align horizontal */
-    align-items: center; /* align vertical */
+  float: left;
+  height: 100%;
+  width: 40%;
+  
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
 }
 
 #buttoncontainer{
-    width: 15%;
-    display: flex;
-    padding: 10px 10px 10px 10px;
-
-}
-
-#menucontainer{
-  background-color: silver;
+  height: 100%;
+  width: 15%;
+  float: left;
+  
   display: flex;
-  flex-direction: row;
-  margin-bottom: 20px;
+  justify-content: center; 
+  align-items: center; 
 }
 
+#menubutton {
+  width: 80%;
+  height: 60%;
+
+  border-radius: 10px;
+  border: 0;
+  outline: 0;
+
+  color: white;
+  background-color: aqua;
+  transition-duration: 0.3s;
+  border: 2px solid aqua;
+
+  font-size: 30px;
+  font-family: monospace;
+}
+
+#menubutton:hover{
+  background-color: white;
+  color: black;
+}
+
+#menubutton:active{
+  background-color:aqua;
+  opacity: 0.4;
+  transition-duration: 0.1s;
+}
+
+#welcometext{
+  font-family: monospace;
+  font-size: 40px;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="flex-container" id="productView">
+    <div id="productView">
         <div class="flex-item" v-for="p in end" :key="p" v-if="p > start">
             <div id="productContainer" v-on:click.prevent="showInfo(p)">
                 <div id="productInfo">
@@ -20,10 +20,6 @@
                     
                 </div>
             </div>
-        </div>
-        <div id="navButtonContainer">
-            <button v-on:click.prevent="previous" v-if="this.start > 0">Previous</button> 
-            <button id="navButton" v-on:click.prevent="next" v-if="this.end != this.products.length-1">Next</button>
         </div>
 
 
@@ -59,7 +55,7 @@
                         <b>Kliendikaardiga:</b> Hind ei muutu
                     </p>
                 </div>
-                <button v-on:click.prevent="hideInfo">Close</button>
+                <button v-on:click.prevent="hideInfo" id="menubutton">Close</button>
             </div>
         </div>
 </div>
@@ -77,6 +73,7 @@ export default {
     name: 'ProductView',
     data: function() {
         return {
+            currentPage: 0,
             products: null,
             start: 0,
             end: 20,
@@ -88,17 +85,35 @@ export default {
 
     methods: {
         next(){
+            
+            
             this.start = this.end;
             if(this.end + 20 >= this.products.length-1){
                 this.end = this.products.length-1;
             } else {
                 this.end = this.end + 20;
             }
+            if(this.start != 0){
+                this.$emit("statePrevious", true);
+            }
+            if(this.end == this.products.length-1){
+                this.$emit("stateNext", false);
+            }
+            
         },
 
         previous(){
             this.end = this.start;
             this.start = this.start - 20;
+            if(this.end != this.products.length-1){
+                this.$emit("stateNext", true);
+            }
+            if(this.start == 0){
+                this.$emit("statePrevious", false);
+            }
+           
+
+      this.tempMessage = "";
         },
         showInfo(p){
             this.currentProduct = p;
@@ -116,15 +131,21 @@ export default {
         .then(json => this.products = json);
     },
     props:{
-        productsData: null
+        cycle:{
+            type:Number
+        }
     },
     watch:{
-        productsData: function(){
-            if(this.productsData != null){
-                this.products = this.productsData;
-                
+        cycle: function(){
+            console.log(this.currentPage);
+            console.log(this.cycle);
+            if(this.cycle > this.currentPage){
+                this.next();
+            } else {
+
+                this.previous();
             }
-            
+            this.currentPage = this.cycle;
         }
     }
 }
@@ -133,26 +154,32 @@ export default {
 
 <style scoped>
 
+#menubutton {
+  width: 20%;
+  height: 60%;
 
-Button{
-    background-image: linear-gradient(-45deg, rgb(122, 235, 255), rgb(0, 195, 255));
-    text-align: center;
-    border: black solid 2px;
-    color: white;
-    font-family: monospace;
-    font-size:30px;
-    margin-left: 9px;
-    margin-top: 10px;
+  border-radius: 10px;
+  border: 0;
+  outline: 0;
+
+  color: white;
+  background-color: aqua;
+  transition-duration: 0.3s;
+  border: 2px solid aqua;
+
+  font-size: 30px;
+  font-family: monospace;
 }
 
-Button:hover{
-    opacity: 0.8;
+#menubutton:hover{
+  background-color: white;
+  color: black;
 }
 
-#navButton {
-    position: absolute;
-    margin-left: 0;
-    left: 91.4%;
+#menubutton:active{
+  background-color:aqua;
+  opacity: 0.4; 
+  transition-duration: 0.1s;
 }
 
 #navButtonContainer{
@@ -161,26 +188,31 @@ Button:hover{
 }
 
 #productView {
-    height: 865px;
-}
 
-.flex-container {
+    height: 100%;
+    width: 57%;
     display: flex;
     flex-wrap: wrap;
+
 }
 
 .flex-item {
+    border: aqua solid 2px;
+    border-radius: 15px;
+    width: 185px;
+    height: 250px;
     display: block;
     margin: 5px 5px 5px 10px;
+    overflow: hidden;
 }
 
 
 #productContainer {
-    box-shadow: 1px 1px 1px 1px rgb(228, 228, 228);
-    width: 185px;
-    height: 220px;
-    padding: 5px;
+    padding: 8px 0px 0px 0px;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
+    background: white;
 }
 
 #productContainer:hover{
