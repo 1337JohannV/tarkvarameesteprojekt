@@ -3,7 +3,7 @@ package scraper.prisma.strategies;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import scraper.DocumentManager;
+import scraper.util.DocumentManager;
 
 import java.util.ArrayList;
 import java.util.List;

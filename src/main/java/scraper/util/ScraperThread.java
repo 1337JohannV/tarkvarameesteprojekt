@@ -1,6 +1,7 @@
-package scraper;
+package scraper.util;
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
+import scraper.Scraper;
 
 import java.util.List;
 

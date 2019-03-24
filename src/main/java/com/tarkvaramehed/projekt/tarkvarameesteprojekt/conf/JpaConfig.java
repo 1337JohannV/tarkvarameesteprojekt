@@ -53,7 +53,7 @@ public class JpaConfig {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "update");
+        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         properties.setProperty("spring.h2.console.enabled", "true");
         properties.setProperty("spring.h2.console.path", "/h2");
@@ -71,5 +71,4 @@ public class JpaConfig {
     public Demo demo() {
         return new Demo();
     }
-
 }

@@ -23,6 +23,7 @@ public class Product implements Serializable {
     private Category category;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @OrderBy("regularPrice.amount ASC")
     private List<ProductPrice> productPrices;
 
     @Embedded
@@ -34,4 +35,9 @@ public class Product implements Serializable {
 
     private String imgUrl;
 
+    //@Column
+    //private double basePrice;
+
+    //@Column
+    //private double baseWeight;
 }

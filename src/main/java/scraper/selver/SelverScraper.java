@@ -7,8 +7,8 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import scraper.DocumentManager;
-import scraper.RegexMatcher;
+import scraper.util.DocumentManager;
+import scraper.util.RegexMatcher;
 import scraper.Scraper;
 
 import java.util.*;

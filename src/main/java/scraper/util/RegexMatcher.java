@@ -1,4 +1,4 @@
-package scraper;
+package scraper.util;
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Price;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Quantity;

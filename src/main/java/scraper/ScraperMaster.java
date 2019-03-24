@@ -3,6 +3,8 @@ package scraper;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import scraper.prisma.PrismaScraper;
 import scraper.selver.SelverScraper;
+import scraper.util.ProductMerger;
+import scraper.util.ScraperThread;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -10,11 +12,10 @@ import java.util.stream.Stream;
 
 public class ScraperMaster {
 
-    public List<Product> scrapeProducts(Scraper prisma, Scraper selver) {
-        HashMap<String, List<Product>> eanMap = new HashMap<>();
+    public List<Product> scrapeProducts() {
 
-        ScraperThread prismaThread = new ScraperThread(prisma);
-        ScraperThread selverThread = new ScraperThread(selver);
+        ScraperThread prismaThread = new ScraperThread(new PrismaScraper());
+        ScraperThread selverThread = new ScraperThread(new SelverScraper());
 
         prismaThread.start();
         selverThread.start();
@@ -27,19 +28,21 @@ public class ScraperMaster {
         }
 
         List<Product> data = Stream.of(prismaThread.getProducts(), selverThread.getProducts())
-                .flatMap(list -> list.stream())
+                .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-        appendToEanMap(eanMap, data);
+        HashMap<String, List<Product>> eanMap = mapToEanMap(data); //{key : ean , value : list of products with same ean}
+        ProductMerger productMerger = new ProductMerger();
 
         return eanMap
-            .values()
-            .parallelStream()
-            .map(this::mergeProducts)
-            .collect(Collectors.toList());
+                .keySet()
+                .stream()
+                .map(e -> productMerger.mergeProducts(e, eanMap.get(e)))
+                .collect(Collectors.toList());
         }
 
-    private void appendToEanMap(HashMap<String, List<Product>> eanMap, List<Product> data) {
+    private HashMap<String, List<Product>> mapToEanMap(List<Product> data) {
+        HashMap<String, List<Product>> eanMap = new HashMap<>();
         for (Product p : data) {
             if (eanMap.containsKey(p.getEan())) {
                 List<Product> products = eanMap.get(p.getEan());
@@ -49,19 +52,13 @@ public class ScraperMaster {
                 eanMap.put(p.getEan(), Arrays.asList(p));
             }
         }
-    }
-
-    private Product mergeProducts(List<Product> products) {
-        //TODO merge the fucking products
-        return products.get(0);
+        return eanMap;
     }
 
     public static void main(String[] args) {
-        SelverScraper selverScraper = new SelverScraper();
-        PrismaScraper prismaScraper = new PrismaScraper();
         ScraperMaster scraperMaster = new ScraperMaster();
 
-        scraperMaster.scrapeProducts(prismaScraper, selverScraper);
+        scraperMaster.scrapeProducts();
 
     }
 }
