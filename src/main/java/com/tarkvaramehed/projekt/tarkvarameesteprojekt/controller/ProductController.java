@@ -27,12 +27,18 @@ public class ProductController {
         return productService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @RequestMapping(
+            path = "{id}",
+            method = RequestMethod.GET
+    )
     public Product getProductById(@PathVariable("id") Long id) {
         return productService.findById(id);
     }
 
-    @GetMapping("/{category}")
+    @RequestMapping(
+            path = "/category/{category}",
+            method = RequestMethod.GET
+    )
     public List<Product> getProductByCategory(@PathVariable("category") Category category) {
         return productService.findProductsByCategory(category);
     }
