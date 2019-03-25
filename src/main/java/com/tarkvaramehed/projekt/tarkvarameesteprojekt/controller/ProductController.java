@@ -1,6 +1,7 @@
 package com.tarkvaramehed.projekt.tarkvarameesteprojekt.controller;
 
-import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.ProductService;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.search.ProductSearch;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository.ProductService;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ProductSearch productSearch;
 
     @Autowired
     private Demo testScraper;
@@ -44,7 +48,7 @@ public class ProductController {
     }
 
     @RequestMapping(
-            path = "/{page}/{size}/{direction}/{orderBy}",
+            path = "/{page}/{size}/{orderBy}/{direction}",
             method = RequestMethod.GET)
     public List<Product> getAll(@PathVariable int page,
                                 @PathVariable int size, @PathVariable String direction,
@@ -57,7 +61,7 @@ public class ProductController {
     }
 
     @RequestMapping(
-            path = "/{category}/{page}/{size}/{direction}/{orderBy}",
+            path = "/{category}/{page}/{size}/{orderBy}/{direction}",
             method = RequestMethod.GET)
     public List<Product> getProductsByCategory(@PathVariable Category category, @PathVariable int page,
                                                @PathVariable int size, @PathVariable String direction,
@@ -79,5 +83,13 @@ public class ProductController {
         System.out.println("customQuery = sort " + customQuery.containsKey("sort"));
 
         return customQuery.toString();
+    }
+
+    @RequestMapping(
+            path = "/search/{searchQuery}",
+            method = RequestMethod.GET)
+    public List<Product> getAll(@PathVariable String searchQuery) {
+        productSearch.search(searchQuery);
+        return null;
     }
 }

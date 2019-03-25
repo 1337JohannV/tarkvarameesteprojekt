@@ -5,9 +5,13 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 public class SelverUrlManager {
 
     private static final String BASE_URL = "https://www.selver.ee/";
-    private static final String RESULT_LIMIT = "96";
+    private final String resultLimit;
 
-    private static String getCategoryName(Category category) {
+    SelverUrlManager(String resultLimit) {
+        this.resultLimit = resultLimit;
+    }
+
+    private String getCategoryName(Category category) {
         switch (category) {
             case PUU_JA_KOOGIVILJAD: return "puu-ja-koogiviljad";
             case LIHA_JA_KALA: return "liha-ja-kalatooted";
@@ -23,25 +27,22 @@ public class SelverUrlManager {
         }
     }
 
-    public static String buildCategoryUrl(Category category) {
+    public String buildCategoryUrl(Category category) {
         return new StringBuilder()
                 .append(BASE_URL)
                 .append(getCategoryName(category))
                 .append("?limit=")
-                .append(RESULT_LIMIT)
+                .append(resultLimit)
                 .append(("&p="))
                 .toString();
     }
 
-    public static String buildCategoryUrl(Category category, int i) {
+    public String buildCategoryUrl(Category category, int page) {
         return new StringBuilder(buildCategoryUrl(category))
-                .append(i)
+                .append(page)
                 .toString();
     }
 
     public static void main(String[] args) {
-        double start = System.currentTimeMillis();
-        System.out.println(buildCategoryUrl(Category.PUU_JA_KOOGIVILJAD, 1));
-        System.out.println((System.currentTimeMillis() - start) / 1000);
 }
 }

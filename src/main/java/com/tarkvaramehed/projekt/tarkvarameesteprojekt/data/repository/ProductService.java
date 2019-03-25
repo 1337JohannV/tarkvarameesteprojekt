@@ -1,4 +1,4 @@
-package com.tarkvaramehed.projekt.tarkvarameesteprojekt.data;
+package com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository;
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
@@ -19,8 +19,8 @@ public interface ProductService {
     List<Product> findByCategory(Category category, int page, int size,
                              Sort.Direction direction, String orderBy);
 
-    void add(Product product);
+    void save(Product product);
 
-    void addAll(Iterable<Product> products);
+    void saveAll(Iterable<Product> products);
 
 }

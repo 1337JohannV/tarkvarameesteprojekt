@@ -11,6 +11,12 @@ import java.util.List;
 
 public class ProductMerger {
 
+    /** This is done after products are scraped and products with same ean aka same products
+     * have to be combined into one
+     * @param ean product ean code
+     * @param products list of products with same ean
+     * @return merged product
+     */
     public Product mergeProducts(String ean, List<Product> products) {
         Product product = new Product();
         product.setEan(ean);
@@ -21,6 +27,10 @@ public class ProductMerger {
         product.setProducer(getBestProducer(products));
         product.setOrigin(getBestOrigin(products));
         product.setImgUrl(getBestImgUrl(products));
+        //not yet implemented in product because
+        //it breaks the system when trying to update the schema or whatnot
+        //these values are for sorting later on
+        //base weight unit is g/ml/tk and currency is eur
         //product.setBasePrice(convertToBasePrice(getAveragePrice(product)));
         //product.setBaseWeight(convertToBaseWeight(product.getQuantity()));
         return product;

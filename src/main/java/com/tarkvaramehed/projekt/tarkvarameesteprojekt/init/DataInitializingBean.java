@@ -1,17 +1,14 @@
 package com.tarkvaramehed.projekt.tarkvarameesteprojekt.init;
 
-import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.ProductService;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository.ProductService;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import scraper.ScraperMaster;
 import scraper.selver.SelverScraper;
 
-import java.util.HashMap;
 import java.util.List;
-
 
 @Component
 public class DataInitializingBean implements InitializingBean {
@@ -21,14 +18,12 @@ public class DataInitializingBean implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        /**
         if (productService.findAll().size() == 0) {
             System.out.println("DB is empty");
-            ScraperMaster scraperMaster = new ScraperMaster();
-            List<Product> products = scraperMaster.scrapeProducts();
-            productService.addAll(products);
+            SelverScraper selverScraper = new SelverScraper();
+            List<Product> products = selverScraper.getSampleData(Category.JUUSTUD);
+            productService.saveAll(products);
         }
         System.out.println(productService.findAll().size());
-         **/
     }
 }
