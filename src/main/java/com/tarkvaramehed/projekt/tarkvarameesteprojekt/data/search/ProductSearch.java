@@ -12,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class ProductSearch {
 
     @Autowired
@@ -36,7 +37,6 @@ public class ProductSearch {
         }
     }
 
-    @Transactional(readOnly = true)
     public List search(String searchQuery) {
         em.getTransaction().begin();
         org.apache.lucene.search.Query luceneQuery = qb

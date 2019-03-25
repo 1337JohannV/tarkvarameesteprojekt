@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import scraper.Demo;
 
 import java.util.List;
 import java.util.Map;
 
-//@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @RequestMapping("/products")
 @RestController
 public class ProductController {
@@ -23,9 +21,6 @@ public class ProductController {
 
     @Autowired
     private ProductSearch productSearch;
-
-    @Autowired
-    private Demo testScraper;
 
     @GetMapping()
     public List<Product> getAllProducts() {
@@ -37,14 +32,9 @@ public class ProductController {
         return productService.findById(id);
     }
 
-    @GetMapping("/category/{category}")
+    @GetMapping("/{category}")
     public List<Product> getProductByCategory(@PathVariable("category") Category category) {
         return productService.findProductsByCategory(category);
-    }
-
-    @GetMapping("/test")
-    public List<Product> getProducts() {
-        return testScraper.getDemoData(Category.PUU_JA_KOOGIVILJAD);
     }
 
     @RequestMapping(
@@ -73,6 +63,13 @@ public class ProductController {
         return productService.findByCategory(category, page, size, dir, orderBy);
     }
 
+    @RequestMapping(
+            path = "/search/{searchQuery}",
+            method = RequestMethod.GET)
+    public List<Product> searchProducts(@PathVariable String searchQuery) {
+        return productSearch.search(searchQuery);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/query")
     public String queryMethod(@RequestParam Map<String, String> customQuery) throws HttpClientErrorException.BadRequest {
 
@@ -83,12 +80,5 @@ public class ProductController {
         System.out.println("customQuery = sort " + customQuery.containsKey("sort"));
 
         return customQuery.toString();
-    }
-
-    @RequestMapping(
-            path = "/search/{searchQuery}",
-            method = RequestMethod.GET)
-    public List<Product> getAll(@PathVariable String searchQuery) {
-        return productSearch.search(searchQuery);
     }
 }

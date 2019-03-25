@@ -16,8 +16,7 @@ public interface ProductService {
 
     List<Product> findAll(int page, int size, Sort.Direction direction, String orderBy);
 
-    List<Product> findByCategory(Category category, int page, int size,
-                             Sort.Direction direction, String orderBy);
+    List<Product> findByCategory(Category category, int page, int size, Sort.Direction direction, String orderBy);
 
     void save(Product product);
 
