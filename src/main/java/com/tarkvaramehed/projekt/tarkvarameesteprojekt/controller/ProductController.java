@@ -89,7 +89,6 @@ public class ProductController {
             path = "/search/{searchQuery}",
             method = RequestMethod.GET)
     public List<Product> getAll(@PathVariable String searchQuery) {
-        productSearch.search(searchQuery);
-        return null;
+        return productSearch.search(searchQuery);
     }
 }
