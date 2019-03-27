@@ -1,18 +1,17 @@
 package com.tarkvaramehed.projekt.tarkvarameesteprojekt.controller;
 
-import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.ProductService;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.search.ProductSearch;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository.ProductService;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-import scraper.Demo;
 
 import java.util.List;
 import java.util.Map;
 
-//@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600)
 @RequestMapping("/products")
 @RestController
 public class ProductController {
@@ -21,30 +20,31 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
-    private Demo testScraper;
+    private ProductSearch productSearch;
 
     @GetMapping()
     public List<Product> getAllProducts() {
         return productService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @RequestMapping(
+            path = "{id}",
+            method = RequestMethod.GET
+    )
     public Product getProductById(@PathVariable("id") Long id) {
         return productService.findById(id);
     }
 
-    @GetMapping("/category/{category}")
+    @RequestMapping(
+            path = "/category/{category}",
+            method = RequestMethod.GET
+    )
     public List<Product> getProductByCategory(@PathVariable("category") Category category) {
         return productService.findProductsByCategory(category);
     }
 
-    @GetMapping("/test")
-    public List<Product> getProducts() {
-        return testScraper.getDemoData(Category.PUU_JA_KOOGIVILJAD);
-    }
-
     @RequestMapping(
-            path = "/{page}/{size}/{direction}/{orderBy}",
+            path = "/{page}/{size}/{orderBy}/{direction}",
             method = RequestMethod.GET)
     public List<Product> getAll(@PathVariable int page,
                                 @PathVariable int size, @PathVariable String direction,
@@ -57,7 +57,7 @@ public class ProductController {
     }
 
     @RequestMapping(
-            path = "/{category}/{page}/{size}/{direction}/{orderBy}",
+            path = "/{category}/{page}/{size}/{orderBy}/{direction}",
             method = RequestMethod.GET)
     public List<Product> getProductsByCategory(@PathVariable Category category, @PathVariable int page,
                                                @PathVariable int size, @PathVariable String direction,
@@ -67,6 +67,13 @@ public class ProductController {
             dir = Sort.Direction.DESC;
         }
         return productService.findByCategory(category, page, size, dir, orderBy);
+    }
+
+    @RequestMapping(
+            path = "/search/{searchQuery}",
+            method = RequestMethod.GET)
+    public List<Product> searchProducts(@PathVariable String searchQuery) {
+        return productSearch.search(searchQuery);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/query")

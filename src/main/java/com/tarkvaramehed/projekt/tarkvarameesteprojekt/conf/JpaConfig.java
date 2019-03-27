@@ -37,6 +37,7 @@ public class JpaConfig {
         return factory.getObject();
     }
 
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -53,14 +54,19 @@ public class JpaConfig {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         properties.setProperty("spring.h2.console.enabled", "true");
         properties.setProperty("spring.h2.console.path", "/h2");
         properties.setProperty("hibernate.show_sql", "false");
         properties.setProperty("hibernate.format_sql", "true");
+        //hibernate search
+        properties.setProperty("hibernate.search.default.directory_provider", "filesystem");
+        properties.setProperty("hibernate.search.default.indexBase", "/var/lucene/indexes");
         return properties;
     }
+
+
 
     @Bean
     public SelverScraper selverScraper() {

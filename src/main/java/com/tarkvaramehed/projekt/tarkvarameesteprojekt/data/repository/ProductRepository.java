@@ -1,4 +1,4 @@
-package com.tarkvaramehed.projekt.tarkvarameesteprojekt.data;
+package com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository;
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends CrudRepository<Product, Long>, PagingAndSortingRepository<Product, Long> {
+public interface ProductRepository extends CrudRepository<Product, Long>,
+        PagingAndSortingRepository<Product, Long> {
 
     @Query("select p from Product p where p.category=:category")
     Iterable<Product> findProductByCategory(@Param("category") Category category);

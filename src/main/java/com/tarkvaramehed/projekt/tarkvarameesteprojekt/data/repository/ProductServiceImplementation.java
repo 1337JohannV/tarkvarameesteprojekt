@@ -1,4 +1,4 @@
-package com.tarkvaramehed.projekt.tarkvarameesteprojekt.data;
+package com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository;
 
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
@@ -8,13 +8,15 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Primary
 @Service
-public class ProductServiceImplementation implements ProductService {
+@Transactional
+public class ProductServiceImplementation implements ProductService  {
 
     @Autowired
     private ProductRepository productRepository;
@@ -39,12 +41,12 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public void add(Product product) {
+    public void save(Product product) {
         productRepository.save(product);
     }
 
     @Override
-    public void addAll(Iterable<Product> products) {
+    public void saveAll(Iterable<Product> products) {
         productRepository.saveAll(products);
     }
 

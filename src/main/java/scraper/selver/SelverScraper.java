@@ -19,6 +19,8 @@ import java.util.stream.Stream;
 
 public class SelverScraper implements Scraper {
 
+    private final SelverUrlManager urlManager = new SelverUrlManager("24");
+
     @Override
     public List<Product> getProducts() {
         return Arrays.stream(Category.values())
@@ -28,8 +30,8 @@ public class SelverScraper implements Scraper {
     }
 
     private Stream<Product> getProductsFromCategory(Category category) {
-         return IntStream.rangeClosed(1, getPageCount(SelverUrlManager.buildCategoryUrl(category)))
-                 .mapToObj(i -> getProductPages(DocumentManager.getDocument(SelverUrlManager.buildCategoryUrl(category, i))))
+         return IntStream.rangeClosed(1, getPageCount(urlManager.buildCategoryUrl(category)))
+                 .mapToObj(i -> getProductPages(DocumentManager.getDocument(urlManager.buildCategoryUrl(category, i))))
                  .flatMap(Function.identity())
                  .map(this::scrapeProductPage)
                  .peek(p -> p.setCategory(category))
@@ -115,33 +117,31 @@ public class SelverScraper implements Scraper {
 
     // For testing purposes only
     @Deprecated
-    public HashMap<Category, List<Product>> getSampleData() {
-        HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
-        productsByCategory.put(
-                Category.LIHA_JA_KALA,
-                simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(Category.LIHA_JA_KALA))
-        );
-        return productsByCategory;
+    public List<Product> getSampleData(Category category) {
+        List<Product> products = simpleCategoryScraper(urlManager.buildCategoryUrl(category));
+        products.forEach(p -> p.setCategory(category));
+        return products;
+
     }
 
     // For testing purposes only
     @Deprecated
-    public HashMap<Category, List<Product>> getMoreSampleData() {
-        HashMap<Category, List<Product>> productsByCategory = new HashMap<>();
+    public List<Product> getMoreSampleData() {
+        List<Product> products = new ArrayList<>();
         for (Category category : Category.values()) {
-            productsByCategory.put(
-                    category,
-                    simpleCategoryScraper(SelverUrlManager.buildCategoryUrl(category))
-            );
+            List<Product> scrapedProducts = simpleCategoryScraper(urlManager.buildCategoryUrl(category));
+            scrapedProducts.forEach(p -> p.setCategory(category));
+            products.addAll(scrapedProducts);
         }
-        return productsByCategory;
+        return products;
     }
+
 
     public static void main(String[] args) {
         SelverScraper scraper = new SelverScraper();
-        scraper.getProducts();
-        double start = System.currentTimeMillis();
-        scraper.scrapeProductPage("https://www.selver.ee/pulgakomm-fruit-with-juice-cola-chupa-chups-12-g");
-        System.out.println((System.currentTimeMillis() - start) / 1000);
+        SelverUrlManager urlM = new SelverUrlManager("24");
+        System.out.println(
+                scraper.getPageCount(urlM.buildCategoryUrl(Category.LIHA_JA_KALA))
+        );
     }
 }
