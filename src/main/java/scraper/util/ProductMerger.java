@@ -26,8 +26,8 @@ public class ProductMerger {
         product.setProducer(getBestProducer(products));
         product.setOrigin(getBestOrigin(products));
         product.setImgUrl(getBestImgUrl(products));
-        //product.setBasePrice(convertToBasePrice(getMinPrice(product)));
-        //product.setBaseWeight(convertToBaseWeight(product.getQuantity()));
+        product.setBasePrice(convertToBasePrice(getMinPrice(product)));
+        product.setBaseWeight(convertToBaseWeight(product.getQuantity()));
         return product;
     }
 
@@ -112,7 +112,7 @@ public class ProductMerger {
     }
 
     public static void main(String[] args) {
-        ProductMerger merger = new ProductMerger();
+      /*  ProductMerger merger = new ProductMerger();
         ArrayList<Product> products = new ArrayList<>();
         Product p1 = new Product();
         Product p2 = new Product();
@@ -153,7 +153,7 @@ public class ProductMerger {
         price1.setRegularPrice(p11);
         p1.setProductPrices(priceslist);
 
-        System.out.println(merger.getMinPrice(p1));
+        System.out.println(merger.getMinPrice(p1));*/
 
 
     }

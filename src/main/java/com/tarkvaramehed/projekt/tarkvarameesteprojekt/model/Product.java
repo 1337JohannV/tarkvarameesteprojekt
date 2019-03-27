@@ -41,9 +41,9 @@ public class Product implements Serializable {
 
     private String imgUrl;
 
-    //@Column
-    //private double basePrice;
+    @Column
+    private double basePrice;
 
-    //@Column
-    //private double baseWeight;
+    @Column
+    private double baseWeight;
 }
