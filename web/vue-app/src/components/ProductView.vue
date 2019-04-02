@@ -10,7 +10,7 @@
                     </p>
                 </div>
                 <div id="productPrice" v-on:click.prevent="showInfo">
-                    <p> <b>Parim hind:</b>
+                    <p> <b>Parim hind:</b> 
                         {{products[p-1].productPrices[0].unitPrice.amount}} {{products[p-1].productPrices[0].unitPrice.currency}} /
                         {{products[p-1].productPrices[0].unitPrice.perUnit}}
                     </p>
@@ -22,44 +22,48 @@
             </div>
         </div>
 
-    <!-- Eraldi screen mis, ilmub toote peale vajutades -->
 
-    <div v-if="this.infoShow" class="popup">
-      <div class="modal-content">
-        <div class="float-left product-data-container">
-          <div class="product-title">
-            <h1>{{products[this.currentProduct].name}}</h1>
-          </div>
-          <div class="product-data">
-            <p>
-              <b>EAN:</b>
-              {{products[this.currentProduct].ean}}
-            </p>
-            <p v-if="products[this.currentProduct].producer != ''">
-              <b>Tootja:</b>
-              {{products[this.currentProduct].producer}}
-            </p>
-            <p v-else>
-              <b>Tootja:</b> -
-            </p>
-            <p>
-              <b>Päritolumaa:</b>
-              {{products[this.currentProduct].origin}}
-            </p>
-            <p v-if="products[this.currentProduct].quantity != null">
-              <b>Kogus:</b>
-              {{products[this.currentProduct].quantity.value}} {{products[this.currentProduct].quantity.unit}}
-            </p>
-          </div>
+        <!-- Eraldi screen mis, ilmub toote peale vajutades -->
+    
+        <div v-if="this.infoShow" class="popup">
+
+        
+            <div class="modal-content">
+                <p id="productTitle">{{products[this.currentProduct].name}}</p>
+                    <!-- 
+                    <p>EAN: {{p.ean}}</p>
+                    -->
+                <p v-if="products[this.currentProduct].producer != ''"><b>Tootja:</b> {{products[this.currentProduct].producer}}</p>
+                <p v-else><b>Tootja:</b> -</p>  
+                <p><b>Päritolumaa:</b> {{products[this.currentProduct].origin}}</p> 
+
+                <p v-if="products[this.currentProduct].quantity != null">
+                    <b>Kogus:</b> {{products[this.currentProduct].quantity.value}} {{products[this.currentProduct].quantity.unit}}
+                </p>
+                <div id="productPrice" v-on:click.prevent="showInfo">
+                    <p> <b>Parim hind:</b> 
+                        {{products[this.currentProduct].productPrices[0].unitPrice.amount}} {{products[this.currentProduct].productPrices[0].unitPrice.currency}} /
+                        {{products[this.currentProduct].productPrices[0].unitPrice.perUnit}}
+                    </p>
+                    <p> 
+                        <b>Pood:</b> {{products[this.currentProduct].productPrices[0].store}}
+                    </p>
+                    <p v-if="products[this.currentProduct].productPrices[0].specialPrice != null">
+                        <b>Kliendikaardiga:</b> {{products[this.currentProduct].productPrices[0].specialPrice.amount}} {{products[this.currentProduct].productPrices[0].specialPrice.currency}}
+                    </p>
+                    <p v-else>
+                        <b>Kliendikaardiga:</b> Hind ei muutu
+                    </p>
+                </div>
+                <button v-on:click.prevent="hideInfo" id="menubutton">Close</button>
+            </div>
         </div>
-        <div class="float-right product-image-container">
-          <img :src="products[this.currentProduct].imgUrl">
-        </div>
-        <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"/>
-        <button v-on:click.prevent="hideInfo" id="menubutton">Close</button>
-      </div>
-    </div>
-  </div>
+</div>
+
+
+
+    
+
 </template>
 
 <script>
@@ -115,9 +119,6 @@ export default {
             } else {
                 this.$emit("statePrevious", true);
             }
-           
-
-      this.tempMessage = "";
         },
         showInfo(p){
             this.currentProduct = p;
@@ -128,6 +129,9 @@ export default {
             this.currentProduct = -1;
             this.infoShow = false;
         },
+        filterbyCategory(category){
+
+        }
     },
     created: function() {
         fetch(address)
@@ -157,22 +161,6 @@ export default {
 </script>
 
 <style scoped>
-.float-left {
-  float: left;
-}
-
-.float-right {
-  float: right;
-}
-
-.product-data-container,
-.product-image-container {
-  width: 50%;
-}
-
-.product-image-container {
-    text-align: center;
-}
 
 #menubutton {
   width: 20%;
@@ -191,20 +179,20 @@ export default {
   font-family: monospace;
 }
 
-#menubutton:hover {
+#menubutton:hover{
   background-color: white;
   color: black;
 }
 
-#menubutton:active {
-  background-color: aqua;
-  opacity: 0.4;
+#menubutton:active{
+  background-color:aqua;
+  opacity: 0.4; 
   transition-duration: 0.1s;
 }
 
-#navButtonContainer {
-  width: 100%;
-  height: 50px;
+#navButtonContainer{
+    width: 100%;
+    height: 50px;
 }
 
 #productView {
@@ -213,69 +201,62 @@ export default {
     width: 69%;
     display: flex;
     flex-wrap: wrap;
-  height: 100%;
-  width: 57%;
-  display: flex;
-  flex-wrap: wrap;
-}
 
-.product-data {
-  margin-top: 2rem;
-  padding-left: 1rem;
-}
-
-.product-data p {
-  font-size: 18px;
 }
 
 .flex-item {
-  border: aqua solid 2px;
-  border-radius: 15px;
-  width: 185px;
-  height: 250px;
-  display: block;
-  margin: 5px 5px 5px 10px;
-  overflow: hidden;
+    border: aqua solid 2px;
+    border-radius: 15px;
+    width: 185px;
+    height: 250px;
+    display: block;
+    margin: 5px 5px 5px 10px;
+    overflow: hidden;
 }
 
 #productContainer {
-  padding: 8px 0px 0px 0px;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: white;
+    padding: 8px 0px 0px 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: white;
 }
 
-#productContainer:hover {
-  background-color: rgb(235, 232, 232);
+#productContainer:hover{
+    background-color: rgb(235, 232, 232);
 }
 
 p {
-  font-size: 12px;
+    font-size: 12px;
+
+}
+
+#productTitle, #bestPrice {
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .popup {
-  position: fixed;
+  position: fixed; 
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
+  width: 100%; 
+  height: 100%; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
 }
 
 .modal-content {
   background-color: #fefefe;
-  margin: 15% 15%;
+  margin: 15% auto;
   padding: 20px;
-  border-radius: 1rem;
-  box-shadow: 10px 10px;
+  width: 30%; 
 }
 
-#productImage {
-  align-items: center;
-  justify-items: center;
-  width: 100%;
+#productImage{
+    align-items: center;
+    justify-items: center;
+    width: 100%;
 }
 
 </style>
