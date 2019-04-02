@@ -2,6 +2,7 @@
     <div id=app>
       <TopBar/>
       <div id="products">
+        <FilterBar/>
         <ProductView :cycle="currentPage" @statePrevious="statePrev" @stateNext="stateNext"/>
       </div>
       <div id="footer">
@@ -14,12 +15,14 @@
 <script>
 import TopBar from './components/TopBar.vue'
 import ProductView from './components/ProductView.vue'
+import FilterBar from './components/FilterBar.vue'
 
 export default {
   name: 'app',
   components: {
     TopBar,
-    ProductView
+    ProductView,
+    FilterBar
   },
   data: function(){
     return {
@@ -68,7 +71,6 @@ body {
 #products{
   margin-top: 1%; 
   display: flex;
-  justify-content: center; 
 
   height: 100%;
   width: 100%;
