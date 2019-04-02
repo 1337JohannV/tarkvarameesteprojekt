@@ -16,16 +16,14 @@ import java.util.List;
 @Primary
 @Service
 @Transactional
-public class ProductServiceImplementation implements ProductService  {
+public class ProductServiceImplementation implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
 
     @Override
     public List<Product> findProductsByCategory(Category category) {
-        List<Product> products = new ArrayList<>();
-        productRepository.findProductByCategory(category).forEach(products::add);
-        return products;
+        return productRepository.findProductsByCategory(category);
     }
 
     @Override
@@ -57,7 +55,7 @@ public class ProductServiceImplementation implements ProductService  {
 
     @Override
     public List<Product> findByCategory(Category category, int page, int size,
-                                                  Sort.Direction direction, String orderBy) {
+                                        Sort.Direction direction, String orderBy) {
         return productRepository.findAllByCategory(category,
                 PageRequest.of(page, size, direction, orderBy));
     }

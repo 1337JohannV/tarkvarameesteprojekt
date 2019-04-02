@@ -1,6 +1,7 @@
 package com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums;
 
 public enum Category {
+    UNKNOWN,
     PUU_JA_KOOGIVILJAD,
     LIHA_JA_KALA,
     PIIMATOOTED_MUNAD_VOID,

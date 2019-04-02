@@ -11,17 +11,17 @@ import java.util.List;
 public class AZandZAStrategy implements PrismaCategoryScrapingStrategy {
 
     @Override
-    public List<String> getProductUrlsFromCategory(String url) {
+    public List<String> getProductUrlsFromCategory(String url, DocumentManager dm) {
 
         AZStrategy ascending = new AZStrategy();
 
 
-        List<String> linksAscending = new ArrayList<>(ascending.getProductUrlsFromCategory(url));
+        List<String> linksAscending = new ArrayList<>(ascending.getProductUrlsFromCategory(url, dm));
         List<String> linksDescending = new ArrayList<>();
 
         String searchUrl = url + "?sort_order=alpha&sort_dir=desc";
 
-        Document doc = DocumentManager.getDocument(searchUrl);
+        Document doc = dm.getDocument(searchUrl);
 
 
         Elements products = doc.select("li.item");

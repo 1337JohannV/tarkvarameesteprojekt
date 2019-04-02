@@ -1,7 +1,7 @@
 package com.tarkvaramehed.projekt.tarkvarameesteprojekt.controller;
 
-import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.search.ProductSearch;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository.ProductService;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.search.ProductSearch;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import org.springframework.beans.factory.annotation.Autowired;

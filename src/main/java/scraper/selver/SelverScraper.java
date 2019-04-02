@@ -7,11 +7,14 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import scraper.Scraper;
 import scraper.util.DocumentManager;
 import scraper.util.RegexMatcher;
-import scraper.Scraper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,7 +22,14 @@ import java.util.stream.Stream;
 
 public class SelverScraper implements Scraper {
 
-    private final SelverUrlManager urlManager = new SelverUrlManager("24");
+    private final SelverUrlManager urlManager = new SelverUrlManager("96");
+    private final DocumentManager documentManager = new DocumentManager();
+
+    public static void main(String[] args) {
+        SelverScraper scraper = new SelverScraper();
+        SelverUrlManager urlM = new SelverUrlManager("24");
+        scraper.getProducts();
+    }
 
     @Override
     public List<Product> getProducts() {
@@ -30,17 +40,17 @@ public class SelverScraper implements Scraper {
     }
 
     private Stream<Product> getProductsFromCategory(Category category) {
-         return IntStream.rangeClosed(1, getPageCount(urlManager.buildCategoryUrl(category)))
-                 .mapToObj(i -> getProductPages(DocumentManager.getDocument(urlManager.buildCategoryUrl(category, i))))
-                 .flatMap(Function.identity())
-                 .map(this::scrapeProductPage)
-                 .peek(p -> p.setCategory(category))
-                 .peek(System.out::println);
+        return IntStream.rangeClosed(1, getPageCount(urlManager.buildCategoryUrl(category)))
+                .mapToObj(i -> getProductPages(documentManager.getDocument(urlManager.buildCategoryUrl(category, i))))
+                .flatMap(Function.identity())
+                .map(this::scrapeProductPage)
+                .peek(p -> p.setCategory(category))
+                .peek(System.out::println);
     }
 
     private int getPageCount(String url) {
         return Integer.parseInt(
-                DocumentManager.getDocument(url)
+                documentManager.getDocument(url)
                         .selectFirst("ol.pagination")
                         .selectFirst("a.last")
                         .html()
@@ -48,18 +58,18 @@ public class SelverScraper implements Scraper {
     }
 
     private Stream<String> getProductPages(Document doc) {
-         return doc.getElementById("products-grid")
-                 .children()
-                 .stream()
-                 .map(p -> p.selectFirst("a.product-image").attr("href"));
+        return doc.getElementById("products-grid")
+                .children()
+                .stream()
+                .map(p -> p.selectFirst("a.product-image").attr("href"));
     }
 
     private Product scrapeProductPage(String url) {
-        Document doc = DocumentManager.getDocument(url);
+        Document doc = documentManager.getDocument(url);
         Product product = new Product();
         ProductPrice productPrice = new ProductPrice();
         product.setName(doc.selectFirst("div.page-title h1").html());
-        product.setQuantity(RegexMatcher.extractQuantity(product.getName(), RegexMatcher.QUANTITY_PATTERN));
+        product.setQuantity(RegexMatcher.extractQuantity(product.getName()));
         Element priceBox = doc.selectFirst("div.price-box span.price");
         Element offer = doc.selectFirst("div[itemprop=offers]");
         productPrice.setStore(Store.SELVER);
@@ -81,7 +91,7 @@ public class SelverScraper implements Scraper {
         if (tableData.containsKey("ribakood")) {
             product.setEan(tableData.get("ribakood"));
         }
-        if (tableData.containsKey("tootja") && !tableData.get("tootja").equals("määramata")) {
+        if (tableData.containsKey("tootja") && !tableData.get("tootja").toLowerCase().equals("määramata")) {
             product.setProducer(tableData.get("tootja"));
         }
         if (tableData.containsKey("päritolumaa")) {
@@ -109,7 +119,7 @@ public class SelverScraper implements Scraper {
     @Deprecated
     private List<Product> simpleCategoryScraper(String url) {
         List<Product> products = new ArrayList<>();
-        getProductPages(DocumentManager.getDocument(String.format(url, 1)))
+        getProductPages(documentManager.getDocument(String.format(url, 1)))
                 .parallel()
                 .forEach(u -> products.add(scrapeProductPage(u)));
         return products;
@@ -136,12 +146,13 @@ public class SelverScraper implements Scraper {
         return products;
     }
 
+    @Override
+    public List<Product> getDemoData(Category category) {
+        return getProductsFromCategory(category).collect(Collectors.toList());
+    }
 
-    public static void main(String[] args) {
-        SelverScraper scraper = new SelverScraper();
-        SelverUrlManager urlM = new SelverUrlManager("24");
-        System.out.println(
-                scraper.getPageCount(urlM.buildCategoryUrl(Category.LIHA_JA_KALA))
-        );
+    @Override
+    public Product getProductFromPage(String url) {
+        return scrapeProductPage(url);
     }
 }

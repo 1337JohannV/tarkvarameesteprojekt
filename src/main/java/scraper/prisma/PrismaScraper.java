@@ -9,19 +9,36 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Currency;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import scraper.util.DocumentManager;
-import scraper.util.RegexMatcher;
 import scraper.Scraper;
 import scraper.prisma.strategies.AZStrategy;
 import scraper.prisma.strategies.AZandZAStrategy;
 import scraper.prisma.strategies.AlphabeticalsAndPopularityStrategy;
 import scraper.prisma.strategies.PrismaCategoryScrapingStrategy;
+import scraper.util.DocumentManager;
+import scraper.util.RegexMatcher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class PrismaScraper implements Scraper {
+
+    private final DocumentManager documentManager = new DocumentManager();
+
+    public static void main(String[] args) {
+        PrismaScraper prismaScraper = new PrismaScraper();
+        prismaScraper.getProducts();
+        //prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/pom-bel-ouna-mango-puuviljamiks--4x100-g/8437010537165");
+
+        //System.out.println(PrismaUrlManager.getSubCatUrls(Category.PUU_JA_KOOGIVILJAD));
+        //System.out.println(prismaScraper.scrapeCategory(Category.PUU_JA_KOOGIVILJAD));
+        // System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/viinamari-victoria--i-klass/2060460600002"));
+        //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/ananass/2060490100008"));
+        //System.out.println(prismaScraper.getProductUrlsFromCategory("https://www.prismamarket.ee/products/17097"));\
+        // prismaScraper.getProducts();
+        //System.out.println(DocumentManager.getDocument("https://ecoop.ee/et/kategooriad/kuivained-kastmed/"));
+
+    }
 
     @Override
     public List<Product> getProducts() {
@@ -55,9 +72,9 @@ public class PrismaScraper implements Scraper {
     }
 
     public List<String> getProductUrlsFromCategory(String url) {
-        Document doc = DocumentManager.getDocument(url);
+        Document doc = documentManager.getDocument(url);
         PrismaCategoryScrapingStrategy strat = selectStrategy(doc);
-        return strat.getProductUrlsFromCategory(url);
+        return strat.getProductUrlsFromCategory(url, documentManager);
     }
 
     public List<Product> scrapeCategory(Category cat) {
@@ -78,7 +95,7 @@ public class PrismaScraper implements Scraper {
 
     private String getOrigin(Document doc) {
         Element info = doc.getElementById("info");
-        if (!info.html().equals("") ) {
+        if (!info.html().equals("")) {
             String origin = info.children().last().html().trim();
             if (origin.length() < 15) {
                 return origin;
@@ -115,8 +132,8 @@ public class PrismaScraper implements Scraper {
         return doc.getElementsByClass("js-quantity").first().text();
     }
 
-    public Product getProductDetails(String url) {
-        Document doc = DocumentManager.getDocument(url);
+    private Product getProductDetails(String url) {
+        Document doc = documentManager.getDocument(url);
 
         String producer = doc.getElementById("product-subname").text();
         String productName = doc.getElementById("product-name").text();
@@ -130,7 +147,7 @@ public class PrismaScraper implements Scraper {
         product.setName(productName);
         product.setEan(ean);
         product.setOrigin(getOrigin(doc));
-        product.setQuantity(RegexMatcher.extractQuantity(getQuantity(doc), RegexMatcher.QUANTITY_PATTERN));
+        product.setQuantity(RegexMatcher.extractQuantity(getQuantity(doc)));
         product.setImgUrl(getProductImgUrl(doc));
 
         price.setAmount(getPrice(doc));
@@ -147,18 +164,13 @@ public class PrismaScraper implements Scraper {
         return product;
     }
 
-    public static void main(String[] args) {
-        PrismaScraper prismaScraper = new PrismaScraper();
-        prismaScraper.getProducts();
-        //prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/pom-bel-ouna-mango-puuviljamiks--4x100-g/8437010537165");
+    @Override
+    public List<Product> getDemoData(Category category) {
+        return scrapeCategory(category);
+    }
 
-        //System.out.println(PrismaUrlManager.getSubCatUrls(Category.PUU_JA_KOOGIVILJAD));
-        //System.out.println(prismaScraper.scrapeCategory(Category.PUU_JA_KOOGIVILJAD));
-        // System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/viinamari-victoria--i-klass/2060460600002"));
-        //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/ananass/2060490100008"));
-        //System.out.println(prismaScraper.getProductUrlsFromCategory("https://www.prismamarket.ee/products/17097"));\
-        // prismaScraper.getProducts();
-        //System.out.println(DocumentManager.getDocument("https://ecoop.ee/et/kategooriad/kuivained-kastmed/"));
-
+    @Override
+    public Product getProductFromPage(String url) {
+        return getProductDetails(url);
     }
 }
