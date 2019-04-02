@@ -27,7 +27,6 @@ public class SelverScraper implements Scraper {
 
     public static void main(String[] args) {
         SelverScraper scraper = new SelverScraper();
-        SelverUrlManager urlM = new SelverUrlManager("24");
         scraper.getProducts();
     }
 
