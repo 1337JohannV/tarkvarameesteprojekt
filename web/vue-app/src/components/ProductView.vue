@@ -1,32 +1,26 @@
 <template>
-  <div id="productView">
-    <div class="flex-item" v-for="p in end" :key="p" v-if="p > start">
-      <div id="productContainer" v-on:click.prevent="showInfo(p)">
-        <div id="productInfo">
-          <p id="productTitle">{{products[p].name}}</p>
-          <p v-if="products[p].quantity != null">
-            <b>Kogus:</b>
-            {{products[p].quantity.value}} {{products[p].quantity.unit}}
-          </p>
+
+    <div id="productView">
+        <div class="flex-item" v-for="p in end" :key="p" v-if="p-1 >= start">
+            <div id="productContainer" v-on:click.prevent="showInfo(p-1)">
+                <div id="productInfo">
+                    <p id="productTitle">{{products[p-1].name}}</p>
+                    <p v-if="products[p-1].quantity != null">
+                        <b>Kogus:</b> {{products[p-1].quantity.value}} {{products[p-1].quantity.unit}}
+                    </p>
+                </div>
+                <div id="productPrice" v-on:click.prevent="showInfo">
+                    <p> <b>Parim hind:</b>
+                        {{products[p-1].productPrices[0].unitPrice.amount}} {{products[p-1].productPrices[0].unitPrice.currency}} /
+                        {{products[p-1].productPrices[0].unitPrice.perUnit}}
+                    </p>
+                    <div id="productImage">
+                        <img v-bind:src="products[p-1].imgUrl" alt="Toode" height="100" width="100" v-on:click.prevent="showInfo(p-1)">
+                    </div>
+                    
+                </div>
+            </div>
         </div>
-        <div id="productPrice" v-on:click.prevent="showInfo">
-          <p>
-            <b>Parim hind:</b>
-            {{products[p].productPrices[0].unitPrice.amount}} {{products[p].productPrices[0].unitPrice.currency}} /
-            {{products[p].productPrices[0].unitPrice.perUnit}}
-          </p>
-          <div id="productImage">
-            <img
-              v-bind:src="products[p].imgUrl"
-              alt="Toode"
-              height="100"
-              width="100"
-              v-on:click.prevent="showInfo(p)"
-            >
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Eraldi screen mis, ilmub toote peale vajutades -->
 
@@ -69,87 +63,97 @@
 </template>
 
 <script>
-var address = "http://localhost:8080/products/";
-
-import PriceTable from "./PriceTable.vue";
+var address = 'http://localhost:8080/products/0/24/name/asc';
 
 export default {
-  name: "ProductView",
-  data: function() {
-    return {
-      currentPage: 0,
-      products: null,
-      start: 0,
-      end: 20,
-      infoShow: false,
-      currentProduct: -1,
-      currentImage: ""
-    };
-  },
-  components: {
-    PriceTable
-  },
-  methods: {
-    next() {
-      this.start = this.end;
-      if (this.end + 20 >= this.products.length - 1) {
-        this.end = this.products.length - 1;
-      } else {
-        this.end = this.end + 20;
-      }
-      if (this.start != 0) {
-        this.$emit("statePrevious", true);
-      }
-      if (this.end == this.products.length - 1) {
-        this.$emit("stateNext", false);
-      }
+    name: 'ProductView',
+    data: function() {
+        return {
+            currentPage: 0,
+            products: null,
+            start: 0,
+            end: 24,
+            infoShow: false,
+            currentProduct: -1,
+            currentImage: '',
+        }
     },
 
-    previous() {
-      this.end = this.start;
-      this.start = this.start - 20;
-      if (this.end != this.products.length - 1) {
-        this.$emit("stateNext", true);
-      }
-      if (this.start == 0) {
-        this.$emit("statePrevious", false);
-      }
+    methods: {
+        next(){
+            this.currentPage = this.currentPage + 1;
+            address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc'
+
+            fetch(address)
+            .then(r => r.json())
+            .then(json => this.products = json);
+
+            this.end = this.products.length;
+
+            if(this.products.length < 24) {
+                this.$emit("stateNext", false);
+            } else {
+                this.$emit("stateNext", true);
+                this.$emit("statePrevious", true);
+            }
+            
+        },
+
+        previous(){
+            this.currentPage = this.currentPage - 1;
+            address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc'
+
+            fetch(address)
+            .then(r => r.json())
+            .then(json => this.products = json);
+
+            this.end = this.products.length;
+
+            if(this.currentPage == 0) {
+                this.$emit("stateNext", true);
+                this.$emit("statePrevious", false);
+            } else {
+                this.$emit("statePrevious", true);
+            }
+           
 
       this.tempMessage = "";
+        },
+        showInfo(p){
+            this.currentProduct = p;
+            console.log(this.products[p]);
+            this.infoShow = true;
+        },
+        hideInfo(){
+            this.currentProduct = -1;
+            this.infoShow = false;
+        },
     },
-    showInfo(p) {
-      this.currentProduct = p;
-      console.log(this.products[p]);
-      this.infoShow = true;
+    created: function() {
+        fetch(address)
+        .then(r => r.json())
+        .then(json => this.products = json);
     },
-    hideInfo() {
-      this.currentProduct = -1;
-      this.infoShow = false;
+    props:{
+        cycle:{
+            type:Number
+        }
+    },
+    watch:{
+        cycle: function(){
+            console.log(this.currentPage);
+            console.log(this.cycle);
+            if(this.cycle > this.currentPage){
+                this.next();
+            } else {
+
+                this.previous();
+            }
+            this.currentPage = this.cycle;
+        }
     }
-  },
-  created: function() {
-    fetch(address)
-      .then(r => r.json())
-      .then(json => (this.products = json));
-  },
-  props: {
-    cycle: {
-      type: Number
-    }
-  },
-  watch: {
-    cycle: function() {
-      console.log(this.currentPage);
-      console.log(this.cycle);
-      if (this.cycle > this.currentPage) {
-        this.next();
-      } else {
-        this.previous();
-      }
-      this.currentPage = this.cycle;
-    }
-  }
-};
+}
+
 </script>
 
 <style scoped>
@@ -204,6 +208,11 @@ export default {
 }
 
 #productView {
+
+    height: 100%;
+    width: 69%;
+    display: flex;
+    flex-wrap: wrap;
   height: 100%;
   width: 57%;
   display: flex;
@@ -268,4 +277,5 @@ p {
   justify-items: center;
   width: 100%;
 }
+
 </style>
