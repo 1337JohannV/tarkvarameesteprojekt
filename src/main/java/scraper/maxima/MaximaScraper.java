@@ -41,7 +41,7 @@ public class MaximaScraper implements Scraper {
         // System.out.println(scraper.getImgUrl(doc));
 
         System.out.println(scraper.getProductQuantity(doc));
-        //System.out.println(RegexMatcher.extractQuantity("Salat potis, tk"),RegexMatcher.QUANTITY_PATTERN);
+        System.out.println(RegexMatcher.extractQuantity("Salat potis, tk"));
         System.out.println(RegexMatcher.extractQuantity("Alk.vaba õlu SAKU GO 0.5L, prk"));
         System.out.println(scraper.createProduct(doc));
 
@@ -86,6 +86,7 @@ public class MaximaScraper implements Scraper {
     public Quantity getProductQuantity(Document doc) {
 
         String name = getName(doc);
+        System.out.println(name);
 
         Quantity q = new Quantity();
 
