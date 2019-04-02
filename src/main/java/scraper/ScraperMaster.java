@@ -7,11 +7,20 @@ import scraper.util.ProductMerger;
 import scraper.util.thread.ScraperThread;
 import scraper.util.thread.test.TestScraperThread;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ScraperMaster {
+
+    public static void main(String[] args) {
+        ScraperMaster scraperMaster = new ScraperMaster();
+
+        System.out.println(scraperMaster.scrapeProducts());
+
+    }
 
     public List<Product> scrapeProducts() {
 
@@ -34,9 +43,9 @@ public class ScraperMaster {
 
         HashMap<String, List<Product>> eanMap = mapToEanMap(
                 data
-                .stream()
-                .filter(p -> p.getEan() != null)
-                .collect(Collectors.toList())
+                        .stream()
+                        .filter(p -> p.getEan() != null)
+                        .collect(Collectors.toList())
         ); //{key : ean , value : list of products with same ean}
 
         ProductMerger productMerger = new ProductMerger();
@@ -50,7 +59,7 @@ public class ScraperMaster {
         List<Product> productsWithoutEan = data.stream().filter(p -> p.getEan() == null).collect(Collectors.toList());
 
         return Stream.of(mergedProducts, productsWithoutEan).flatMap(List::stream).collect(Collectors.toList());
-        }
+    }
 
     private HashMap<String, List<Product>> mapToEanMap(List<Product> data) {
         HashMap<String, List<Product>> eanMap = new HashMap<>();
@@ -68,12 +77,5 @@ public class ScraperMaster {
             }
         }
         return eanMap;
-    }
-
-    public static void main(String[] args) {
-        ScraperMaster scraperMaster = new ScraperMaster();
-
-        System.out.println(scraperMaster.scrapeProducts());
-
     }
 }

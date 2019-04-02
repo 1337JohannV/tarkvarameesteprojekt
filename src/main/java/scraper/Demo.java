@@ -4,13 +4,18 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import scraper.prisma.PrismaScraper;
 import scraper.prisma.PrismaUrlManager;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Demo {
 
 
+    public static void main(String[] args) {
+        Demo demo = new Demo();
+        System.out.println(demo.getDemoData(Category.PUU_JA_KOOGIVILJAD));
+
+    }
 
     public List<Product> getDemoData(Category category) {
 
@@ -35,33 +40,18 @@ public class Demo {
                 Product product = prismaScraper.getProductFromPage(searchUrl);
                 product.setCategory(category);
                 demoData.add(product);
-                if(count == 0) {
+                if (count == 0) {
 
                     break;
                 }
             }
-            if(count == 0) {
+            if (count == 0) {
                 break;
             }
 
         }
         return demoData;
 
-
-
-
-
-
-
-
-
-
-    }
-
-
-    public static void main(String[] args) {
-        Demo demo = new Demo();
-        System.out.println(demo.getDemoData(Category.PUU_JA_KOOGIVILJAD));
 
     }
 }

@@ -28,8 +28,8 @@ public class AlphabeticalsAndPopularityStrategy implements PrismaCategoryScrapin
             links.add(product.selectFirst("a.js-link-item").attr("href"));
         }
 
-        for (String link: links) {
-            if(!previousLinks.contains(link)) {
+        for (String link : links) {
+            if (!previousLinks.contains(link)) {
                 previousLinks.add(link);
             }
 

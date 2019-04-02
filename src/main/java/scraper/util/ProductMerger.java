@@ -8,12 +8,58 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Currency;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Unit;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ProductMerger {
+
+    public static void main(String[] args) {
+        ProductMerger merger = new ProductMerger();
+        ArrayList<Product> products = new ArrayList<>();
+        Product p1 = new Product();
+        Product p2 = new Product();
+        Product p3 = new Product();
+        Product p4 = new Product();
+        p1.setCategory(Category.JOOGID);
+
+        p3.setCategory(Category.KUIVAINED_HOIDISED);
+        p4.setCategory(Category.KUIVAINED_HOIDISED);
+        p1.setName("juust, farmi");
+        p4.setName("juust, xd");
+        p1.setProducer(null);
+        p2.setProducer(null);
+        p3.setProducer(null);
+        System.out.println(merger.getBestProducer(Arrays.asList(p1, p2, p3)));
+        //p1.setOrigin("Weebcity");
+        products.add(p1);
+        products.add(p2);
+        products.add(p3);
+        products.add(p4);
+        ProductPrice price1 = new ProductPrice();
+        ProductPrice price2 = new ProductPrice();
+        Price p11 = new Price();
+        Price p12 = new Price();
+
+        p11.setCurrency(Currency.EUR);
+        p12.setCurrency(Currency.EUR);
+        p11.setAmount((double) 20);
+        p12.setAmount((double) 10);
+        price1.setRegularPrice(p11);
+        price2.setRegularPrice(p12);
+
+
+        List<ProductPrice> priceslist = new ArrayList<>();
+
+        priceslist.add(price1);
+        priceslist.add(price2);
+
+        price1.setRegularPrice(p11);
+        p1.setProductPrices(priceslist);
+
+        System.out.println(merger.getMinPrice(p1));
+
+
+    }
 
     public Product mergeProducts(String ean, List<Product> products) {
         Product product = new Product();
@@ -115,9 +161,6 @@ public class ProductMerger {
         switch (quantity.getUnit()) {
             case KG:
                 return value * 1000;
-//            case TK: return value;
-//            case G: return value;
-//            case ML: return value;
             case L:
                 return value * 1000;
             case CL:
@@ -151,53 +194,5 @@ public class ProductMerger {
             productPrices.addAll(product.getProductPrices());
         }
         return productPrices;
-    }
-
-    public static void main(String[] args) {
-        ProductMerger merger = new ProductMerger();
-        ArrayList<Product> products = new ArrayList<>();
-        Product p1 = new Product();
-        Product p2 = new Product();
-        Product p3 = new Product();
-        Product p4 = new Product();
-        p1.setCategory(Category.JOOGID);
-
-        p3.setCategory(Category.KUIVAINED_HOIDISED);
-        p4.setCategory(Category.KUIVAINED_HOIDISED);
-        p1.setName("juust, farmi");
-        p4.setName("juust, xd");
-        p1.setProducer(null);
-        p2.setProducer(null);
-        p3.setProducer(null);
-        System.out.println(merger.getBestProducer(Arrays.asList(p1, p2, p3)));
-        //p1.setOrigin("Weebcity");
-        products.add(p1);
-        products.add(p2);
-        products.add(p3);
-        products.add(p4);
-        ProductPrice price1 = new ProductPrice();
-        ProductPrice price2 = new ProductPrice();
-        Price p11 = new Price();
-        Price p12 = new Price();
-
-        p11.setCurrency(Currency.EUR);
-        p12.setCurrency(Currency.EUR);
-        p11.setAmount((double) 20);
-        p12.setAmount((double) 10);
-        price1.setRegularPrice(p11);
-        price2.setRegularPrice(p12);
-
-
-        List<ProductPrice> priceslist = new ArrayList<>();
-
-        priceslist.add(price1);
-        priceslist.add(price2);
-
-        price1.setRegularPrice(p11);
-        p1.setProductPrices(priceslist);
-
-        System.out.println(merger.getMinPrice(p1));
-
-
     }
 }

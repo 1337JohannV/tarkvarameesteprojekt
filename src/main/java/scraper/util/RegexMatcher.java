@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 
 public class RegexMatcher {
 
+    public static final String QUANTITY_PATTERN_MAXIMA = "(\\d+(.\\d+)?)?(kg|g|ml|l|tk|cl)\\b";
     private static final String QUANTITY_PATTERN = "(\\d+(.\\d+)?)?\\s?(kg|g|ml|l|tk|cl)\\b";
     private static final String PRICE_PATTERN = "(\\d+(.\\d+)?)?\\s?(€|eur|\\$|usd)";
     private static final String UNIT_PRICE_PATTERN = "(\\d+(.\\d+)?)?\\s?(€/kg|€/l|€/tk)\\b";
-    public static final String QUANTITY_PATTERN_MAXIMA = "(\\d+(.\\d+)?)?(kg|g|ml|l|tk|cl)\\b";
 
     public static Quantity extractQuantity(String s) {
         Matcher m = Pattern.compile(QUANTITY_PATTERN, Pattern.CASE_INSENSITIVE).matcher(s);
@@ -63,7 +63,7 @@ public class RegexMatcher {
                 } else {
                     price.setAmount(1.0);
                 }
-                if (m.group(3) != null){
+                if (m.group(3) != null) {
                     price.setCurrency(matchCurrency(m.group(3)));
                 }
                 return price;
@@ -84,7 +84,7 @@ public class RegexMatcher {
                 } else {
                     unitPrice.setAmount(1.0);
                 }
-                if (m.group(3) != null){
+                if (m.group(3) != null) {
                     String[] splitString = m.group(3).split("/");
                     unitPrice.setCurrency(matchCurrency(splitString[0]));
                     unitPrice.setPerUnit(matchUnit(splitString[1]));
@@ -99,23 +99,35 @@ public class RegexMatcher {
 
     public static Currency matchCurrency(String s) {
         switch (s.toLowerCase()) {
-            case "€": return Currency.EUR;
-            case "eur": return Currency.EUR;
-            case "$": return Currency.USD;
-            case "usd": return Currency.USD;
-            default: return null;
+            case "€":
+                return Currency.EUR;
+            case "eur":
+                return Currency.EUR;
+            case "$":
+                return Currency.USD;
+            case "usd":
+                return Currency.USD;
+            default:
+                return null;
         }
     }
 
     public static Unit matchUnit(String s) {
-        switch(s.toLowerCase()) {
-            case "kg": return Unit.KG;
-            case "g": return Unit.G;
-            case "l": return Unit.L;
-            case "ml": return Unit.ML;
-            case "tk": return Unit.TK;
-            case "cl": return Unit.CL;
-            default: return null;
+        switch (s.toLowerCase()) {
+            case "kg":
+                return Unit.KG;
+            case "g":
+                return Unit.G;
+            case "l":
+                return Unit.L;
+            case "ml":
+                return Unit.ML;
+            case "tk":
+                return Unit.TK;
+            case "cl":
+                return Unit.CL;
+            default:
+                return null;
         }
     }
 

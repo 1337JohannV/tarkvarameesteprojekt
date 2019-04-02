@@ -2,12 +2,10 @@ package com.tarkvaramehed.projekt.tarkvarameesteprojekt.init;
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository.ProductService;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
-import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import scraper.ScraperMaster;
-import scraper.selver.SelverScraper;
 
 import java.util.List;
 

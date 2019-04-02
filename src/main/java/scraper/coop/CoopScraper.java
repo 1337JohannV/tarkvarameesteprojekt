@@ -12,18 +12,18 @@ public class CoopScraper implements Scraper {
 
     DocumentManager dm = new DocumentManager();
 
+    public static void main(String[] args) {
+        CoopScraper cs = new CoopScraper();
+    }
+
     @Override
     public List<Product> getProducts() {
         return null;
     }
 
-    public Document getDoc(String url){
+    public Document getDoc(String url) {
         return dm.getDocument(url);
 
-    }
-
-    public static void main(String[] args) {
-        CoopScraper cs = new CoopScraper();
     }
 
     @Override
@@ -35,7 +35,6 @@ public class CoopScraper implements Scraper {
     public List<Product> getDemoData(Category category) {
         return null;
     }
-
 
 
 }

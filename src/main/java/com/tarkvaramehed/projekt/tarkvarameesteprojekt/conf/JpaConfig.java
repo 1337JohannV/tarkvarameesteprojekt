@@ -67,7 +67,6 @@ public class JpaConfig {
     }
 
 
-
     @Bean
     public SelverScraper selverScraper() {
         return new SelverScraper();

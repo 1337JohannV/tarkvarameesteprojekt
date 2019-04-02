@@ -4,6 +4,7 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Price;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.ProductPrice;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Quantity;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Currency;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Unit;
@@ -17,12 +18,40 @@ import java.util.List;
 
 public class MaximaScraper implements Scraper {
 
+    private DocumentManager documentManager = new DocumentManager();
+
+    @Override
+    public List<Product> getDemoData(Category category) {
+        return null;
+    }
+
+    @Override
+    public Product getProductFromPage(String url) {
+        return null;
+    }
+
+    public static void main(String[] args) {
+        MaximaScraper scraper = new MaximaScraper();
+
+        Document doc = scraper.documentManager.getDocument("https://www.barbora.ee/toode/salat-potis-tk");
+        //System.out.println(scraper.getName(doc));
+        //System.out.println(scraper.getOrigin(doc));
+        //System.out.println(scraper.getProducer(doc));
+        //System.out.println(scraper.createProduct(doc));
+        // System.out.println(scraper.getImgUrl(doc));
+
+        System.out.println(scraper.getProductQuantity(doc));
+        //System.out.println(RegexMatcher.extractQuantity("Salat potis, tk"),RegexMatcher.QUANTITY_PATTERN);
+        System.out.println(RegexMatcher.extractQuantity("Alk.vaba õlu SAKU GO 0.5L, prk"));
+        System.out.println(scraper.createProduct(doc));
+
+        //"https://www.barbora.ee/toode/alk-vaba-olu-saku-go-0-5-l-prk"
+    }
 
     @Override
     public List<Product> getProducts() {
         return null;
     }
-
 
     public String getName(Document doc) {
 
@@ -53,7 +82,6 @@ public class MaximaScraper implements Scraper {
     public String getProductUrl(Document doc) {
         return doc.location();
     }
-
 
     public Quantity getProductQuantity(Document doc) {
 
@@ -98,7 +126,7 @@ public class MaximaScraper implements Scraper {
             return q;
         } else {
             // GETS QUANTITY AMOUNT FROM NAME
-            return RegexMatcher.extractQuantity(getName(doc).toLowerCase(), RegexMatcher.QUANTITY_PATTERN_MAXIMA);
+            return RegexMatcher.extractQuantity(getName(doc).toLowerCase());
         }
 
     }
@@ -123,24 +151,5 @@ public class MaximaScraper implements Scraper {
         product.setImgUrl(getImgUrl(doc));
         product.setQuantity(getProductQuantity(doc));
         return product;
-    }
-
-
-    public static void main(String[] args) {
-        MaximaScraper scraper = new MaximaScraper();
-
-        Document doc = DocumentManager.getDocument("https://www.barbora.ee/toode/salat-potis-tk");
-        //System.out.println(scraper.getName(doc));
-        //System.out.println(scraper.getOrigin(doc));
-        //System.out.println(scraper.getProducer(doc));
-        //System.out.println(scraper.createProduct(doc));
-        // System.out.println(scraper.getImgUrl(doc));
-
-        System.out.println(scraper.getProductQuantity(doc));
-        //System.out.println(RegexMatcher.extractQuantity("Salat potis, tk"),RegexMatcher.QUANTITY_PATTERN);
-        System.out.println(RegexMatcher.extractQuantity("Alk.vaba õlu SAKU GO 0.5L, prk", RegexMatcher.QUANTITY_PATTERN_MAXIMA));
-        System.out.println(scraper.createProduct(doc));
-
-        //"https://www.barbora.ee/toode/alk-vaba-olu-saku-go-0-5-l-prk"
     }
 }

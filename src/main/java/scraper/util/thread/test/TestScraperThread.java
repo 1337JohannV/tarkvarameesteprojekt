@@ -5,7 +5,6 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import scraper.Scraper;
 import scraper.util.thread.ScraperThread;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class TestScraperThread extends ScraperThread {
