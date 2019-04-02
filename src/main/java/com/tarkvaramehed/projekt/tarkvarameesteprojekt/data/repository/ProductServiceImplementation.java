@@ -23,9 +23,7 @@ public class ProductServiceImplementation implements ProductService  {
 
     @Override
     public List<Product> findProductsByCategory(Category category) {
-        List<Product> products = new ArrayList<>();
-        productRepository.findProductByCategory(category).forEach(products::add);
-        return products;
+        return productRepository.findProductsByCategory(category);
     }
 
     @Override

@@ -23,6 +23,8 @@ import java.util.List;
 
 public class PrismaScraper implements Scraper {
 
+    private final DocumentManager documentManager = new DocumentManager();
+
     @Override
     public List<Product> getProducts() {
         List<Product> products = new ArrayList<>();
@@ -55,9 +57,9 @@ public class PrismaScraper implements Scraper {
     }
 
     public List<String> getProductUrlsFromCategory(String url) {
-        Document doc = DocumentManager.getDocument(url);
+        Document doc = documentManager.getDocument(url);
         PrismaCategoryScrapingStrategy strat = selectStrategy(doc);
-        return strat.getProductUrlsFromCategory(url);
+        return strat.getProductUrlsFromCategory(url, documentManager);
     }
 
     public List<Product> scrapeCategory(Category cat) {
@@ -115,8 +117,8 @@ public class PrismaScraper implements Scraper {
         return doc.getElementsByClass("js-quantity").first().text();
     }
 
-    public Product getProductDetails(String url) {
-        Document doc = DocumentManager.getDocument(url);
+    private Product getProductDetails(String url) {
+        Document doc = documentManager.getDocument(url);
 
         String producer = doc.getElementById("product-subname").text();
         String productName = doc.getElementById("product-name").text();
@@ -145,6 +147,16 @@ public class PrismaScraper implements Scraper {
 
         System.out.println(product);
         return product;
+    }
+
+    @Override
+    public List<Product> getDemoData(Category category) {
+        return scrapeCategory(category);
+    }
+
+    @Override
+    public Product getProductFromPage(String url) {
+        return getProductDetails(url);
     }
 
     public static void main(String[] args) {

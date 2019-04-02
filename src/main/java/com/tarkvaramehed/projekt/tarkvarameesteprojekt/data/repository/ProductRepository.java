@@ -15,8 +15,9 @@ import java.util.List;
 public interface ProductRepository extends CrudRepository<Product, Long>,
         PagingAndSortingRepository<Product, Long> {
 
-    @Query("select p from Product p where p.category=:category")
-    Iterable<Product> findProductByCategory(@Param("category") Category category);
 
     List<Product> findAllByCategory(Category category, Pageable pageable);
+
+    List<Product> findProductsByCategory(Category category);
+
 }

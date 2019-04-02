@@ -10,7 +10,7 @@ public class DocumentManager {
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0";
     private static final String REFERRERER = "http://www.google.com";
 
-    public static Document getDocument(String url) {
+    public Document getDocument(String url) {
         try {
             return Jsoup.connect(url)
                     .ignoreContentType(true)

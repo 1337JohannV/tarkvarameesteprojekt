@@ -32,7 +32,7 @@ public class Demo {
                 count--;
 
                 String searchUrl = "https://www.prismamarket.ee" + productUrl;
-                Product product = prismaScraper.getProductDetails(searchUrl);
+                Product product = prismaScraper.getProductFromPage(searchUrl);
                 product.setCategory(category);
                 demoData.add(product);
                 if(count == 0) {

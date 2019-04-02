@@ -19,7 +19,8 @@ import java.util.stream.Stream;
 
 public class SelverScraper implements Scraper {
 
-    private final SelverUrlManager urlManager = new SelverUrlManager("24");
+    private final SelverUrlManager urlManager = new SelverUrlManager("96");
+    private final DocumentManager documentManager = new DocumentManager();
 
     @Override
     public List<Product> getProducts() {
@@ -31,7 +32,7 @@ public class SelverScraper implements Scraper {
 
     private Stream<Product> getProductsFromCategory(Category category) {
          return IntStream.rangeClosed(1, getPageCount(urlManager.buildCategoryUrl(category)))
-                 .mapToObj(i -> getProductPages(DocumentManager.getDocument(urlManager.buildCategoryUrl(category, i))))
+                 .mapToObj(i -> getProductPages(documentManager.getDocument(urlManager.buildCategoryUrl(category, i))))
                  .flatMap(Function.identity())
                  .map(this::scrapeProductPage)
                  .peek(p -> p.setCategory(category))
@@ -40,7 +41,7 @@ public class SelverScraper implements Scraper {
 
     private int getPageCount(String url) {
         return Integer.parseInt(
-                DocumentManager.getDocument(url)
+                documentManager.getDocument(url)
                         .selectFirst("ol.pagination")
                         .selectFirst("a.last")
                         .html()
@@ -55,7 +56,7 @@ public class SelverScraper implements Scraper {
     }
 
     private Product scrapeProductPage(String url) {
-        Document doc = DocumentManager.getDocument(url);
+        Document doc = documentManager.getDocument(url);
         Product product = new Product();
         ProductPrice productPrice = new ProductPrice();
         product.setName(doc.selectFirst("div.page-title h1").html());
@@ -81,7 +82,7 @@ public class SelverScraper implements Scraper {
         if (tableData.containsKey("ribakood")) {
             product.setEan(tableData.get("ribakood"));
         }
-        if (tableData.containsKey("tootja") && !tableData.get("tootja").equals("määramata")) {
+        if (tableData.containsKey("tootja") && !tableData.get("tootja").toLowerCase().equals("määramata")) {
             product.setProducer(tableData.get("tootja"));
         }
         if (tableData.containsKey("päritolumaa")) {
@@ -109,7 +110,7 @@ public class SelverScraper implements Scraper {
     @Deprecated
     private List<Product> simpleCategoryScraper(String url) {
         List<Product> products = new ArrayList<>();
-        getProductPages(DocumentManager.getDocument(String.format(url, 1)))
+        getProductPages(documentManager.getDocument(String.format(url, 1)))
                 .parallel()
                 .forEach(u -> products.add(scrapeProductPage(u)));
         return products;
@@ -136,12 +137,19 @@ public class SelverScraper implements Scraper {
         return products;
     }
 
+    @Override
+    public List<Product> getDemoData(Category category) {
+        return getProductsFromCategory(category).collect(Collectors.toList());
+    }
+
+    @Override
+    public Product getProductFromPage(String url) {
+        return scrapeProductPage(url);
+    }
 
     public static void main(String[] args) {
         SelverScraper scraper = new SelverScraper();
         SelverUrlManager urlM = new SelverUrlManager("24");
-        System.out.println(
-                scraper.getPageCount(urlM.buildCategoryUrl(Category.LIHA_JA_KALA))
-        );
+                scraper.getProducts();
     }
 }
