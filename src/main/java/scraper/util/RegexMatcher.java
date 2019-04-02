@@ -11,12 +11,13 @@ import java.util.regex.Pattern;
 
 public class RegexMatcher {
 
-    private static final String QUANTITY_PATTERN = "(\\d+(.\\d+)?)?\\s(kg|g|ml|l|tk|cl)\\b";
+    public static final String QUANTITY_PATTERN = "(\\d+(.\\d+)?)?\\s(kg|g|ml|l|tk|cl)\\b";
     private static final String PRICE_PATTERN = "(\\d+(.\\d+)?)?\\s*(€|eur|\\$|usd)";
     private static final String UNIT_PRICE_PATTERN = "(\\d+(.\\d+)?)?\\s*(€/kg|€/l|€/tk)\\b";
+    public static final String QUANTITY_PATTERN_MAXIMA = "(\\d+(.\\d+)?)?(kg|g|ml|l|tk|cl)\\b";
 
-    public static Quantity extractQuantity(String s) {
-        Matcher m = Pattern.compile(QUANTITY_PATTERN, Pattern.CASE_INSENSITIVE).matcher(s);
+    public static Quantity extractQuantity(String s,String pattern) {
+        Matcher m = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(s);
         try {
             if (m.find()) {
                 Quantity quantity = new Quantity();
@@ -118,10 +119,12 @@ public class RegexMatcher {
         }
     }
 
+
+
     public static void main(String[] args) {
         Price price = extractPrice("3,59 €");
         UnitPrice unitPrice = extractUnitPrice("0.120 kg 12,92 €/kg");
-        Quantity quantity = extractQuantity("Liviko Laua viin 50 cl");
+        Quantity quantity = extractQuantity("Liviko Laua viin 50 cl",RegexMatcher.QUANTITY_PATTERN);
 
         System.out.println(price);
         System.out.println(unitPrice);
