@@ -7,12 +7,12 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Unit;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import scraper.Scraper;
 import scraper.util.DocumentManager;
 import scraper.util.RegexMatcher;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -23,13 +23,31 @@ public class MaximaScraper implements Scraper {
 
     @Override
     public List<Product> getProducts() {
-        return null;
+
+        long t1 = System.currentTimeMillis();
+        List<Product> products = new ArrayList<>();
+
+        ArrayList<Category> categories = new ArrayList<>(Arrays.asList(Category.values()));
+        categories.remove(Category.UNKNOWN);
+
+        for (Category c : categories) {
+            List<Product> productsFromCategory = scrapeCategory(c);
+            products.addAll(productsFromCategory);
+        }
+        long t2 = System.currentTimeMillis();
+
+        System.out.println((t2 - t1) / 1000);
+        System.out.println("TOTAL TIME ELAPSED SCRAPING ALL CATEGORIES (S)");
+        System.out.println(products.size());
+        System.out.println("AMOUNT OF PRODUCTS FROM ALL CATEGORIES");
+
+        return products;
     }
 
 
     @Override
     public List<Product> getDemoData(Category category) {
-        return null;
+        return scrapeCategory(category);
     }
 
     @Override
@@ -37,6 +55,32 @@ public class MaximaScraper implements Scraper {
         Document doc = documentManager.getDocument(url);
         return createProduct(doc);
     }
+
+    private List<Product> scrapeCategory(Category category) {
+        long t1 = System.currentTimeMillis();
+        List<Product> products = new ArrayList<>();
+        List<String> subCatUrls = MaximaUrlManager.getSubCatUrls(category);
+        List<String> productUrls = new ArrayList<>();
+
+        assert subCatUrls != null;
+
+        for (String url : subCatUrls) {
+            productUrls.addAll(getProductUrlsFromPage(url));
+        }
+        for (String url : productUrls) {
+            Product product = getProductFromPage(url);
+            product.setCategory(category);
+            products.add(product);
+        }
+
+        long t2 = System.currentTimeMillis();
+        System.out.println((t2 - t1) / 1000);
+        System.out.println("TIME ELAPSED (S)");
+        System.out.println(products.size());
+        System.out.println("AMOUNT OF PRODUCTS");
+        return products;
+    }
+
 
     private String getName(Document doc) {
 
@@ -101,20 +145,37 @@ public class MaximaScraper implements Scraper {
         if (doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().contains("Netokogus (g/ml):")
                 && doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().contains("Tarnija kontaktid:")) {
 
-            q.setValue(Double.parseDouble(doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0)
-                    .text().split("Netokogus")[1].split(":")[1].split("Tarnija kontaktid")[0].split("Kaubamärk")[0]));
+            String amount = doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0)
+                    .text().split("Netokogus")[1].split(":")[1].split("Tarnija kontaktid")[0].split("Kaubamärk")[0];
 
-            return q;
+            if (amount.contains(",")) {
+                String amount2 = amount.replace(",", ".");
+                q.setValue(Double.parseDouble(amount2));
+
+            } else {
+
+                q.setValue(Double.parseDouble(amount));
+
+                return q;
+            }
 
         } else if (doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().contains("Netokogus (g/ml):") &&
                 doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().contains("Tarnija:")) {
-            q.setValue(Double.parseDouble(doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().split("Netokogus")[1].split(":")[1].split("Tarnija")[0]));
-            return q;
+            String amount = doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().split("Netokogus")[1].split(":")[1].split("Tarnija")[0]
+                    .split("Kaubamärk")[0];
+            if (amount.contains(",")) {
+                String amount2 = amount.replace(",", ".");
+                q.setValue(Double.parseDouble(amount2));
+            } else if (!amount.contains(",")) {
+                q.setValue(Double.parseDouble(amount));
+                return q;
+            }
         } else {
 
             // GETS QUANTITY FROM NAME
             return RegexMatcher.extractQuantity(getName(doc).toLowerCase());
         }
+        return null;
 
     }
 
@@ -134,12 +195,18 @@ public class MaximaScraper implements Scraper {
         unit.setCurrency(Currency.EUR);
         if (unitPrice.contains("Taara")) {
             List<Element> elements = doc.getElementsByClass("b-product-price--extra").get(0).children();
-            String unitPriceDrinks = elements.get(elements.size()-1).text();
+            String unitPriceDrinks = elements.get(elements.size() - 1).text();
             unit.setAmount(Double.parseDouble(unitPriceDrinks.split("€")[1].split("/")[0]));
             unit.setPerUnit(RegexMatcher.matchUnit(unitPriceDrinks.split("/")[1]));
+        } else if (unitPrice.contains(" ")) {
+            String unitPrice2 = unitPrice.replace(" ", "");
+            unit.setAmount(Double.parseDouble(unitPrice2.split("€")[1].split("/")[0]));
+            unit.setPerUnit(RegexMatcher.matchUnit(unitPrice2.split("/")[1]));
+
         } else {
-        unit.setAmount(Double.parseDouble(unitPrice.split("€")[1].split("/")[0]));
-        unit.setPerUnit(RegexMatcher.matchUnit(unitPrice.split("/")[1]));}
+            unit.setAmount(Double.parseDouble(unitPrice.split("€")[1].split("/")[0]));
+            unit.setPerUnit(RegexMatcher.matchUnit(unitPrice.split("/")[1]));
+        }
 
         pp.setUnitPrice(unit);
 
@@ -179,26 +246,26 @@ public class MaximaScraper implements Scraper {
         Document doc = documentManager.getDocument(url);
 
         int pages = 0;
-        for (Element n :doc.getElementsByClass("pagination").get(0).children()) {
-            if(Character.isDigit(n.text().charAt(0))){
-                if(pages < Integer.parseInt(n.text())) {
+
+        for (Element n : doc.getElementsByClass("pagination").get(0).children()) {
+            if (Character.isDigit(n.text().charAt(0))) {
+
+                if (pages < Integer.parseInt(n.text())) {
                     pages = Integer.parseInt(n.text());
                 }
             }
         }
 
+
         List<String> urls = new ArrayList<>();
         for (int i = 1; i <= pages; i++) {
             Document doc2 = documentManager.getDocument(url + "?page=" + i);
 
-            for (Element n: doc2.getElementsByClass("b-product-title b-product-title--desktop b-link--product-info")) {
-                urls.add(baseUrl+ n.attr("href"));
+            for (Element n : doc2.getElementsByClass("b-product-title b-product-title--desktop b-link--product-info")) {
+                urls.add(baseUrl + n.attr("href"));
 
             }
         }
-
-
-        System.out.println(urls.size());
 
         return urls;
 
@@ -218,22 +285,17 @@ public class MaximaScraper implements Scraper {
         List<ProductPrice> prices = new ArrayList<>();
         prices.add(getPrice(doc));
         product.setProductPrices(prices);
+
+        //System.out.println(product.getName());
+
         return product;
     }
 
 
     public static void main(String[] args) {
         MaximaScraper scraper = new MaximaScraper();
-        DocumentManager documentManager = new DocumentManager();
 
-        Document doc = documentManager.getDocument("https://www.barbora.ee/toode/alk-vaba-olu-saku-go-0-5-l-prk");
+        scraper.getProducts();
 
-
-        System.out.println(scraper.createProduct(doc));
-
-        Document doc2 = documentManager.getDocument("https://www.barbora.ee/leivad-saiad-kondiitritooted");
-        //System.out.println(scraper.getProductUrlsFromPage("https://www.barbora.ee/leivad-saiad-kondiitritooted"));
-
-        //"https://www.barbora.ee/toode/alk-vaba-olu-saku-go-0-5-l-prk"
     }
 }
