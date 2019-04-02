@@ -1,6 +1,7 @@
 package scraper.maxima;
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.*;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Currency;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Unit;
@@ -17,6 +18,8 @@ import java.util.List;
 
 public class MaximaScraper implements Scraper {
 
+    private DocumentManager documentManager = new DocumentManager();
+
 
     @Override
     public List<Product> getProducts() {
@@ -24,17 +27,28 @@ public class MaximaScraper implements Scraper {
     }
 
 
-    public String getName(Document doc) {
+    @Override
+    public List<Product> getDemoData(Category category) {
+        return null;
+    }
+
+    @Override
+    public Product getProductFromPage(String url) {
+        Document doc = documentManager.getDocument(url);
+        return createProduct(doc);
+    }
+
+    private String getName(Document doc) {
 
         return doc.getElementsByClass("b-product-info--title").get(0).text();
 
     }
 
-    public String getOrigin(Document doc) {
+    private String getOrigin(Document doc) {
         return doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().split(" ", 3)[1];
     }
 
-    public String getProducer(Document doc) {
+    private String getProducer(Document doc) {
         if (doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().contains("Kaubamärk:")) {
             return doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().split("Kaubamärk:")[1].split("Tarnija kontaktid:")[0];
         } else if (doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().contains("Tarnija kontaktid:")) {
@@ -44,18 +58,18 @@ public class MaximaScraper implements Scraper {
         }
     }
 
-    public String getImgUrl(Document doc) {
+    private String getImgUrl(Document doc) {
 
         return doc.getElementsByClass("b-carousel--slide").get(0).child(0).absUrl("src");
 
     }
 
-    public String getProductUrl(Document doc) {
+    private String getProductUrl(Document doc) {
         return doc.location();
     }
 
 
-    public Quantity getProductQuantity(Document doc) {
+    private Quantity getProductQuantity(Document doc) {
 
         String name = getName(doc);
 
@@ -99,12 +113,12 @@ public class MaximaScraper implements Scraper {
         } else {
 
             // GETS QUANTITY FROM NAME
-            return RegexMatcher.extractQuantity(getName(doc).toLowerCase(), RegexMatcher.QUANTITY_PATTERN_MAXIMA);
+            return RegexMatcher.extractQuantity(getName(doc).toLowerCase());
         }
 
     }
 
-    public ProductPrice getPrice(Document doc) {
+    private ProductPrice getPrice(Document doc) {
 
         ProductPrice pp = new ProductPrice();
 
@@ -118,8 +132,14 @@ public class MaximaScraper implements Scraper {
 
         UnitPrice unit = new UnitPrice();
         unit.setCurrency(Currency.EUR);
+        if (unitPrice.contains("Taara")) {
+            List<Element> elements = doc.getElementsByClass("b-product-price--extra").get(0).children();
+            String unitPriceDrinks = elements.get(elements.size()-1).text();
+            unit.setAmount(Double.parseDouble(unitPriceDrinks.split("€")[1].split("/")[0]));
+            unit.setPerUnit(RegexMatcher.matchUnit(unitPriceDrinks.split("/")[1]));
+        } else {
         unit.setAmount(Double.parseDouble(unitPrice.split("€")[1].split("/")[0]));
-        unit.setPerUnit(RegexMatcher.matchUnit(unitPrice.split("/")[1]));
+        unit.setPerUnit(RegexMatcher.matchUnit(unitPrice.split("/")[1]));}
 
         pp.setUnitPrice(unit);
 
@@ -150,13 +170,13 @@ public class MaximaScraper implements Scraper {
 
     }
 
-    public List<String> getProductUrlsFromPage(String url) {
+    private List<String> getProductUrlsFromPage(String url) {
 
         //Gets the amount of pages for the category.
 
         String baseUrl = "https://www.barbora.ee";
 
-        Document doc = DocumentManager.getDocument(url);
+        Document doc = documentManager.getDocument(url);
 
         int pages = 0;
         for (Element n :doc.getElementsByClass("pagination").get(0).children()) {
@@ -169,7 +189,7 @@ public class MaximaScraper implements Scraper {
 
         List<String> urls = new ArrayList<>();
         for (int i = 1; i <= pages; i++) {
-            Document doc2 = DocumentManager.getDocument(url + "?page=" + i);
+            Document doc2 = documentManager.getDocument(url + "?page=" + i);
 
             for (Element n: doc2.getElementsByClass("b-product-title b-product-title--desktop b-link--product-info")) {
                 urls.add(baseUrl+ n.attr("href"));
@@ -185,7 +205,7 @@ public class MaximaScraper implements Scraper {
 
     }
 
-    public Product createProduct(Document doc) {
+    private Product createProduct(Document doc) {
 
         //NO EAN available on site.
 
@@ -204,13 +224,15 @@ public class MaximaScraper implements Scraper {
 
     public static void main(String[] args) {
         MaximaScraper scraper = new MaximaScraper();
+        DocumentManager documentManager = new DocumentManager();
 
-        Document doc = DocumentManager.getDocument("https://www.barbora.ee/toode/kabatsokk-kg");
+        Document doc = documentManager.getDocument("https://www.barbora.ee/toode/alk-vaba-olu-saku-go-0-5-l-prk");
+
 
         System.out.println(scraper.createProduct(doc));
 
-        Document doc2 = DocumentManager.getDocument("https://www.barbora.ee/leivad-saiad-kondiitritooted");
-        System.out.println(scraper.getProductUrlsFromPage("https://www.barbora.ee/leivad-saiad-kondiitritooted"));
+        Document doc2 = documentManager.getDocument("https://www.barbora.ee/leivad-saiad-kondiitritooted");
+        //System.out.println(scraper.getProductUrlsFromPage("https://www.barbora.ee/leivad-saiad-kondiitritooted"));
 
         //"https://www.barbora.ee/toode/alk-vaba-olu-saku-go-0-5-l-prk"
     }
