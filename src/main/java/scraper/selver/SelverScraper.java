@@ -60,7 +60,7 @@ public class SelverScraper implements Scraper {
         Product product = new Product();
         ProductPrice productPrice = new ProductPrice();
         product.setName(doc.selectFirst("div.page-title h1").html());
-        product.setQuantity(RegexMatcher.extractQuantity(product.getName()));
+        product.setQuantity(RegexMatcher.extractQuantity(product.getName(), RegexMatcher.QUANTITY_PATTERN));
         Element priceBox = doc.selectFirst("div.price-box span.price");
         Element offer = doc.selectFirst("div[itemprop=offers]");
         productPrice.setStore(Store.SELVER);

@@ -132,7 +132,7 @@ public class PrismaScraper implements Scraper {
         product.setName(productName);
         product.setEan(ean);
         product.setOrigin(getOrigin(doc));
-        product.setQuantity(RegexMatcher.extractQuantity(getQuantity(doc)));
+        product.setQuantity(RegexMatcher.extractQuantity(getQuantity(doc), RegexMatcher.QUANTITY_PATTERN));
         product.setImgUrl(getProductImgUrl(doc));
 
         price.setAmount(getPrice(doc));
