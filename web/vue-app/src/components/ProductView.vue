@@ -14,7 +14,8 @@
                     </p>
                 </div>
                     <div id="productImageContainer">
-                        <img id="productImage"  v-bind:src="products[p-1].imgUrl" alt="Toode" height="100" width="100" v-on:click.prevent="showInfo(p-1)">
+                        <img id="productImage" v-if="products[p-1].imgUrl != 'NO IMAGE SET'" v-bind:src="products[p-1].imgUrl" alt="Toode" v-on:click.prevent="showInfo(p-1)">
+                        <img id="productImage" v-else src="https://static1.squarespace.com/static/56eddde762cd9413e151ac92/t/570cb89a5bd33022b93a1ecb/1460466676034/copyright1.jpg" alt="Toode" v-on:click.prevent="showInfo(p-1)">
                     </div>
             </div>
         </div>
@@ -57,7 +58,8 @@
                     </div>
                     </div>
                     <div id="modalPicture">
-                        <img id="productImage"  v-bind:src="products[this.currentProduct].imgUrl" alt="Toode" height="100" width="100">
+                        <img id="productImage" v-if="products[this.currentProduct].imgUrl != 'NO IMAGE SET'" v-bind:src="products[this.currentProduct].imgUrl" alt="Toode" height="100" width="100">
+                        <img id="productImage" v-else src="https://static1.squarespace.com/static/56eddde762cd9413e151ac92/t/570cb89a5bd33022b93a1ecb/1460466676034/copyright1.jpg" alt="Toode">
                     </div>
                 
                 </div>
@@ -163,7 +165,6 @@ export default {
         },
         showInfo(p){
             this.currentProduct = p;
-            console.log(this.products[p]);
             this.infoShow = true;
         },
         hideInfo(){
@@ -252,13 +253,36 @@ export default {
         },
 
         filter: function(){
-            if(this.currentCategory != this.filter){
-                this.filterbyCategory(this.filter);
+            console.log(this.filter)
+            if(this.filter == "KOIK"){
+
+                address = 'http://localhost:8080/products/0/24/name/asc';
+                this.currentCategory = null;
+                this.currentPage = 0;
+                this.currentSearch = "";
+                const request = async() => {
+                    const response = await fetch(address);
+                    const json = await response.json();
+                    this.products = json;
+                    this.end = this.products.length;
+                    this.$emit("stateNext", true);
+                    this.$emit("statePrevious", false);
+            }
+
+            request();
+                
+
+            } else if(this.filter != null){
+                if(this.currentCategory != this.filter){
+                  this.filterbyCategory(this.filter);
+                }
             }
         },
         search: function(){
-            if(this.currentSearch != this.search){
-                this.filterBySearch(this.search);
+            if(this.search != ""){
+                if(this.currentSearch != this.search){
+                    this.filterBySearch(this.search);
+                }
             }
         }
     }

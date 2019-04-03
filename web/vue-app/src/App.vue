@@ -2,7 +2,7 @@
     <div id=app>
       <TopBar @search="filterBySearch"/>
       <div id="products">
-        <FilterBar @category="filterByCategory"/>
+        <FilterBar :noFilter="filter" @category="filterByCategory"/>
         <ProductView :cycle="currentPage" :filter="currentCat" :search="currentSearch" @statePrevious="statePrev" @stateNext="stateNext"/>
       </div>
       <div id="footer">
@@ -31,6 +31,7 @@ export default {
       currentCat: null,
       enablePrevious: false,
       enableNext: true,
+      filter:false
     };
   },
   methods: {
@@ -52,8 +53,13 @@ export default {
     filterByCategory(category){
       this.currentPage = 0;
       this.currentCat = category;
+      this.currentSearch = "";
+      this.filter = false;
+
     },
     filterBySearch(search){
+      this.filter = true;
+      this.currentCat = null
       this.currentPage = 0;
       this.currentSearch = search;
     }
