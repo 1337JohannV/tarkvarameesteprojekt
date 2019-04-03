@@ -20,7 +20,7 @@ public interface ProductRepository extends CrudRepository<Product, Long>,
 
     List<Product> findProductsByCategory(Category category);
 
-    @Query(value = "SELECT PRODUCT.* FROM PRODUCT, PRODUCT_PRODUCTPRICES WHERE PRODUCT_PRODUCTPRICES.PRODUCT_ID = PRODUCT.ID",
+    @Query(value = "SELECT PRODUCT.* FROM PRODUCT, PRODUCT_PRODUCTPRICES WHERE PRODUCT_PRODUCTPRICES.PRODUCT_ID = PRODUCT.ID AND store",
             nativeQuery = true)
     List<Product> findByStore(Store store);
 }

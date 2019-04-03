@@ -27,12 +27,14 @@ public class SelverScraper implements Scraper {
 
     public static void main(String[] args) {
         SelverScraper scraper = new SelverScraper();
-        scraper.getProducts();
+        //scraper.getProducts();
     }
 
     @Override
     public List<Product> getProducts() {
-        return Arrays.stream(Category.values())
+        ArrayList<Category> categories = new ArrayList<>(Arrays.asList(Category.values()));
+        categories.remove(Category.UNKNOWN);
+        return categories.stream()
                 .map(this::getProductsFromCategory)
                 .flatMap(Function.identity())
                 .collect(Collectors.toList());
@@ -48,12 +50,38 @@ public class SelverScraper implements Scraper {
     }
 
     private int getPageCount(String url) {
-        return Integer.parseInt(
-                documentManager.getDocument(url)
-                        .selectFirst("ol.pagination")
-                        .selectFirst("a.last")
-                        .html()
+
+        System.out.println(documentManager.getDocument(url)
+                .selectFirst("ol.pagination")
+                .selectFirst("a.last")
         );
+
+
+        if (documentManager.getDocument(url).getElementsByClass("pagination").toString().contains("last")) {
+
+
+            return Integer.parseInt(
+
+                    documentManager.getDocument(url)
+
+                            .selectFirst("ol.pagination")
+                            .selectFirst("a.last")
+                            .html()
+            );
+        } else {
+            int pages = 0;
+            for (Element e : documentManager.getDocument(url).getElementsByClass("pagination").get(1).children()) {
+                if (!e.text().equals("") && Character.isDigit(e.text().charAt(0))) {
+                    if (Integer.parseInt(e.text()) > pages) {
+                        pages = Integer.parseInt(e.text());
+                    }
+                }
+
+            }
+            return pages;
+        }
+
+
     }
 
     private Stream<String> getProductPages(Document doc) {
@@ -155,3 +183,5 @@ public class SelverScraper implements Scraper {
         return scrapeProductPage(url);
     }
 }
+
+

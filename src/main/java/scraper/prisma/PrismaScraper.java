@@ -28,22 +28,16 @@ public class PrismaScraper implements Scraper {
     public static void main(String[] args) {
         PrismaScraper prismaScraper = new PrismaScraper();
         System.out.println(prismaScraper.getDemoData(Category.JOOGID));
-        //prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/pom-bel-ouna-mango-puuviljamiks--4x100-g/8437010537165");
 
-        //System.out.println(PrismaUrlManager.getSubCatUrls(Category.PUU_JA_KOOGIVILJAD));
-        //System.out.println(prismaScraper.scrapeCategory(Category.PUU_JA_KOOGIVILJAD));
-        // System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/viinamari-victoria--i-klass/2060460600002"));
-        //System.out.println(prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/ananass/2060490100008"));
-        //System.out.println(prismaScraper.getProductUrlsFromCategory("https://www.prismamarket.ee/products/17097"));\
-        // prismaScraper.getProducts();
-        //System.out.println(DocumentManager.getDocument("https://ecoop.ee/et/kategooriad/kuivained-kastmed/"));
 
     }
 
     @Override
     public List<Product> getProducts() {
         List<Product> products = new ArrayList<>();
-        for (Category c : Category.values()) {
+        ArrayList<Category> categories = new ArrayList<>(Arrays.asList(Category.values()));
+        categories.remove(Category.UNKNOWN);
+        for (Category c : categories) {
             List<Product> productsFromCategory = scrapeCategory(c);
             productsFromCategory.forEach(p -> p.setCategory(c));
             products.addAll(productsFromCategory);
@@ -192,7 +186,7 @@ public class PrismaScraper implements Scraper {
     @Override
     public List<Product> getDemoData(Category category) {
 
-        int amount = 20;
+        int amount = 40;
         List<Product> demoData = new ArrayList<>();
         ArrayList<Category> categories = new ArrayList<>(Arrays.asList(Category.values()));
         categories.remove(Category.UNKNOWN);

@@ -48,7 +48,7 @@ public class MaximaScraper implements Scraper {
     @Override
     public List<Product> getDemoData(Category category) {
 
-        int amount = 10;
+        int amount = 40;
         List<Product> demoData = new ArrayList<>();
         ArrayList<Category> categories = new ArrayList<>(Arrays.asList(Category.values()));
         System.out.println("DUPLICATE");
@@ -325,6 +325,9 @@ public class MaximaScraper implements Scraper {
             List<ProductPrice> prices = new ArrayList<>();
             prices.add(getPrice(doc));
             product.setProductPrices(prices);
+
+
+            System.out.println(product);
 
 
             return product;

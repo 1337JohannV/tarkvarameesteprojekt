@@ -25,9 +25,12 @@ public class ScraperMaster {
 
     public List<Product> scrapeProducts() {
 
-        ScraperThread prismaThread = new TestScraperThread(new PrismaScraper(), "https://www.prismamarket.ee/entry/4740036009498");
-        ScraperThread selverThread = new TestScraperThread(new SelverScraper(), "https://www.selver.ee/hapukoor-20-tere-330-g");
-        ScraperThread maximaThread = new TestScraperThread(new MaximaScraper(),"dd");
+        //ScraperThread prismaThread = new ScraperThread(new PrismaScraper());
+        //ScraperThread selverThread = new ScraperThread(new SelverScraper());
+        //ScraperThread maximaThread = new ScraperThread(new MaximaScraper());
+        ScraperThread prismaThread = new TestScraperThread(new PrismaScraper(),"dd");
+        ScraperThread maximaThread = new TestScraperThread(new MaximaScraper(), "dd");
+        ScraperThread selverThread = new TestScraperThread(new SelverScraper(), "dd");
 
         prismaThread.start();
         selverThread.start();
