@@ -1,25 +1,23 @@
 <template>
-  <div class="table-container">
-    <table>
-      <tr>
-        <th>Pood</th>
-        <th>Hind</th>
-        <th>Hind kliendikaardiga</th>
-        <th>Ühikhind</th>
-      </tr>
-      <tr v-for="(price, index) in prices" :key="index">
-        <td>
-          <a :href="price.url">{{price.store}}</a>
-        </td>
-        <td>{{price.regularPrice.amount}} {{price.regularPrice.currency}}</td>
-        <td
-          v-if="price.specialPrice != null"
-        >{{price.specialPrice.amount}} {{price.specialPrice.currency}}</td>
-        <td v-else>Kliendikaari pakkumist pole</td>
-        <td>{{price.unitPrice.amount}} {{price.unitPrice.currency}}/{{price.unitPrice.perUnit}}</td>
-      </tr>
-    </table>
-  </div>
+  <table>
+    <tr>
+      <th>Pood</th>
+      <th>Hind</th>
+      <th>Hind kliendikaardiga</th>
+      <th>Ühikhind</th>
+    </tr>
+    <tr v-for="(price, index) in prices" :key="index">
+      <td>
+        <a :href="price.url">{{price.store}}</a>
+      </td>
+      <td>{{price.regularPrice.amount}} {{price.regularPrice.currency}}</td>
+      <td
+        v-if="price.specialPrice != null"
+      >{{price.specialPrice.amount}} {{price.specialPrice.currency}}</td>
+      <td v-else>Kliendikaari pakkumist pole</td>
+      <td>{{price.unitPrice.amount}} {{price.unitPrice.currency}}/{{price.unitPrice.perUnit}}</td>
+    </tr>
+  </table>
 </template>
 
 <script>
@@ -35,8 +33,6 @@ export default {
 </script>
 
 <style scoped>
-.table-container {
-}
 
 table,
 td,
