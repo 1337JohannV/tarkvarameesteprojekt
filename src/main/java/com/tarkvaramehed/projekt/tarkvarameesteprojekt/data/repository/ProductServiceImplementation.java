@@ -29,8 +29,8 @@ public class ProductServiceImplementation implements ProductService {
     }
 
     @Override
-    public List<Product> findByStore(Store store, int page, int size) {
-        return productRepository.findByStore(store,PageRequest.of(page,size));
+    public List<Product> findByStore(Store store) {
+        return productRepository.findByStore(store);
     }
 
     @Override

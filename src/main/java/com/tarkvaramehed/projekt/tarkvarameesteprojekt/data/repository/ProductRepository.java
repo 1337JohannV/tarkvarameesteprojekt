@@ -22,5 +22,5 @@ public interface ProductRepository extends CrudRepository<Product, Long>,
 
     @Query(value = "SELECT PRODUCT.* FROM PRODUCT, PRODUCT_PRODUCTPRICES WHERE PRODUCT_PRODUCTPRICES.PRODUCT_ID = PRODUCT.ID",
             nativeQuery = true)
-    List<Product> findByStore(Store store, Pageable pageable);
+    List<Product> findByStore(Store store);
 }

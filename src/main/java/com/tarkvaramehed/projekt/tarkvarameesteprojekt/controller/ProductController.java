@@ -38,11 +38,11 @@ public class ProductController {
     }
 
     @RequestMapping(
-            path= "/store/{store}/{page}/{size}",
+            path= "/store/{store}",
             method = RequestMethod.GET
     )
-    public List<Product> getProductsByStore(@PathVariable("store") Store store, @PathVariable("page") int page, @PathVariable("size") int size) {
-        return productService.findByStore(store,page,size);
+    public List<Product> getProductsByStore(@PathVariable("store") Store store) {
+        return productService.findByStore(store);
     }
 
     @RequestMapping(
