@@ -3,7 +3,9 @@ package com.tarkvaramehed.projekt.tarkvarameesteprojekt.controller;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository.ProductService;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.search.ProductSearch;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.ProductPrice;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,14 @@ public class ProductController {
     )
     public Product getProductById(@PathVariable("id") Long id) {
         return productService.findById(id);
+    }
+
+    @RequestMapping(
+            path= "/store/{store}/{page}/{size}",
+            method = RequestMethod.GET
+    )
+    public List<Product> getProductsByStore(@PathVariable("store") Store store, @PathVariable("page") int page, @PathVariable("size") int size) {
+        return productService.findByStore(store,page,size);
     }
 
     @RequestMapping(

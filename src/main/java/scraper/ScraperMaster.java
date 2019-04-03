@@ -1,6 +1,7 @@
 package scraper;
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
+import scraper.maxima.MaximaScraper;
 import scraper.prisma.PrismaScraper;
 import scraper.selver.SelverScraper;
 import scraper.util.ProductMerger;
@@ -26,18 +27,21 @@ public class ScraperMaster {
 
         ScraperThread prismaThread = new TestScraperThread(new PrismaScraper(), "https://www.prismamarket.ee/entry/4740036009498");
         ScraperThread selverThread = new TestScraperThread(new SelverScraper(), "https://www.selver.ee/hapukoor-20-tere-330-g");
+        ScraperThread maximaThread = new TestScraperThread(new MaximaScraper(),"dd");
 
         prismaThread.start();
         selverThread.start();
+        maximaThread.start();
 
         try {
             prismaThread.join();
             selverThread.join();
+            maximaThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        List<Product> data = Stream.of(prismaThread.getProducts(), selverThread.getProducts())
+        List<Product> data = Stream.of(prismaThread.getProducts(), selverThread.getProducts(),maximaThread.getProducts())
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 

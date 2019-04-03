@@ -2,7 +2,9 @@ package com.tarkvaramehed.projekt.tarkvarameesteprojekt.data.repository;
 
 
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.ProductPrice;
 import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Category;
+import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.enums.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,11 @@ public class ProductServiceImplementation implements ProductService {
     @Override
     public List<Product> findProductsByCategory(Category category) {
         return productRepository.findProductsByCategory(category);
+    }
+
+    @Override
+    public List<Product> findByStore(Store store, int page, int size) {
+        return productRepository.findByStore(store,PageRequest.of(page,size));
     }
 
     @Override
