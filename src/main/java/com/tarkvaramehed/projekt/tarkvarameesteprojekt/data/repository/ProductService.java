@@ -20,7 +20,7 @@ public interface ProductService {
 
     List<Product> findByCategory(Category category, int page, int size, Sort.Direction direction, String orderBy);
 
-    List<Product> findByStore(Store store, int page, int size);
+    List<Product> findByStore(Store store);
 
     void save(Product product);
 
