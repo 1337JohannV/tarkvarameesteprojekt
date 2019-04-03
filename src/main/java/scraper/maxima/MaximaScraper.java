@@ -69,8 +69,11 @@ public class MaximaScraper implements Scraper {
         }
         for (String url : productUrls) {
             Product product = getProductFromPage(url);
-            product.setCategory(category);
-            products.add(product);
+            if (product != null) {
+                product.setCategory(category);
+                products.add(product);
+            }
+
         }
 
         long t2 = System.currentTimeMillis();
@@ -275,27 +278,29 @@ public class MaximaScraper implements Scraper {
     private Product createProduct(Document doc) {
 
         //NO EAN available on site.
+        if (getProductQuantity(doc) != null) {
+            Product product = new Product();
+            product.setProducer(getProducer(doc));
+            product.setOrigin(getOrigin(doc));
+            product.setName(getName(doc));
+            product.setImgUrl(getImgUrl(doc));
+            product.setQuantity(getProductQuantity(doc));
+            List<ProductPrice> prices = new ArrayList<>();
+            prices.add(getPrice(doc));
+            product.setProductPrices(prices);
 
-        Product product = new Product();
-        product.setProducer(getProducer(doc));
-        product.setOrigin(getOrigin(doc));
-        product.setName(getName(doc));
-        product.setImgUrl(getImgUrl(doc));
-        product.setQuantity(getProductQuantity(doc));
-        List<ProductPrice> prices = new ArrayList<>();
-        prices.add(getPrice(doc));
-        product.setProductPrices(prices);
 
-        //System.out.println(product.getName());
-
-        return product;
+            return product;
+        } else {
+            return null;
+        }
     }
 
 
     public static void main(String[] args) {
         MaximaScraper scraper = new MaximaScraper();
 
-        scraper.getProducts();
+        scraper.scrapeCategory(Category.JOOGID);
 
     }
 }
