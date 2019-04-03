@@ -69,7 +69,7 @@ export default {
 body {
   height: 100%;
   margin: 0;
-  background-color: rgb(206, 255, 255);
+  background-color: #F0F3BD;
 }
 
 #app {
@@ -86,7 +86,7 @@ body {
 
 #next{
   float: right;
-  margin-right: 22.5%;
+  margin-right: 6%;
   margin-top: 25px;
   width: 100px;
   height: 50px;
@@ -94,7 +94,7 @@ body {
 
 #previous{
   float: left;
-  margin-left: 23%;
+  margin-left: 31%;
   margin-top: 25px;
   width: 150px;
   height: 50px;
@@ -105,26 +105,24 @@ body {
   border: 0;
   outline: 0;
   color: white;
-  background-color: aqua;
+  background-color: #02C39A;
   transition-duration: 0.3s;
-  border: 2px solid aqua;
   font-size: 30px;
   font-family: monospace;
 }
 
 #previous:hover, #next:hover{
-  background-color: white;
-  color: black;
+  background-color: #00A896;
+
 }
 
 #previous:active, #next:active{
-  background-color:aqua;
-  opacity: 0.4;
+  background-color:#02C39A;
   transition-duration: 0.1s;
 }
 
 #footer {
-  background-color:rgb(148, 221, 221);
+  background-color: #05668D;
   height: 100px;
   overflow: hidden;
   

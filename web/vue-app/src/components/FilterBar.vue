@@ -67,11 +67,13 @@ export default {
 
 <style>
 #filterBar {
+    background: #05668D;
+    border-radius: 10px;
     width: 30%;
     height: 100%;
-    border: 2px solid black;
+    border: 2px solid #05668D;
     position: sticky;
-    top: 0px;
+    top: 10%;
     display: flex;
     flex-direction: column;
 }
@@ -92,22 +94,20 @@ a:hover{
   outline: 0;
 
   color: white;
-  background-color: aqua;
+  background-color: #02C39A;
   transition-duration: 0.3s;
-  border: 2px solid aqua;
+  
 
   font-size: 30px;
   font-family: monospace;
 }
 
 #menubutton:hover{
-  background-color: white;
-  color: black;
+  background-color: #00A896;
 }
 
 #menubutton:active{
-  background-color:aqua;
-  opacity: 0.4; 
+  background-color:#02C39A;
   transition-duration: 0.1s;
 }
 </style>

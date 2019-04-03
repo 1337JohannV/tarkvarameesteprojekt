@@ -10,7 +10,6 @@
       <button id="menubutton" v-on:click.prevent="searchDb">
         <p>{{ buttonText[0] }}</p>
       </button>
-      {{searchText}}
     </div>
   </div>
 </template>
@@ -28,7 +27,7 @@ export default {
   methods:{
     searchDb(){
       console.log(this.searchText);
-      this.$emit("search", searchText);
+      this.$emit("search", this.searchText);
       this.searchText = "";
     }
   }
@@ -39,7 +38,7 @@ export default {
 
 
 #menucontainer{
-  background-color: rgb(148, 221, 221);
+  background-color: #05668D;
   display: flex;
   width: 100%;
   height: 150px;
@@ -79,7 +78,7 @@ export default {
 }
 
 #menubutton {
-  width: 80%;
+  width: 71.5%;
   height: 63.2%;
 
   padding: 0;
@@ -90,27 +89,25 @@ export default {
   outline: 0;
 
   color: white;
-  background-color: aqua;
+  background-color: #02C39A;
   transition-duration: 0.3s;
-  border: 2px solid aqua;
 
   font-size: 30px;
   font-family: monospace;
 }
 
 #menubutton:hover{
-  background-color: white;
-  color: black;
+  background-color: #00A896;
 }
 
 #menubutton:active{
-  background-color:aqua;
-  opacity: 0.4;
+  background-color:#02C39A;
   transition-duration: 0.1s;
 }
 
 #welcometext{
-  font-family: monospace;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: white;
   font-size: 40px;
 }
 </style>

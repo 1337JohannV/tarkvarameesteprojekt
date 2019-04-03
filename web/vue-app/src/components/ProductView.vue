@@ -8,17 +8,14 @@
                     <p v-if="products[p-1].quantity != null">
                         <b>Kogus:</b> {{products[p-1].quantity.value}} {{products[p-1].quantity.unit}}
                     </p>
-                </div>
-                <div id="productPrice" v-on:click.prevent="showInfo">
                     <p> <b>Parim hind:</b> 
                         {{products[p-1].productPrices[0].unitPrice.amount}} {{products[p-1].productPrices[0].unitPrice.currency}} /
                         {{products[p-1].productPrices[0].unitPrice.perUnit}}
                     </p>
-                    <div id="productImage">
-                        <img v-bind:src="products[p-1].imgUrl" alt="Toode" height="100" width="100" v-on:click.prevent="showInfo(p-1)">
-                    </div>
-                    
                 </div>
+                    <div id="productImageContainer">
+                        <img id="productImage"  v-bind:src="products[p-1].imgUrl" alt="Toode" height="100" width="100" v-on:click.prevent="showInfo(p-1)">
+                    </div>
             </div>
         </div>
 
@@ -29,33 +26,42 @@
 
         
             <div class="modal-content">
-                <p id="productTitle">{{products[this.currentProduct].name}}</p>
-                    <!-- 
-                    <p>EAN: {{p.ean}}</p>
-                    -->
-                <p v-if="products[this.currentProduct].producer != ''"><b>Tootja:</b> {{products[this.currentProduct].producer}}</p>
-                <p v-else><b>Tootja:</b> -</p>  
-                <p><b>Päritolumaa:</b> {{products[this.currentProduct].origin}}</p> 
+                <div id="modalInside">
+                    <div id="modalText">
+                        <p id="productTitle">{{products[this.currentProduct].name}}</p>
+                        <!-- 
+                         <p>EAN: {{p.ean}}</p>
+                        -->
+                        <p v-if="products[this.currentProduct].producer != ''"><b>Tootja:</b> {{products[this.currentProduct].producer}}</p>
+                        <p v-else><b>Tootja:</b> -</p>  
+                        <p><b>Päritolumaa:</b> {{products[this.currentProduct].origin}}</p> 
 
-                <p v-if="products[this.currentProduct].quantity != null">
-                    <b>Kogus:</b> {{products[this.currentProduct].quantity.value}} {{products[this.currentProduct].quantity.unit}}
-                </p>
-                <div id="productPrice" v-on:click.prevent="showInfo">
-                    <p> <b>Parim hind:</b> 
-                        {{products[this.currentProduct].productPrices[0].unitPrice.amount}} {{products[this.currentProduct].productPrices[0].unitPrice.currency}} /
-                        {{products[this.currentProduct].productPrices[0].unitPrice.perUnit}}
-                    </p>
-                    <p> 
-                        <b>Pood:</b> {{products[this.currentProduct].productPrices[0].store}}
-                    </p>
-                    <p v-if="products[this.currentProduct].productPrices[0].specialPrice != null">
-                        <b>Kliendikaardiga:</b> {{products[this.currentProduct].productPrices[0].specialPrice.amount}} {{products[this.currentProduct].productPrices[0].specialPrice.currency}}
-                    </p>
-                    <p v-else>
-                        <b>Kliendikaardiga:</b> Hind ei muutu
-                    </p>
+                        <p v-if="products[this.currentProduct].quantity != null">
+                        <b>Kogus:</b> {{products[this.currentProduct].quantity.value}} {{products[this.currentProduct].quantity.unit}}
+                        </p>
+                        <div id="productPrice" v-on:click.prevent="showInfo">
+                        <p> <b>Parim hind:</b> 
+                            {{products[this.currentProduct].productPrices[0].unitPrice.amount}} {{products[this.currentProduct].productPrices[0].unitPrice.currency}} /
+                            {{products[this.currentProduct].productPrices[0].unitPrice.perUnit}}
+                        </p>
+                        <p> 
+                            <b>Pood:</b> {{products[this.currentProduct].productPrices[0].store}}
+                        </p>
+                            <p v-if="products[this.currentProduct].productPrices[0].specialPrice != null">
+                                <b>Kliendikaardiga:</b> {{products[this.currentProduct].productPrices[0].specialPrice.amount}} {{products[this.currentProduct].productPrices[0].specialPrice.currency}}
+                            </p>
+                        <p v-else>
+                            <b>Kliendikaardiga:</b> Hind ei muutu
+                        </p>
+                        <button v-on:click.prevent="hideInfo" id="menubutton">Close</button>
+                    </div>
+                    </div>
+                    <div id="modalPicture">
+                        <img id="productImage"  v-bind:src="products[this.currentProduct].imgUrl" alt="Toode" height="100" width="100">
+                    </div>
+                
                 </div>
-                <button v-on:click.prevent="hideInfo" id="menubutton">Close</button>
+                
             </div>
         </div>
 </div>
@@ -88,7 +94,7 @@ export default {
     methods: {
         next(){
             this.currentPage = this.currentPage + 1;
-            
+
             if(this.currentCategory != null){
                 address = 'http://localhost:8080/products/' + this.currentCategory + '/' +   this.currentPage  +'/24/name/asc';
             } else if (this.currentSearch != "")   {
@@ -131,20 +137,29 @@ export default {
             } else {
                 address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc';
             }
-
-            fetch(address)
-            .then(r => r.json())
-            .then(json => this.products = json);
             
-            this.end = this.products.length;
 
-            if(this.currentPage == 0) {
+
+            
+
+            const request = async() => {
+                const response = await fetch(address);
+                const json = await response.json();
+                this.products = json;
+
+                this.end = this.products.length;
+                this.$emit("statePrevious", false);
+
+                if(this.currentPage == 0) {
                 this.$emit("stateNext", true);
                 this.$emit("statePrevious", false);
-            } else {
+                } else {
                 this.$emit("statePrevious", true);
                 this.$emit("stateNext", true);
+                }
             }
+
+            request();
         },
         showInfo(p){
             this.currentProduct = p;
@@ -254,30 +269,27 @@ export default {
 <style scoped>
 
 #menubutton {
-  width: 20%;
-  height: 60%;
+  width: 150px;
+  height: 40%;
 
   border-radius: 10px;
   border: 0;
   outline: 0;
 
   color: white;
-  background-color: aqua;
+  background-color: #02C39A;
   transition-duration: 0.3s;
-  border: 2px solid aqua;
 
   font-size: 30px;
   font-family: monospace;
 }
 
 #menubutton:hover{
-  background-color: white;
-  color: black;
+  background-color: #00A896;
 }
 
 #menubutton:active{
-  background-color:aqua;
-  opacity: 0.4; 
+  background-color:#02C39A;
   transition-duration: 0.1s;
 }
 
@@ -287,7 +299,9 @@ export default {
 }
 
 #productView {
-
+    margin-bottom: 20px;
+    margin-left: 20px;
+    min-height: 100vh;
     height: 100%;
     width: 69%;
     display: flex;
@@ -296,17 +310,16 @@ export default {
 }
 
 .flex-item {
-    border: aqua solid 2px;
-    border-radius: 15px;
-    width: 185px;
-    height: 250px;
+    border: #02C39A solid 1px;
+    width: 200px;
+    height: 300px;
     display: block;
-    margin: 5px 5px 5px 10px;
+
     overflow: hidden;
 }
 
 #productContainer {
-    padding: 8px 0px 0px 0px;
+
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -314,10 +327,11 @@ export default {
 }
 
 #productContainer:hover{
-    background-color: rgb(235, 232, 232);
+    background-color: #02809054;
 }
 
 p {
+    color: black;
     font-size: 12px;
 
 }
@@ -337,17 +351,53 @@ p {
   background-color: rgba(0,0,0,0.4); 
 }
 
+
+
+
+#productPrice{
+    width: 100%;
+    height: 70%;
+}
+
+#productInfo{
+    margin-bottom: 10px;
+    width: 100%;
+    height: 25%;
+    padding-left: 7px;
+}
+
+#productImageContainer{
+    margin-top: 15%;
+    height: 100%;
+}
+
+#productImage{
+    height: 65%;
+    width: 100%;
+}
+
+#modalPicture{
+    height: 300px;
+    width: 200px;
+}
+
+#modalText{
+    height: 100%;
+    width: 50%;
+}
+
+#modalInside{
+    width: 100%;
+    height: 250px;
+    display: flex; 
+    overflow: hidden;
+}
+
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto;
   padding: 20px;
   width: 30%; 
-}
-
-#productImage{
-    align-items: center;
-    justify-items: center;
-    width: 100%;
 }
 
 </style>
