@@ -1,7 +1,7 @@
 <template>
 
     <div id="productView">
-        <div class="flex-item" v-for="p in end" :key="p" v-if="p-1 >= start">
+        <div class="flex-item" v-for="p in this.products.length" :key="p" v-if="p-1 >= start">
             <div id="productContainer" v-on:click.prevent="showInfo(p-1)">
                 <div id="productInfo">
                     <p id="productTitle">{{products[p-1].name}}</p>
@@ -73,6 +73,7 @@ export default {
     name: 'ProductView',
     data: function() {
         return {
+            currentCategory: null,
             currentPage: 0,
             products: null,
             start: 0,
@@ -86,31 +87,53 @@ export default {
     methods: {
         next(){
             this.currentPage = this.currentPage + 1;
-            address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc'
-
-            fetch(address)
-            .then(r => r.json())
-            .then(json => this.products = json);
-
-            this.end = this.products.length;
-
-            if(this.products.length < 24) {
-                this.$emit("stateNext", false);
+            if(this.currentCategory == null){
+                address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc';
             } else {
-                this.$emit("stateNext", true);
-                this.$emit("statePrevious", true);
+                address = 'http://localhost:8080/products/' + this.currentCategory + '/' +   this.currentPage  +'/24/name/asc';
             }
+            
+
+            const request = async() => {
+                const response = await fetch(address);
+                const json = await response.json();
+                this.products = json;
+                this.end = this.products.length;
+                console.log(this.currentPage)
+                console.log(this.products.length)
+                if(this.products.length < 24) {
+                    this.$emit("stateNext", false);
+                    } else {
+                    this.$emit("stateNext", true);
+                    this.$emit("statePrevious", true);
+                }
+            }
+
+            request();
+
+            
+
+            
             
         },
 
         previous(){
             this.currentPage = this.currentPage - 1;
-            address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc'
+
+            if(this.currentCategory == null){
+                address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc';
+            } else {
+                address = 'http://localhost:8080/products/' + this.currentCategory + '/' +   this.currentPage  +'/24/name/asc';
+            }
 
             fetch(address)
             .then(r => r.json())
             .then(json => this.products = json);
 
+
+            console.log(this.currentPage)
+            console.log(this.products.length)
+            
             this.end = this.products.length;
 
             if(this.currentPage == 0) {
@@ -118,6 +141,7 @@ export default {
                 this.$emit("statePrevious", false);
             } else {
                 this.$emit("statePrevious", true);
+                this.$emit("stateNext", true);
             }
         },
         showInfo(p){
@@ -130,7 +154,23 @@ export default {
             this.infoShow = false;
         },
         filterbyCategory(category){
+            
+            this.currentCategory = this.filter;
+            this.currentPage = 0;
 
+            address = 'http://localhost:8080/products/' + this.currentCategory + '/' +   this.currentPage  +'/24/name/asc';
+
+            fetch(address)
+            .then(r => r.json())
+            .then(json => this.products = json);
+
+            this.end = this.products.length;
+            this.$emit("statePrevious", false);
+            if(this.products.length < 24) {
+                this.$emit("stateNext", false);
+            } else {
+                this.$emit("stateNext", true);
+            }
         }
     },
     created: function() {
@@ -141,19 +181,28 @@ export default {
     props:{
         cycle:{
             type:Number
+        },
+        filter:{
+            type:String
         }
     },
     watch:{
         cycle: function(){
-            console.log(this.currentPage);
-            console.log(this.cycle);
-            if(this.cycle > this.currentPage){
-                this.next();
-            } else {
+            if(Math.abs(this.cycle-this.currentPage) < 2){
 
-                this.previous();
+                if(this.cycle > this.currentPage){
+                    this.next();
+                } else {
+                    this.previous();
+                }
             }
             this.currentPage = this.cycle;
+        },
+
+        filter: function(){
+            if(this.currentCategory != this.filter){
+                this.filterbyCategory(this.filter);
+            }
         }
     }
 }

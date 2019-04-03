@@ -2,8 +2,8 @@
     <div id=app>
       <TopBar/>
       <div id="products">
-        <FilterBar/>
-        <ProductView :cycle="currentPage" @statePrevious="statePrev" @stateNext="stateNext"/>
+        <FilterBar @category="filterByCategory"/>
+        <ProductView :cycle="currentPage" :filter="currentCat" @statePrevious="statePrev" @stateNext="stateNext"/>
       </div>
       <div id="footer">
           <button id="previous" v-on:click.prevent="newProduct('previous')" v-if="enablePrevious">Previous</button>
@@ -27,6 +27,7 @@ export default {
   data: function(){
     return {
       currentPage: 0,
+      currentCat: null,
       enablePrevious: false,
       enableNext: true,
     };
@@ -42,12 +43,14 @@ export default {
       
     },
     statePrev(state){
-      console.log("worksPrev")
       this.enablePrevious = state;
     },
     stateNext(state){
-      console.log("worksNext")
       this.enableNext = state;
+    },
+    filterByCategory(category){
+      this.currentPage = 0;
+      this.currentCat = category;
     }
   }
 }

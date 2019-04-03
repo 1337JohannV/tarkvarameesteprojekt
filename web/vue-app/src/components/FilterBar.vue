@@ -1,15 +1,6 @@
 <template>
     <div id=filterBar>
-      <button id="menubutton">PUU_JA_KOOGIVILJAD</button>
-      <button id="menubutton">LIHA_JA_KALA</button>
-      <button id="menubutton">PIIMATOOTED_MUNAD_VOID</button>
-      <button id="menubutton">JUUSTUD</button>
-      <button id="menubutton">LEIVAD_SAIAD_KONDIITRITOOTED</button>
-      <button id="menubutton">KUIVAINED_HOIDISED</button>
-      <button id="menubutton">KASTMED_OLID</button>
-      <button id="menubutton">MAIUSTUSED_KUPSISED_NAKSID</button>
-      <button id="menubutton">KULMUTATUD_TOIDUKAUBAD</button>
-      <button id="menubutton">JOOGID</button>
+      <button id="menubutton" v-for="n in 10" :key="n" v-on:click.prevent="filterByCategory(n-1)">{{buttons[n-1].name}}</button>
     </div>
 </template>
 
@@ -20,11 +11,56 @@ export default {
   name: 'FilterBar',
   data: function(){
     return {
+      buttons:[
+        {
+          name: "Puu ja köögiviljad",
+          value: "PUU_JA_KOOGIVILJAD"
+          },
+        { 
+          name: "Liha ja kala",
+          value: "LIHA_JA_KALA"
+          },
+        {
+          name: "Piimatooted, munad, võid",
+          value: "PIIMATOOTED_MUNAD_VOID"
+          },
+        {
+          name: "Juustud",
+          value: "JUUSTUD"
+          },
+        {
+          name: "Leivad, saiad, kondiitritooted",
+          value: "LEIVAD_SAIAD_KONDIITRITOOTED"
+          },
+        {
+          name: "Kuivained, hoidised",
+          value: "KUIVAINED_HOIDISED"
+          },
+        {
+          name: "Kastmed, õlid",
+          value: "KASTMED_OLID"
+          },
+        {
+          name: "Maiustused, küpsised, naksid",
+          value: "MAIUSTUSED_KUPSISED_NAKSID"
+          
+          },
+        {
+          name: "Külmutatud toidukaubad",
+          value: "KULMUTATUD_TOIDUKAUBAD"
+          },
+        {
+          name: "Joogid",
+          value: "JOOGID"
+          },
+      ]
 
     };
   },
   methods: {
-
+    filterByCategory(catNr){
+        this.$emit("category", this.buttons[catNr].value);
+    }
   }
 }
 </script>
