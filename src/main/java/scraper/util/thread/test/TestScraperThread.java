@@ -19,6 +19,7 @@ public class TestScraperThread extends ScraperThread {
     @Override
     public void run() {
         System.out.println("TEST SCRAPER RUNNING FOR SCRAPER:" + getScraper().toString());
+
         setProducts(getScraper().getDemoData(Category.JUUSTUD));
         //setProducts(Arrays.asList(getScraper().getProductFromPage(url)));
     }

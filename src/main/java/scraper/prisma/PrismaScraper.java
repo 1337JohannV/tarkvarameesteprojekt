@@ -27,7 +27,7 @@ public class PrismaScraper implements Scraper {
 
     public static void main(String[] args) {
         PrismaScraper prismaScraper = new PrismaScraper();
-        prismaScraper.getProducts();
+        System.out.println(prismaScraper.getDemoData(Category.JOOGID));
         //prismaScraper.getProductDetails("https://www.prismamarket.ee/entry/pom-bel-ouna-mango-puuviljamiks--4x100-g/8437010537165");
 
         //System.out.println(PrismaUrlManager.getSubCatUrls(Category.PUU_JA_KOOGIVILJAD));
@@ -75,6 +75,31 @@ public class PrismaScraper implements Scraper {
         Document doc = documentManager.getDocument(url);
         PrismaCategoryScrapingStrategy strat = selectStrategy(doc);
         return strat.getProductUrlsFromCategory(url, documentManager);
+    }
+
+    public List<Product> demoCat(Category cat, int amount){
+
+        List<Product> products = new ArrayList<>();
+        List<String> catUrls = PrismaUrlManager.getSubCatUrls(cat);
+        assert catUrls != null;
+        for (String url : catUrls) {
+            List<String> productUrls = getProductUrlsFromCategory(url);
+            for (String productUrl : productUrls) {
+                if(amount < 1) {
+                    break;
+                }
+                amount--;
+                String searchUrl = "https://www.prismamarket.ee" + productUrl;
+                Product product = getProductDetails(searchUrl);
+                product.setCategory(cat);
+                products.add(product);
+            }
+            if(amount < 1) {
+                break;
+            }
+        }
+        return products;
+
     }
 
     public List<Product> scrapeCategory(Category cat) {
@@ -166,7 +191,17 @@ public class PrismaScraper implements Scraper {
 
     @Override
     public List<Product> getDemoData(Category category) {
-        return scrapeCategory(category);
+
+        int amount = 20;
+        List<Product> demoData = new ArrayList<>();
+        ArrayList<Category> categories = new ArrayList<>(Arrays.asList(Category.values()));
+        categories.remove(Category.UNKNOWN);
+        for (Category c: categories) {
+            demoData.addAll(demoCat(c,amount));
+
+
+        }
+      return demoData;
     }
 
     @Override

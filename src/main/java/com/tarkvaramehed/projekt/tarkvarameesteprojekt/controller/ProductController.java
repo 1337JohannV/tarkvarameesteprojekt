@@ -41,7 +41,7 @@ public class ProductController {
             path= "/store/{store}/{page}/{size}",
             method = RequestMethod.GET
     )
-    public List<Product> getProductsByStore(@PathVariable("store")Store store, @PathVariable("page") int page, @PathVariable("size") int size) {
+    public List<Product> getProductsByStore(@PathVariable("store") Store store, @PathVariable("page") int page, @PathVariable("size") int size) {
         return productService.findByStore(store,page,size);
     }
 

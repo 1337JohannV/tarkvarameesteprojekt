@@ -47,7 +47,46 @@ public class MaximaScraper implements Scraper {
 
     @Override
     public List<Product> getDemoData(Category category) {
-        return scrapeCategory(category);
+
+        int amount = 10;
+        List<Product> demoData = new ArrayList<>();
+        ArrayList<Category> categories = new ArrayList<>(Arrays.asList(Category.values()));
+        System.out.println("DUPLICATE");
+        categories.remove(Category.UNKNOWN);
+        for (Category c : categories) {
+            demoData.addAll(demoCat(c, amount));
+        }
+        return demoData;
+    }
+
+    private List<Product> demoCat(Category cat, int amount) {
+
+        List<Product> products = new ArrayList<>();
+        List<String> catUrls = MaximaUrlManager.getSubCatUrls(cat);
+        assert catUrls != null;
+        for (String url : catUrls) {
+            List<String> productUrls = getProductUrlsFromPage(url);
+            for (String productUrl : productUrls) {
+                if (amount < 1) {
+                    break;
+                }
+                amount--;
+
+
+                Product product = createProduct(documentManager.getDocument(productUrl));
+
+
+                assert product != null;
+
+                product.setCategory(cat);
+                products.add(product);
+            }
+            if (amount < 1) {
+                break;
+            }
+        }
+        return products;
+
     }
 
     @Override
@@ -97,7 +136,8 @@ public class MaximaScraper implements Scraper {
 
     private String getProducer(Document doc) {
         if (doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().contains("Kaubamärk:")) {
-            return doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().split("Kaubamärk:")[1].split("Tarnija kontaktid:")[0];
+
+            return doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().split("Kaubamärk:")[1].split("Tarnija kontaktid:")[0].split("Tarnija")[0];
         } else if (doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().contains("Tarnija kontaktid:")) {
             return doc.getElementsByClass("b-dl-align-left b-product-info--info1").get(0).text().split("Tarnija kontaktid:")[1].split("Tarnija")[0];
         } else {
@@ -173,12 +213,9 @@ public class MaximaScraper implements Scraper {
                 q.setValue(Double.parseDouble(amount));
                 return q;
             }
-        } else {
-
-            // GETS QUANTITY FROM NAME
-            return RegexMatcher.extractQuantity(getName(doc).toLowerCase());
         }
-        return null;
+        //GETS QUANTITY FROM NAME
+        return RegexMatcher.extractQuantity(getName(doc).toLowerCase());
 
     }
 
@@ -299,8 +336,11 @@ public class MaximaScraper implements Scraper {
 
     public static void main(String[] args) {
         MaximaScraper scraper = new MaximaScraper();
+        DocumentManager docm = new DocumentManager();
+        Document doc = docm.getDocument("https://www.barbora.ee/toode/sok-kompvekid-rocher-ferrero-37-5-g");
+        System.out.println(scraper.getProductQuantity(doc));
 
-        scraper.scrapeCategory(Category.JOOGID);
-
+        //scraper.scrapeCategory(Category.JOOGID);
+        System.out.println(scraper.getDemoData(Category.JOOGID));
     }
 }
