@@ -4,11 +4,14 @@ import com.tarkvaramehed.projekt.tarkvarameesteprojekt.model.Product;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -50,5 +53,37 @@ public class ProductSearch {
         em.getTransaction().commit();
         return result;
     }
+
+    public List searchPages(String searchQuery, int page, int size, int dir) {
+
+        em.getTransaction().begin();
+        org.apache.lucene.search.Query luceneQuery = qb
+                .keyword()
+                .onFields("name", "ean", "producer", "origin")
+                .matching(searchQuery)
+                .createQuery();
+        javax.persistence.Query jpaQuery =
+                ftem.createFullTextQuery(luceneQuery, Product.class);
+        List result = jpaQuery.getResultList();
+        em.getTransaction().commit();
+
+        if(dir == 1) {
+            Collections.reverse(result);
+        }
+
+        int begin = page*size;
+
+        List finalResult = new ArrayList();
+
+        for( int i = begin; i < begin + size; i++){
+            if(result.size() - 1 >= i){
+                finalResult.add(result.get(i));
+            } else {
+                break;
+            }
+        }
+        return finalResult;
+    }
+
 
 }

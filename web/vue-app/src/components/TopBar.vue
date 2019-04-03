@@ -3,17 +3,14 @@
     <div id="welcometextcontainer">
       <p id="welcometext">Product price locator</p>
     </div>
-            
-    <div id="buttoncontainer" v-for="item in buttonText" :key="item">
-      <button id="menubutton" v-if="item == 'Segu'" v-on:click.prevent="initiateSelver">
-        <p>{{ item }}</p>
+    <div id="textcontainer">
+      <textarea id="textbox" v-model="searchText" placeholder="Sisestage otsitav toode!"></textarea>
+    </div>
+    <div id="buttoncontainer">
+      <button id="menubutton" v-on:click.prevent="searchDb">
+        <p>{{ buttonText[0] }}</p>
       </button>
-      <button id="menubutton" v-else-if="item == 'Prisma'" v-on:click.prevent="initiatePrisma">
-        <p>{{ item }}</p>
-      </button>
-      <button id="menubutton" v-else>
-        <p>{{ item }}</p>
-      </button>
+      {{searchText}}
     </div>
   </div>
 </template>
@@ -24,24 +21,15 @@ export default {
   name: 'TopBar',
   data: function() {
     return {
-      buttonText: ["Segu", "Prisma", "Empty1","Empty2"],
-      products: null
-
+      searchText: "",
+      buttonText: ["Otsi"],
     }
   },
   methods:{
-    initiateSelver: function(){
-      fetch('http://localhost:8080/products/')
-        .then(r => r.json())
-        .then(json => this.products = json);
-        this.$emit("productsData", this.products);
-    },
-
-    initiatePrisma: function(){
-      fetch('http://localhost:8080/products/test/')
-        .then(r => r.json())
-        .then(json => this.products = json);
-        this.$emit("productsData", this.products);
+    searchDb(){
+      console.log(this.searchText);
+      this.$emit("search", searchText);
+      this.searchText = "";
     }
   }
 }
@@ -52,15 +40,29 @@ export default {
 
 #menucontainer{
   background-color: rgb(148, 221, 221);
-  display: inline-block;
+  display: flex;
   width: 100%;
   height: 150px;
+}
+
+#textcontainer{
+  display: flex;
+  align-items: center; 
+  height: 100%;
+  width: 30%;
+}
+
+#textbox{
+  width:100%;
+  height:60%;
+  float: right;
+  resize: none;
 }
 
 #welcometextcontainer{
   float: left;
   height: 100%;
-  width: 40%;
+  width: 50%;
   
   display: flex;
   justify-content: center; 
@@ -69,19 +71,21 @@ export default {
 
 #buttoncontainer{
   height: 100%;
-  width: 15%;
+  width: 20%;
   float: left;
   
-  display: flex;
-  justify-content: center; 
+  display: flex; 
   align-items: center; 
 }
 
 #menubutton {
   width: 80%;
-  height: 60%;
+  height: 63.2%;
 
-  border-radius: 10px;
+  padding: 0;
+  margin: 0;
+
+  border-radius: 0px;
   border: 0;
   outline: 0;
 

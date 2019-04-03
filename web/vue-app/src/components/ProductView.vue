@@ -73,6 +73,7 @@ export default {
     name: 'ProductView',
     data: function() {
         return {
+            currentSearch: "",
             currentCategory: null,
             currentPage: 0,
             products: null,
@@ -87,10 +88,13 @@ export default {
     methods: {
         next(){
             this.currentPage = this.currentPage + 1;
-            if(this.currentCategory == null){
-                address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc';
-            } else {
+            
+            if(this.currentCategory != null){
                 address = 'http://localhost:8080/products/' + this.currentCategory + '/' +   this.currentPage  +'/24/name/asc';
+            } else if (this.currentSearch != "")   {
+                address = 'http://localhost:8080/products/search/' + this.currentSearch + "/" + this.currentPage + "/24/asc";
+            } else {
+                address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc';
             }
             
 
@@ -120,10 +124,12 @@ export default {
         previous(){
             this.currentPage = this.currentPage - 1;
 
-            if(this.currentCategory == null){
-                address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc';
-            } else {
+            if(this.currentCategory != null){
                 address = 'http://localhost:8080/products/' + this.currentCategory + '/' +   this.currentPage  +'/24/name/asc';
+            } else if (this.currentSearch != "")   {
+                address = 'http://localhost:8080/products/search/' + this.currentSearch + "/" + this.currentPage + "/24/asc";
+            } else {
+                address = 'http://localhost:8080/products/' +  this.currentPage  +'/24/name/asc';
             }
 
             fetch(address)
@@ -150,8 +156,8 @@ export default {
             this.infoShow = false;
         },
         filterbyCategory(category){
-            
-            this.currentCategory = this.filter;
+            this.currentSearch = "";
+            this.currentCategory = category;
             this.currentPage = 0;
 
             address = 'http://localhost:8080/products/' + this.currentCategory + '/' +   this.currentPage  +'/24/name/asc';
@@ -175,6 +181,30 @@ export default {
             request();
 
             
+        },
+        filterBySearch(search){
+            this.currentCategory = null;
+            this.currentSearch = search;
+            this.currentPage = 0;
+
+            address = 'http://localhost:8080/products/search/' + search + "/0/24/asc";
+            const request = async() => {
+                const response = await fetch(address);
+                const json = await response.json();
+                this.products = json;
+                this.end = this.products.length;
+
+                this.end = this.products.length;
+                this.$emit("statePrevious", false);
+                if(this.products.length < 24) {
+                    this.$emit("stateNext", false);
+                } else {
+                    this.$emit("stateNext", true);
+                }
+            }
+
+            request();
+
         }
     },
     created: function() {
@@ -187,6 +217,9 @@ export default {
             type:Number
         },
         filter:{
+            type:String
+        },
+        search:{
             type:String
         }
     },
@@ -206,6 +239,11 @@ export default {
         filter: function(){
             if(this.currentCategory != this.filter){
                 this.filterbyCategory(this.filter);
+            }
+        },
+        search: function(){
+            if(this.currentSearch != this.search){
+                this.filterBySearch(this.search);
             }
         }
     }

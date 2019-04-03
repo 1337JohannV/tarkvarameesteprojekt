@@ -86,6 +86,22 @@ public class ProductController {
         return productSearch.search(searchQuery);
     }
 
+
+
+    @RequestMapping(
+            path = "/search/{searchQuery}/{page}/{size}/{direction}",
+            method = RequestMethod.GET)
+    public List<Product> searchProductsPage(@PathVariable String searchQuery, @PathVariable int page,
+                                               @PathVariable int size, @PathVariable String direction) {
+        int dir = 0;
+        if (direction.toLowerCase().equals("desc")) {
+            dir = 1;
+        }
+        return productSearch.searchPages(searchQuery, page, size, dir);
+    }
+
+
+
     @RequestMapping(method = RequestMethod.GET, value = "/query")
     public String queryMethod(@RequestParam Map<String, String> customQuery) throws HttpClientErrorException.BadRequest {
 
