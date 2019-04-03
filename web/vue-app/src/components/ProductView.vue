@@ -99,11 +99,11 @@ export default {
                 const json = await response.json();
                 this.products = json;
                 this.end = this.products.length;
-                console.log(this.currentPage)
-                console.log(this.products.length)
+
                 if(this.products.length < 24) {
                     this.$emit("stateNext", false);
-                    } else {
+                    this.$emit("statePrevious", true);
+                } else {
                     this.$emit("stateNext", true);
                     this.$emit("statePrevious", true);
                 }
@@ -129,10 +129,6 @@ export default {
             fetch(address)
             .then(r => r.json())
             .then(json => this.products = json);
-
-
-            console.log(this.currentPage)
-            console.log(this.products.length)
             
             this.end = this.products.length;
 
@@ -160,17 +156,25 @@ export default {
 
             address = 'http://localhost:8080/products/' + this.currentCategory + '/' +   this.currentPage  +'/24/name/asc';
 
-            fetch(address)
-            .then(r => r.json())
-            .then(json => this.products = json);
 
-            this.end = this.products.length;
-            this.$emit("statePrevious", false);
-            if(this.products.length < 24) {
-                this.$emit("stateNext", false);
-            } else {
-                this.$emit("stateNext", true);
+            const request = async() => {
+                const response = await fetch(address);
+                const json = await response.json();
+                this.products = json;
+                this.end = this.products.length;
+
+                this.end = this.products.length;
+                this.$emit("statePrevious", false);
+                if(this.products.length < 24) {
+                    this.$emit("stateNext", false);
+                } else {
+                    this.$emit("stateNext", true);
+                }
             }
+
+            request();
+
+            
         }
     },
     created: function() {
