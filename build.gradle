@@ -5,7 +5,7 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.tarkvaramehed.projekt'
+group = 'ee.ttu.tarkvaratehnika.andmekogujad'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -22,14 +22,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.hibernate:hibernate-search-orm:5.10.5.Final'
 	implementation 'org.hibernate:hibernate-search-elasticsearch:5.10.5.Final'
-    //implementation 'org.hibernate:hibernate-core:5.4.1.Final'
-    //implementation 'org.hibernate:hibernate-core:5.3.7.Final'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
+	
+	
+	//testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//compile 'org.mockito:mockito-core:2.13.0'
+	//implementation 'org.hibernate:hibernate-core:5.4.1.Final'
+	//implementation 'org.hibernate:hibernate-core:5.3.7.Final'
 	//runtimeOnly 'org.hsqldb:hsqldb'
 	//implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	//implementation 'org.springframework.boot:spring-boot-starter-validation'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	compile 'org.mockito:mockito-core:2.13.0'
 	//testImplementation 'org.springframework.security:spring-security-test'
 }
