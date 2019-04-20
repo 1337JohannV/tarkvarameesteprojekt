@@ -26,9 +26,6 @@ import java.util.Properties;
 })
 public class JpaConfig {
 
-    @Autowired
-    private Environment env;
-
     @Bean
     public EntityManagerFactory entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
@@ -44,8 +41,9 @@ public class JpaConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:file:db/products");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/scraper_db");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("salas6na");
         return dataSource;
     }
 
@@ -57,12 +55,11 @@ public class JpaConfig {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "validate");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-        properties.setProperty("spring.h2.console.enabled", "true");
-        properties.setProperty("spring.h2.console.path", "/h2");
+        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         properties.setProperty("hibernate.show_sql", "false");
         properties.setProperty("hibernate.format_sql", "true");
+        properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
 
         //hibernate search
         properties.setProperty("hibernate.search.default.directory_provider", "filesystem");

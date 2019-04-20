@@ -37,16 +37,16 @@ public class ScraperService {
     }
 
     public void updateProduct(Product scrapedProduct) {
-        Product dbProduct;
-        if (scrapedProduct.getEan() != null) {
-            dbProduct = productRepository.findByEan(scrapedProduct.getEan());
-            if (dbProduct == null) {
+        synchronized (this) {
+            Product dbProduct;
+            if (scrapedProduct.getEan() != null) {
+                dbProduct = productRepository.findByEan(scrapedProduct.getEan());
+                if (dbProduct == null) {
+                    dbProduct = findTopCandidate(scrapedProduct);
+                }
+            } else {
                 dbProduct = findTopCandidate(scrapedProduct);
             }
-        } else {
-            dbProduct = findTopCandidate(scrapedProduct);
-        }
-        synchronized (productRepository) {
             if (dbProduct == null) {
                 productRepository.save(scrapedProduct);
             } else {
@@ -75,22 +75,20 @@ public class ScraperService {
         return null;
     }
 
-    private synchronized void updateCandidates(HashMap<Long, Integer> candidateMap, List candidates) {
+    private void updateCandidates(HashMap<Long, Integer> candidateMap, List candidates) {
         for (Object o : candidates) {
             if (o.getClass() == Product.class) {
-                Product p = (Product) o;
-                Integer count = candidateMap.get(p.getId());
-                if (count == null) {
-                    candidateMap.put(p.getId(), 1);
-                } else {
-                    candidateMap.put(p.getId(), candidateMap.get(p.getId()) + 1);
-                }
+                Long id = ((Product) o).getId();
+                candidateMap.put(id, candidateMap.getOrDefault(id, 0) + 1);
             }
         }
     }
 
     private Product mergeProducts(Product dbProduct, Product scrapedProduct) {
+        Product finalProduct = new Product();
+        finalProduct.setId(dbProduct.getId());
+        //TODO: merge the product from database and scraped product
 
-        return new Product();
+        return finalProduct;
     }
 }

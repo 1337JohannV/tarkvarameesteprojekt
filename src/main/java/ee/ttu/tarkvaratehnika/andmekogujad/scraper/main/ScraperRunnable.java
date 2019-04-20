@@ -10,20 +10,19 @@ import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.repository.Scrape
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 public class ScraperRunnable implements Runnable {
 
     private Scraper scraper;
     private ScraperService scraperService;
     private ScraperMain scraperMain;
-    private List<ExceptionReport> exceptionReports;
 
     public ScraperRunnable(Scraper scraper, ScraperMain scraperMain) {
         super();
         this.scraper = scraper;
         this.scraperService = scraperMain.getScraperService();
         this.scraperMain = scraperMain;
-        this.exceptionReports = new ArrayList<>();
     }
 
     private void updateDatabase() {
@@ -42,7 +41,7 @@ public class ScraperRunnable implements Runnable {
                     scraperService.updateProduct(p);
                 }
             } catch (ScraperException e) {
-                exceptionReports.add(e.getExceptionReport());
+                scraperMain.getScraperReport().addExceptionReport(e.getExceptionReport());
             }
         }
     }
@@ -63,9 +62,9 @@ public class ScraperRunnable implements Runnable {
     public void run() {
         try {
             System.out.println(this);
-            fibonacci(45);
+            System.out.println(fibonacci(40));
         } finally {
-            scraperMain.notifyRunnableComplete(exceptionReports);
+            scraperMain.notifyRunnableComplete();
         }
     }
 

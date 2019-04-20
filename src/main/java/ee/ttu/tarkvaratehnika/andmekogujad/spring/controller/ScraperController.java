@@ -38,13 +38,6 @@ public class ScraperController {
     }
 
     @RequestMapping(
-            path = "/update/save",
-            method = RequestMethod.GET)
-    public ScraperReport saveReport() {
-        return scraperMain.saveReport();
-    }
-
-    @RequestMapping(
             path = "/report/all",
             method = RequestMethod.GET)
     public List<ScraperReport> getAllReports() {

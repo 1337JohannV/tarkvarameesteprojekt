@@ -25,4 +25,8 @@ public class ScraperReport {
     private LocalDate endDate;
 
     private LocalTime endTime;
+
+    public void addExceptionReport(ExceptionReport exceptionReport) {
+        exceptions.add(exceptionReport);
+    }
 }
