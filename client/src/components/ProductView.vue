@@ -341,7 +341,7 @@ export default {
 }
 
 .product-image img {
-    max-width: 20rem;
+  max-width: 20rem;
 }
 
 #menubutton {

@@ -22,16 +22,22 @@ public class ScraperController {
 
 
     @RequestMapping(path = "/update/start", method = RequestMethod.GET)
-    public void startUpdate() {
+    public String startUpdate() {
+        if (scraperMain.getIsRunning()) {
+            return "Scraper is already running";
+        }
         scraperMain.startUpdate();
+        return "Scraper started";
     }
 
-    /*
-    @RequestMapping(path = "/update/stop", method = RequestMethod.GET)
-    public String stopUpdate() {
-        return scraperMain.stopUpdate();
+
+    @RequestMapping(path = "/status", method = RequestMethod.GET)
+    public String getStatus() {
+        if (scraperMain.getIsRunning()) {
+            return "Scraper is running";
+        }
+        return "Scraper is not running";
     }
-    */
 
     @RequestMapping(path = "/report/all", method = RequestMethod.GET)
     public List<ScraperReport> getAllReports() {

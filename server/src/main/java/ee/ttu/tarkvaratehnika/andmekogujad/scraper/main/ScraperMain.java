@@ -35,8 +35,16 @@ public class ScraperMain {
     @Getter
     private ScraperReport scraperReport;
 
+    @Getter
+    private Boolean isRunning = false;
 
     public void startUpdate() {
+        taskExecutor = new ThreadPoolTaskExecutor();
+        taskExecutor.setCorePoolSize(3);
+        taskExecutor.setMaxPoolSize(3);
+        taskExecutor.setWaitForTasksToCompleteOnShutdown(false);
+        taskExecutor.setThreadNamePrefix("scraper_task_executor_thread");
+        taskExecutor.initialize();
         scraperReport = new ScraperReport();
         scraperReport.setStartDate(LocalDate.now());
         scraperReport.setStartTime(LocalTime.now());
@@ -45,6 +53,7 @@ public class ScraperMain {
         taskExecutor.execute(maximaRunnable);
 
         while (true) {
+            isRunning = true;
             int count = taskExecutor.getActiveCount();
             try {
                 Thread.sleep(1000);
@@ -60,5 +69,6 @@ public class ScraperMain {
                 break;
             }
         }
+        isRunning = false;
     }
 }

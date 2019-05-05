@@ -20,18 +20,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
             .inMemoryAuthentication()
-            .withUser("admin")
-            .password("{noop}admin")
-            .roles("ADMIN");
+            .withUser("admin").password("{noop}admin").roles("ADMIN");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .cors().and().csrf().disable()
-            .authorizeRequests().antMatchers("/login", "/products/*").permitAll()
-            .anyRequest().authenticated().and().formLogin().successHandler(new CustomAuthenticationSuccessHandler())
-            .failureHandler(new CustomAuthenticationFailureHandler());
+            .cors().and().csrf()
+            .and()
+                .authorizeRequests()
+                .antMatchers("/products/**").permitAll()
+                .antMatchers("/scraper/**").permitAll()
+                .anyRequest().authenticated();
     }
 
     @Bean
