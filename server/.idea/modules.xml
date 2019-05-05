@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt.iml" filepath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_main.iml" group="tarkvarameesteprojekt" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_test.iml" group="tarkvarameesteprojekt" />
+    </modules>
+  </component>
+</project>

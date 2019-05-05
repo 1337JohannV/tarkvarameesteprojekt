@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.hibernate:hibernate-search-elasticsearch:5.10.5.Final">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-search-elasticsearch/5.10.5.Final/a52e221a94fc6af932bda45ae5f7894e555ae45a/hibernate-search-elasticsearch-5.10.5.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-search-elasticsearch/5.10.5.Final/27e713845a55c3f334585e0ec25c922e8b9c9d5f/hibernate-search-elasticsearch-5.10.5.Final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

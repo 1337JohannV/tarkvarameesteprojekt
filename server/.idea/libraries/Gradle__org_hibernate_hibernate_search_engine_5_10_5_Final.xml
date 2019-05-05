@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.hibernate:hibernate-search-engine:5.10.5.Final">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-search-engine/5.10.5.Final/6d584938729a31ed91ffdfe81a1c7f8275ce7856/hibernate-search-engine-5.10.5.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-search-engine/5.10.5.Final/f8ebdc417ce0f7adb834bcac7c84182e8fe6e863/hibernate-search-engine-5.10.5.Final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
