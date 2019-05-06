@@ -36,45 +36,55 @@
 
   <!-- Eraldi screen mis, ilmub toote peale vajutades -->
   
-  <b-modal ref="my-modal" v-if="currentProduct != -1" hide-footer title="Using Component Methods">
-      <div class="modal-content">
-        <div class="float-left product-data">
-          <h2 id="productTitle">{{products[this.currentProduct].name}}</h2>
-          <p>
-            <b>EAN:</b>
-            {{products[this.currentProduct].ean}}
-          </p>
-          <p v-if="products[this.currentProduct].producer != ''">
-            <b>Tootja:</b>
-            {{products[this.currentProduct].producer}}
-          </p>
-          <p v-else>
-            <b>Tootja:</b> -
-          </p>
-          <p>
-            <b>Päritolumaa:</b>
-            {{products[this.currentProduct].origin}}
-          </p>
-          <p v-if="products[this.currentProduct].quantity != null">
-            <b>Kogus:</b>
-            {{products[this.currentProduct].quantity.value}} {{products[this.currentProduct].quantity.unit}}
-          </p>
-        </div>
-        <div class="float-right product-image">
-          <img
-            v-if="products[this.currentProduct].imgUrl != 'NO IMAGE SET'"
-            v-bind:src="products[this.currentProduct].imgUrl"
-            alt="Toode"
-          >
-          <img
+  <b-modal ref="my-modal" hide-footer title="Toote informatsioon">
+    <div class="container-fluid m-0 p-0" v-if="currentProduct != -1">
+      <table class="table table-borderless table-striped">
+        <thead>
+          <tr>
+            <th scope="col">{{products[this.currentProduct].name}}</th>
+            <th scope="col"> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Kategooria: </td>
+            <td>{{products[this.currentProduct].category}}</td>
+          </tr>
+          <tr>
+            <td>EAN: </td>
+            <td>{{products[this.currentProduct].ean}}</td>
+          </tr>
+          <tr v-if="products[this.currentProduct].origin != null">
+            <td>Päritolumaa: </td>
+            <td>{{products[this.currentProduct].origin}}</td>
+          </tr>
+          <tr v-if="products[this.currentProduct].producer != null" >
+            <td>Tootja: </td>
+            <td>{{products[this.currentProduct].producer}}</td>
+          </tr>
+          <tr v-if="products[this.currentProduct].quantity.unit != null">
+            <td>Kogus: </td>
+            <td>{{products[this.currentProduct].quantity.value}} {{products[this.currentProduct].quantity.unit}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class ="container text-center mt-3 mb-3">
+        <img 
+          v-if="products[this.currentProduct].imgUrl != null"
+          v-bind:src="products[this.currentProduct].imgUrl" 
+          class="img-fluid middle" 
+          alt="Toode">
+        <img
             v-else
-            src="https://static1.squarespace.com/static/56eddde762cd9413e151ac92/t/570cb89a5bd33022b93a1ecb/1460466676034/copyright1.jpg"
+            src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
+            class="img-fluid align-middle" 
             alt="Toode"
           >
-        </div>
-        <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"></PriceTable>
-        <button v-on:click.prevent="hideInfo" id="menubutton">Close</button>
       </div>
+
+      <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"></PriceTable>
+      <button v-on:click.prevent="hideInfo" id="menubutton">Close</button>
+    </div>
     </b-modal>
 
   </div>
@@ -188,6 +198,7 @@ export default {
     showInfo(p) {
       this.currentProduct = p;
       this.$refs['my-modal'].show();
+      console.log(this.products);
     },
     hideInfo() {
       this.currentProduct = -1;
