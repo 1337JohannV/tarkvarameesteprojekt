@@ -1,24 +1,53 @@
 <template>
   <div id="app">
     <TopBar @search="filterBySearch"/>
-    <div id="products">
-      <FilterBar :noFilter="filter" @category="filterByCategory"/>
-      <ProductView
-        :cycle="currentPage"
-        :filter="currentCat"
-        :search="currentSearch"
-        @statePrevious="statePrev"
-        @stateNext="stateNext"
-      />
+    <div class="container-fluid mt-3 mb-3 ">
+      <div class="row">
+        <div class="col-4 pl-1">
+
+          <FilterBar :noFilter="filter" @category="filterByCategory"/>
+
+        </div>
+        <div class="col-8 pr-1">
+
+          <ProductView
+          :cycle="currentPage"
+          :filter="currentCat"
+          :search="currentSearch"
+          @statePrevious="statePrev"
+          @stateNext="stateNext"
+          />
+
+        </div>
+      </div>
     </div>
-    <div id="footer">
-      <button
-        id="previous"
-        v-on:click.prevent="newProduct('previous')"
-        v-if="enablePrevious"
-      >Previous</button>
-      <button id="next" v-on:click.prevent="newProduct('next')" v-if="enableNext">Next</button>
+    <div id="footer" class="navbar">
+      <div class="container-fluid">
+
+        <div class="col-4 pl-1">
+        </div>
+
+        <div class="col-8 p-0">
+          <button
+            id="previous"
+            class="btn btn-primary btn-lg"
+            v-on:click.prevent="newProduct('previous')"
+            v-if="enablePrevious"
+            >Previous</button>
+
+          <button 
+            id="next"
+            class="btn btn-primary btn-lg float-right" 
+            v-on:click.prevent="newProduct('next')" 
+            v-if="enableNext"
+            >Next</button>
+
+
+        </div>
+
+      </div>
     </div>
+
   </div>
 </template>
 
@@ -36,6 +65,7 @@ export default {
   },
   data: function() {
     return {
+      infoShow: false,
       currentSearch: "",
       currentPage: 0,
       currentCat: null,
@@ -69,6 +99,10 @@ export default {
       this.currentCat = null;
       this.currentPage = 0;
       this.currentSearch = search;
+    },
+    show(){
+      this.infoShow = true;
+      console.log(this.infoShow);
     }
   }
 };
@@ -79,38 +113,9 @@ export default {
   margin: 0;
 }
 
-body {
-  height: 100%;
-  margin: 0;
-  background-color: #f0f3bd;
-}
-
 #app {
   height: 100%;
-}
-
-#products {
-  margin-top: 1%;
-  display: flex;
-
-  height: 100%;
-  width: 100%;
-}
-
-#next {
-  float: right;
-  margin-right: 6%;
-  margin-top: 25px;
-  width: 100px;
-  height: 50px;
-}
-
-#previous {
-  float: left;
-  margin-left: 31%;
-  margin-top: 25px;
-  width: 150px;
-  height: 50px;
+  background-color: #f0f3bd;
 }
 
 #previous,
@@ -138,7 +143,5 @@ body {
 
 #footer {
   background-color: #05668d;
-  height: 100px;
-  overflow: hidden;
 }
 </style>

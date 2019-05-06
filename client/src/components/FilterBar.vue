@@ -1,10 +1,11 @@
 <template>
-  <div id="filterBar">
+  <div id="filterBar" class="container pt-3 pb-3">
     <button
-      id="menubutton"
+      id="sideButton"
+      class="btn btn-primary btn-block"
       v-for="n in 11"
       :key="n"
-      v-bind:style=" buttons[n-1].change ? 'background-color: #F0F3BD; color:black;' : '{#menubuttonAlter}'"
+      v-bind:style=" buttons[n-1].change ? 'background-color: #F0F3BD; color:black; outline:0; border:0;' : '{#menubuttonAlter}'"
       v-on:click.prevent="filterByCategory(n-1)"
     >{{buttons[n-1].name}}</button>
   </div>
@@ -104,74 +105,28 @@ export default {
 <style>
 #filterBar {
   background: #05668d;
-  border-radius: 10px;
-  width: 30%;
-  height: 100%;
-  border: 2px solid #05668d;
   position: sticky;
-  top: 10%;
+  top: 5%;
   display: flex;
   flex-direction: column;
 }
 
-a:hover {
-  text-decoration: underline;
-}
-
-#menubuttonAlter {
-  align-self: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 95%;
-  height: 10%;
-
-  border-radius: 10px;
-  border: 0;
-  outline: 0;
-
-  color: white;
-  border: 1px solid #02c39a;
-  background-color: #f0f3bd;
-  transition-duration: 0.3s;
-
-  font-size: 30px;
-  font-family: monospace;
-}
-
-#menubuttonAlter:hover {
-  background-color: #02c39a;
-}
-
-#menubuttonAlter:active {
-  background-color: #02c39a;
-  transition-duration: 0.1s;
-}
-
-#menubutton {
-  align-self: center;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 95%;
-  height: 10%;
-
-  border-radius: 10px;
-  border: 0;
-  outline: 0;
-
+#sideButton {
   color: white;
   background-color: #02c39a;
   transition-duration: 0.3s;
-
-  font-size: 30px;
-  font-family: monospace;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
 }
 
-#menubutton:hover {
+#sideButton:hover {
   background-color: #00a896;
 }
 
-#menubutton:active {
+#sideButton:active {
   background-color: #02c39a;
   transition-duration: 0.1s;
+  
 }
 </style>

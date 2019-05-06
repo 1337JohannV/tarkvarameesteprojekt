@@ -33,9 +33,10 @@
       </div>
     </div>
 
-    <!-- Eraldi screen mis, ilmub toote peale vajutades -->
 
-    <div v-if="this.infoShow" class="popup">
+  <!-- Eraldi screen mis, ilmub toote peale vajutades -->
+  
+  <b-modal ref="my-modal" v-if="currentProduct != -1" hide-footer title="Using Component Methods">
       <div class="modal-content">
         <div class="float-left product-data">
           <h2 id="productTitle">{{products[this.currentProduct].name}}</h2>
@@ -74,7 +75,8 @@
         <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"></PriceTable>
         <button v-on:click.prevent="hideInfo" id="menubutton">Close</button>
       </div>
-    </div>
+    </b-modal>
+
   </div>
 </template>
 
@@ -93,7 +95,6 @@ export default {
       products: null,
       start: 0,
       end: 24,
-      infoShow: false,
       currentProduct: -1,
       currentImage: ""
     };
@@ -186,11 +187,11 @@ export default {
     },
     showInfo(p) {
       this.currentProduct = p;
-      this.infoShow = true;
+      this.$refs['my-modal'].show();
     },
     hideInfo() {
       this.currentProduct = -1;
-      this.infoShow = false;
+      this.$refs['my-modal'].hide();
     },
     filterbyCategory(category) {
       this.currentSearch = "";
@@ -375,11 +376,7 @@ export default {
 }
 
 #productView {
-  margin-bottom: 20px;
-  margin-left: 20px;
   min-height: 100vh;
-  height: 100%;
-  width: 69%;
   display: flex;
   flex-wrap: wrap;
 }
