@@ -24,7 +24,8 @@ import java.util.stream.Stream;
 @Component
 public class SelverScraper implements Scraper {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ScraperException {
+        SelverScraper s = new SelverScraper();
     }
 
     @Override
