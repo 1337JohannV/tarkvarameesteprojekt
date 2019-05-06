@@ -130,7 +130,13 @@ public class MaximaScraper implements Scraper {
             }
         }
         //GETS QUANTITY FROM NAME
-        return RegexMatcher.extractQuantity(getName(doc).toLowerCase());
+        if(RegexMatcher.extractQuantity(getName(doc).toLowerCase()) != null) {
+            return RegexMatcher.extractQuantity(getName(doc).toLowerCase());
+        // Gets quantity unit from price value 1
+        } else {
+            return new Quantity(1d,getPrice(doc).getUnitPrice().getPerUnit());
+        }
+
     }
 
     private ProductPrice getPrice(Document doc) {
@@ -209,13 +215,18 @@ public class MaximaScraper implements Scraper {
             product.setOrigin(getOrigin(doc));
             product.setName(getName(doc));
             product.setImgUrl(getImgUrl(doc));
-            product.setQuantity(getProductQuantity(doc));
             List<ProductPrice> prices = new ArrayList<>();
             prices.add(getPrice(doc));
             product.setProductPrices(prices);
+            product.setQuantity(getProductQuantity(doc));
             return product;
         } else {
             return null;
         }
+    }
+
+    public static void main(String[] args) {
+        MaximaScraper m = new MaximaScraper();
+        System.out.println(m.createProduct(DocumentManager.getDocument("https://www.barbora.ee/toode/spinat-grune-fee")));
     }
 }

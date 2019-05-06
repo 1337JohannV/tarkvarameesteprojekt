@@ -33,20 +33,20 @@ public class JpaConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        // H2
+        /*// H2
         dataSource.setDriverClassName("org.h2.Driver");
         dataSource.setUrl("jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL;MV_STORE=FALSE;MVCC=FALSE");
         dataSource.setUsername("sa");
         dataSource.setPassword("password");
-        // H2
+        // H2*/
 
-        /* PostgreSQL
+        //PostgreSQL
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl(
                 "jdbc:postgresql://scraperdb.ctkygaceqt6n.us-east-1.rds.amazonaws.com:5432/scraper_db?user=tarkvaratehnika&password=andmekogujad");
         dataSource.setUsername("tarkvaratehnika");
         dataSource.setPassword("andmekogujad");
-        */
+
         return dataSource;
     }
 
@@ -57,20 +57,21 @@ public class JpaConfig {
 
     Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+
+        properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.show_sql", "false");
         properties.setProperty("hibernate.format_sql", "true");
 
         // PostgreSQL
-        //properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
-        //properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
-        // PostgreSQL
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        properties.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
 
-        // H2
+
+        /* H2
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         properties.setProperty("spring.h2.console.enabled", "true");
         properties.setProperty("spring.h2.console.path", "/h2console");
-        // H2
+        // H2*/
 
         // hibernate search
         properties.setProperty("hibernate.search.default.directory_provider", "filesystem");
