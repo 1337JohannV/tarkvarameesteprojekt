@@ -67,3 +67,6 @@ gradle-app.setting
 ## eclipse
 .project
 .settings
+
+## hibernate search
+/var/

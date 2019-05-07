@@ -7,12 +7,7 @@
           class="lead d-inline-block mr-3"
           :key="scraperStatus"
         >{{formatScraperStatus(scraperStatus)}}</p>
-        <b-spinner
-          v-if="scraperStatus == 'Scraper is running'"
-          variant="danger"
-          small
-          class="mb-1"
-        ></b-spinner>
+        <b-spinner v-if="scraperStatus == 'Scraper is running'" variant="danger" small class="mb-1"></b-spinner>
         <b-button
           v-if="scraperStatus == 'Scraper is not running'"
           variant="outline-success"
@@ -25,13 +20,14 @@
         </b-button>
       </div>
     </div>
-    <div>
+    <hr class="my-0">
+    <div class="mt-3">
       <p class="h3">Rapordid</p>
       <b-table
         show-empty
         stacked="md"
-        fixed
         striped
+        fixed
         borderless
         :items="scraperReports"
         :fields="fields"
@@ -49,15 +45,14 @@
             @click="row.toggleDetails"
           >{{ !row.detailsShowing ? "Vaata veateateid" : "Peida veateated"}}</b-button>
         </template>
-
         <template slot="row-details" slot-scope="row">
           <b-table
             show-empty
             stacked="md"
-            fixed
             small
             dark
             hover
+            fixed
             borderless
             :fields="exceptionFields"
             :items="row.item.exceptions"
@@ -70,6 +65,7 @@
         </template>
       </b-table>
       <b-pagination
+        v-if="totalRows > perPage"
         align="center"
         size="sm"
         v-model="currentPage"
@@ -175,6 +171,8 @@ export default {
         password: "admin"
       },
       scraperReports: [
+        /*
+
         {
           id: Number,
           startDate: String,
@@ -196,6 +194,8 @@ export default {
             }
           ]
         }
+
+        */
       ]
     };
   }

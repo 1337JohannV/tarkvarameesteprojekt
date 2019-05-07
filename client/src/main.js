@@ -10,6 +10,7 @@ Vue.config.productionTip = false;
 
 Vue.use(VueAxios, axios);
 Vue.prototype.$serverBaseUrl = "http://localhost:8080";
+Vue.prototype.$placeholderImgUrl = "https://media.self.com/photos/599c997a774b667d3bbe1214/4:3/w_654,c_limit/groceries-family-month.jpg";
 
 const sourceOfTruth = [];
 

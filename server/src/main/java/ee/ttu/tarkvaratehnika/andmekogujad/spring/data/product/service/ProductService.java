@@ -63,4 +63,12 @@ public class ProductService {
         productRepository.flush();
         System.out.println("DELETING FINISHED");
     }
+
+    public Long getRowsInCategory(Category category) {
+        return productRepository.countByCategory(category);
+    }
+
+    public Long getProductRows() {
+        return productRepository.count();
+    }
 }

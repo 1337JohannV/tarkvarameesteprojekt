@@ -39,36 +39,40 @@ public class ScraperMain {
     private Boolean isRunning = false;
 
     public void startUpdate() {
-        taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(3);
-        taskExecutor.setMaxPoolSize(3);
-        taskExecutor.setWaitForTasksToCompleteOnShutdown(false);
-        taskExecutor.setThreadNamePrefix("scraper_task_executor_thread");
-        taskExecutor.initialize();
-        scraperReport = new ScraperReport();
-        scraperReport.setStartDate(LocalDate.now());
-        scraperReport.setStartTime(LocalTime.now());
-        taskExecutor.execute(prismaRunnable);
-        taskExecutor.execute(selverRunnable);
-        taskExecutor.execute(maximaRunnable);
+        if (!isRunning) {
+            taskExecutor = new ThreadPoolTaskExecutor();
+            taskExecutor.setCorePoolSize(3);
+            taskExecutor.setMaxPoolSize(3);
+            taskExecutor.setWaitForTasksToCompleteOnShutdown(false);
+            taskExecutor.setThreadNamePrefix("scraper_task_executor_thread");
+            taskExecutor.initialize();
+            scraperReport = new ScraperReport();
+            scraperReport.setStartDate(LocalDate.now());
+            scraperReport.setStartTime(LocalTime.now());
+            taskExecutor.execute(prismaRunnable);
+            taskExecutor.execute(selverRunnable);
+            taskExecutor.execute(maximaRunnable);
 
-        while (true) {
-            isRunning = true;
-            int count = taskExecutor.getActiveCount();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            while (true) {
+                isRunning = true;
+                int count = taskExecutor.getActiveCount();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (count == 0) {
+                    taskExecutor.shutdown();
+                    scraperReport.setEndDate(LocalDate.now());
+                    scraperReport.setEndTime(LocalTime.now());
+                    scraperService.saveReport(scraperReport);
+                    scraperReport = null;
+                    taskExecutor = null;
+                    break;
+                }
             }
-            if (count == 0) {
-                taskExecutor.shutdown();
-                scraperReport.setEndDate(LocalDate.now());
-                scraperReport.setEndTime(LocalTime.now());
-                scraperService.saveReport(scraperReport);
-                scraperReport = null;
-                break;
-            }
+            isRunning = false;
         }
-        isRunning = false;
+
     }
 }

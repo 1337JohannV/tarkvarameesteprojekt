@@ -10,7 +10,6 @@ export default {
   },
   methods: {
     formatCategory: function(category) {
-        console.log(category)
       switch (category) {
         case "PUU_JA_KOOGIVILJAD":
           return "Puu ja köögiviljad";
