@@ -57,19 +57,18 @@ public class ProductService {
         return productRepository.findAllByCategory(category, PageRequest.of(page, size, direction, orderBy));
     }
 
-<<<<<<< Updated upstream
     public void deleteAll() {
         System.out.println("Started DELETING");
         productRepository.deleteAll();
         productRepository.flush();
         System.out.println("DELETING FINISHED");
-=======
+    }
+
     public Long getRowsInCategory(Category category) {
         return productRepository.countByCategory(category);
     }
 
     public Long getProductRows() {
         return productRepository.count();
->>>>>>> Stashed changes
     }
 }

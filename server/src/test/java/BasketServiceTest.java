@@ -1,3 +1,4 @@
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.BasketStore;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.BasketService;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Price;
@@ -35,8 +36,7 @@ public class BasketServiceTest {
         Product p1 = new Product();
         p1.setProductPrices(Arrays.asList(pp1,pp2));
 
-        HashMap<Store,Double> expected = new HashMap<>();
-        expected.put(Store.SELVER,5d);
+        BasketStore expected = new BasketStore(Store.SELVER,5d);
 
 
         List<Product> products = new ArrayList<>();
@@ -81,8 +81,7 @@ public class BasketServiceTest {
 
         p3.setProductPrices(Arrays.asList(pp3,pp4));
 
-        HashMap<Store,Double> expected = new HashMap<>();
-        expected.put(Store.PRISMA,90d);
+        BasketStore expected = new BasketStore(Store.PRISMA,90d);
 
 
         assertEquals(expected,bs.getShopAndPriceFromList(Arrays.asList(p3,p2)));
@@ -144,8 +143,8 @@ public class BasketServiceTest {
 
 
 
-        HashMap<Store,Double> expected = new HashMap<>();
-        expected.put(Store.SELVER,60.5d);
+        BasketStore expected = new BasketStore(Store.SELVER,60.5d);
+
 
         assertEquals(expected,bs.getShopAndPriceFromList(Arrays.asList(p3,p2,p4)));
     }

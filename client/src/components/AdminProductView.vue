@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    {{search}} {{(rows > pageSize) && !search}}
     <b-modal id="product-details" size="lg" hide-footer>
       <template slot="modal-title">
         <p v-if="selectedProduct != null" class="h3 m-0">{{selectedProduct.name}}</p>
@@ -71,7 +72,7 @@
       <b-spinner variant="primary"></b-spinner>
       <p class="m-0 mt-2 text-secondary">Tooteid laetakse, palun oota</p>
     </div>
-    <div v-else class="d-flex flex-wrap justify-content-center">
+    <div v-if="products != null" class="d-flex flex-wrap justify-content-center">
       <div v-for="product in products" :key="product.id" class="p-1 product-wrapper d-inline-block">
         <div
           class="p-1 shadow-sm product-tile rounded border bg-light text-secondary"
@@ -90,7 +91,7 @@
       </div>
     </div>
     <b-pagination
-      v-if="rows > pageSize && !search"
+      v-if="(rows > pageSize) && !search"
       v-model="page"
       class="mt-2"
       :total-rows="rows"
@@ -243,7 +244,7 @@ export default {
   img {
     display: block;
     width: 100%;
-    height: 10rem;
+    max-height: 10rem;
     object-fit: cover;
   }
 }

@@ -1,5 +1,6 @@
 package ee.ttu.tarkvaratehnika.andmekogujad.spring.controller;
 
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.BasketStore;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.BasketService;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
@@ -130,21 +131,18 @@ public class ProductController {
 
         return customQuery.toString();
     }
+
     @RequestMapping(method = RequestMethod.POST, path = "/ostukorv")
-<<<<<<< Updated upstream
-    public HashMap<Store, Double> getBestStore(@RequestBody List<Integer> ids) {
+    public BasketStore getBestStore(@RequestBody List<Integer> ids) {
         return basketService.getShopAndPriceFromList(basketService.getProductsListByIDs(ids));
-=======
-    public HashMap<Store, Double> getBestStore(@RequestBody List<Product> products) {
 
-        return basketService.getShopAndPriceFromList(products);
     }
-
+    
     @RequestMapping(method = RequestMethod.GET, path="/rows/{category}")
     public Long getRowsInCategory(@PathVariable Category category) {
         return productService.getRowsInCategory(category);
     }
->>>>>>> Stashed changes
+
 
     @RequestMapping(method = RequestMethod.GET, path="/rows")
     public Long getProductRows() {
