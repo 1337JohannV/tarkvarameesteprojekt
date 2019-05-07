@@ -263,6 +263,7 @@
       </div>
 
       <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"></PriceTable>
+      <button v-on:click.prevent="addToShoppingcart(currentProduct)" id="menubutton" class="btn btn-primary btn-block">Add to shoppingcart</button>
       <button v-on:click.prevent="hideInfo" id="menubutton" class="btn btn-primary btn-block">Close</button>
     </div>
     </b-modal>
@@ -284,7 +285,8 @@ export default {
       currentPage: 0,
       products: null,
       currentProduct: -1,
-      currentImage: ""
+      currentImage: "",
+      shoppingCart: []
     };
   },
   components: {
@@ -432,7 +434,11 @@ export default {
       };
 
       request();
-    }
+    },
+    addToShoppingcart(product){
+      this.shoppingCart.push(this.products[0]);
+      this.$root.$data.sourceOfTruth = this.shoppingCart;
+    },
   },
   created: function() {
     fetch(address)

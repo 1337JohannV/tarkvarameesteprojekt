@@ -18,13 +18,14 @@ export default {
     return {
       searchText: "",
       buttonText: ["Otsi"],
+      test: "Working!"
     }
   },
   methods:{
     searchDb(){
       this.$emit("search", this.searchText);
       this.searchText = "";
-    }
+    },
   }
 }
 </script>

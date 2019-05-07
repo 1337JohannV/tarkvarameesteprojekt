@@ -71,7 +71,7 @@ export default {
       currentCat: null,
       enablePrevious: false,
       enableNext: true,
-      filter: false
+      filter: false,
     };
   },
   methods: {

@@ -11,7 +11,10 @@ Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.prototype.$serverBaseUrl = "http://localhost:8080";
 
+const sourceOfTruth = [];
+
 new Vue({
+  data: function() {return{sourceOfTruth}},
   router,
   render: h => h(App),
 }).$mount('#app');

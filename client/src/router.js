@@ -3,7 +3,7 @@ import Router from 'vue-router';
 
 import AdminPage from './views/AdminPage.vue'
 import Products from './views/Products.vue'
-//import Ostukorv from './views/Ostukorv.vue'
+import Ostukorv from './views/Ostukorv.vue'
 
 Vue.use(Router);
 
@@ -21,7 +21,7 @@ const routes = [
     {
       path: '/ostukorv',
       name: 'ostukorv',
-      //component: Ostukorv
+      component: Ostukorv,
     },
   ];
   
