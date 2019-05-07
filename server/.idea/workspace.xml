@@ -2,57 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b42f3f9e-6805-4d50-aa3f-f5c8e732ac23" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.2/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.10.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.10.2/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_main.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_test.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.buildship.core.prefs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/maxima/MaximaRunnable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/maxima/MaximaRunnable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/maxima/MaximaScraper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/maxima/MaximaScraper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/maxima/MaximaUrlManager$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/maxima/MaximaUrlManager$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/PrismaRunnable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/PrismaRunnable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/PrismaScraper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/PrismaScraper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/PrismaUrlManager$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/PrismaUrlManager$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/strategies/AZStrategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/strategies/AZStrategy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/strategies/AZandZAStrategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/strategies/AZandZAStrategy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/strategies/AlphabeticalsAndPopularityStrategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/strategies/AlphabeticalsAndPopularityStrategy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/selver/SelverRunnable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/selver/SelverRunnable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/selver/SelverScraper.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/selver/SelverScraper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/selver/SelverUrlManager$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/selver/SelverUrlManager$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/util/DocumentManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/util/DocumentManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/util/RegexMatcher.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/util/RegexMatcher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/main/ScraperMain.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/main/ScraperMain.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/main/exception/ScraperException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/scraper/main/exception/ScraperException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/conf/JpaConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/conf/JpaConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/controller/ProductController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/controller/ScraperController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/controller/ScraperController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/product/repository/ProductService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/product/repository/search/ProductSearch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/scraper/repository/ScraperService$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/scraper/repository/ScraperService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/init/DataInitializingBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/init/DataInitializingBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/init/ProductSearchInitializingBean.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/classes/ee/ttu/tarkvaratehnika/andmekogujad/spring/init/ProductSearchInitializingBean.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/basket/BasketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/product/service/BasketService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/maxima/MaximaRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/maxima/MaximaRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/PrismaRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/prisma/PrismaRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/selver/SelverRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/scraper/core/selver/SelverRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/scraper/main/ScraperMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/scraper/main/ScraperMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/conf/JpaConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/conf/JpaConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/controller/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/controller/ScraperController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/controller/ScraperController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/product/repository/ProductService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/product/service/ProductService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/product/repository/search/ProductSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/product/service/search/ProductSearch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/scraper/repository/ScraperService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/data/scraper/service/ScraperService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/init/DataInitializingBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/init/DataInitializingBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/init/ProductSearchInitializingBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ee/ttu/tarkvaratehnika/andmekogujad/spring/init/ProductSearchInitializingBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/BasketServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/BasketServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/AdminProductView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/AdminProductView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client/src/components/ProductDetails.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../client/src/components/ProductDetails.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy.fdt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy.fdx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy.fnm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy.nvd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy.nvm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy.si" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy_Lucene50_0.doc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy_Lucene50_0.pos" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy_Lucene50_0.tim" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sy_Lucene50_0.tip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sz.cfe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sz.cfs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/_sz.si" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/var/lucene/indexes/ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product/segments_q5" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -183,7 +148,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="4">
     <option name="y" value="32" />
-    <option name="width" value="858" />
+    <option name="width" value="1100" />
     <option name="height" value="868" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -251,17 +216,17 @@
       <option name="presentableId" value="Default" />
       <updated>1557216964331</updated>
       <workItem from="1557216969028" duration="1633000" />
-      <workItem from="1557218661602" duration="1037000" />
+      <workItem from="1557218661602" duration="1205000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2670000" />
+    <option name="totallyTimeSpent" value="2838000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="32" width="858" height="868" extended-state="4" />
+    <frame x="0" y="32" width="1100" height="868" extended-state="4" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.65763545" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.5066414" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />

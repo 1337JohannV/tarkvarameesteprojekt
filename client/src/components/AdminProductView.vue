@@ -64,33 +64,49 @@
     <div class="d-flex flex-wrap">
       <div v-for="product in products" :key="product.id" class="p-2 product-wrapper">
         <div
-          class="border p-1 shadow-sm product"
+          class="border p-1 shadow-sm product rounded"
           v-b-modal.product-details
           @click="selectedProduct = product"
         >
-          <b-img :src="product.imgUrl" fluid></b-img>
-          <p class="h4">{{product.name}}</p>
-          <p class="h6">EAN: {{product.ean}}</p>
-          <p class="h6">Kategooria: {{product.category}}</p>
+          <b-img
+            v-if="product.imgUrl != null"
+            :src="product.imgUrl"
+            class="border rounded shadow-sm"
+          ></b-img>
+          <b-img
+            v-else
+            src="https://media.self.com/photos/599c997a774b667d3bbe1214/4:3/w_654,c_limit/groceries-family-month.jpg"
+            class="border rounded shadow-sm"
+          ></b-img>
+          <p class="h5 m-0 mt-1">{{product.name}}</p>
+          <hr class="my-1">
+          <p class="small">EAN: {{product.ean}}</p>
+          <p class="small">
+            Kategooria:
+            <FormatCategory :category="product.category"/>
+          </p>
         </div>
       </div>
     </div>
     <b-pagination
-      v-model="currentPage"
-      :total-rows="messageCount"
+      v-model="page"
+      :total-rows="rows"
       :per-page="pageSize"
       align="center"
-      @input="fetchData(); fetchPageCount()"
+      @input="fetchRowCount(); fetchProducts()"
     ></b-pagination>
   </div>
 </template>
 
 <script>
 import ProductDetails from "@/components/ProductDetails.vue";
+import FormatCategory from "@/components/FormatCategory.vue";
+
 export default {
   name: "AdminProductView",
   components: {
-    ProductDetails
+    ProductDetails,
+    FormatCategory
   },
   mounted() {
     this.fetchProducts();
@@ -99,6 +115,7 @@ export default {
     fetchSearchResults: function() {
       var url = this.$serverBaseUrl + "/products/search/" + this.searchQuery;
     },
+    fetchRowCount() {},
     fetchProducts: function() {
       if (this.category != null) {
         var url =
@@ -137,6 +154,7 @@ export default {
       searchQuery: "",
       page: 0,
       pageSize: 20,
+      rows: 0,
       orderBy: "id",
       direction: "asc",
       category: null,
@@ -213,10 +231,16 @@ export default {
 .product-wrapper {
   width: 25%;
   min-width: 12rem;
+  img {
+    display: block;
+    width: 100%;
+    height: 10rem;
+    object-fit: cover;
+  }
 }
 
 .product {
-  height: 25rem;
+  height: 20rem;
 }
 
 .product-wrapper :hover {
