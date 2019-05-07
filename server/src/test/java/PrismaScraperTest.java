@@ -1,14 +1,10 @@
 import ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.prisma.PrismaScraper;
 import ee.ttu.tarkvaratehnika.andmekogujad.scraper.main.exception.ScraperException;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Currency;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Unit;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.*;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
