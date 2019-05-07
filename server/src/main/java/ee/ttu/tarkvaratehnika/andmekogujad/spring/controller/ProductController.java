@@ -10,6 +10,7 @@ import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.search.Pr
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.transfer.AdminProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -137,6 +138,7 @@ public class ProductController {
         return basketService.getShopAndPriceFromList(basketService.getProductsListByIDs(ids));
 
     }
+
     
     @RequestMapping(method = RequestMethod.GET, path="/rows/{category}")
     public Long getRowsInCategory(@PathVariable Category category) {

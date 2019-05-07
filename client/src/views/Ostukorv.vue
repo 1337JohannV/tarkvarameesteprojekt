@@ -42,13 +42,14 @@
 </template>
 
 <script>
-
-
+var aadress = "http://localhost:8080/products/ostukorv"
 export default {
   name: "Ostukorv",
   data: function(){
     return {
-      products: []
+      products: [],
+      response: '',
+      dummy: [1, 2, 3]
     }
   },
   methods:{
@@ -58,12 +59,22 @@ export default {
 
     },
     bestShop(){
-      const request = async () => {
-        const response = await fetch(address);
-        const json = await response.json();
-        this.products = json;
+      
+      var idArray = []
 
-      };
+      this.products.forEach(function(product){
+        idArray.push(product.id)
+      });
+
+      console.log(this.dummy);
+
+      fetch("http://localhost:8080/products/ostukorv",{
+        method: 'POST',
+        body: this.dummy
+      })
+      .then(r => r.json())
+      .then(json => (this.products = json));
+
     }
   },
   mounted(){
