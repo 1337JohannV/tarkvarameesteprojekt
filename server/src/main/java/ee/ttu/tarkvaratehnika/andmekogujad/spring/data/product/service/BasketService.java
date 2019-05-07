@@ -6,8 +6,11 @@ import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.ProductPric
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< Updated upstream
 
 import java.util.ArrayList;
+=======
+>>>>>>> Stashed changes
 import java.util.HashMap;
 import java.util.List;
 

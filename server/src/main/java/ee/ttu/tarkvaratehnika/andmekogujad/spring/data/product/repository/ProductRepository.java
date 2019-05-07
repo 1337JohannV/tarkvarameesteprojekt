@@ -23,4 +23,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Product findByEan(String ean);
 
+    Long countByCategory(Category category);
+
 }

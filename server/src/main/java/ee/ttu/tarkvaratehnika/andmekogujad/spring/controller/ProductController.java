@@ -6,6 +6,7 @@ import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.ProductService;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.search.ProductSearch;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.transfer.AdminProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequestMapping("/products")
 @RestController
@@ -26,7 +28,7 @@ public class ProductController {
     private ProductSearch productSearch;
 
     @Autowired
-    BasketService basketService;
+    private BasketService basketService;
 
     @GetMapping()
     public List<Product> getAllProducts() {
@@ -68,6 +70,39 @@ public class ProductController {
         return productService.findByCategory(category, page, size, dir, orderBy);
     }
 
+    @RequestMapping(path = "/admin/{page}/{size}/{orderBy}/{direction}", method = RequestMethod.GET)
+    public List<AdminProductDTO> getAllProductsPageableAdminDto(@PathVariable int page, @PathVariable int size,
+                                                @PathVariable String direction, @PathVariable String orderBy) {
+        Sort.Direction dir = Sort.Direction.ASC;
+        if (direction.toLowerCase().equals("desc")) {
+            dir = Sort.Direction.DESC;
+        }
+        List<Product> products = productService.findAll(page, size, dir, orderBy);
+        return products.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    @RequestMapping(path = "/admin/{category}/{page}/{size}/{orderBy}/{direction}", method = RequestMethod.GET)
+    public List<AdminProductDTO> getProductsByCategoryPageableAdminDto(@PathVariable Category category, @PathVariable int page,
+                                                       @PathVariable int size, @PathVariable String direction, @PathVariable String orderBy) {
+        Sort.Direction dir = Sort.Direction.ASC;
+        if (direction.toLowerCase().equals("desc")) {
+            dir = Sort.Direction.DESC;
+        }
+        List<Product> products = productService.findByCategory(category, page, size, dir, orderBy);
+        return products.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    private AdminProductDTO convertToDto(Product product) {
+        AdminProductDTO adminProductDTO = new AdminProductDTO();
+        adminProductDTO.setId(product.getId());
+        adminProductDTO.setName(product.getName());
+        adminProductDTO.setEan(product.getEan());
+        adminProductDTO.setCategory(product.getCategory());
+        adminProductDTO.setImgUrl(product.getImgUrl());
+        return adminProductDTO;
+    }
+
+
     @RequestMapping(path = "/search/{searchQuery}", method = RequestMethod.GET)
     public List<Product> productSearch(@PathVariable String searchQuery) {
         return productSearch.search(searchQuery);
@@ -96,9 +131,24 @@ public class ProductController {
         return customQuery.toString();
     }
     @RequestMapping(method = RequestMethod.POST, path = "/ostukorv")
+<<<<<<< Updated upstream
     public HashMap<Store, Double> getBestStore(@RequestBody List<Integer> ids) {
         return basketService.getShopAndPriceFromList(basketService.getProductsListByIDs(ids));
+=======
+    public HashMap<Store, Double> getBestStore(@RequestBody List<Product> products) {
 
+        return basketService.getShopAndPriceFromList(products);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path="/rows/{category}")
+    public Long getRowsInCategory(@PathVariable Category category) {
+        return productService.getRowsInCategory(category);
+    }
+>>>>>>> Stashed changes
+
+    @RequestMapping(method = RequestMethod.GET, path="/rows")
+    public Long getProductRows() {
+        return productService.getProductRows();
     }
 
 }
