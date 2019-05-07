@@ -212,4 +212,9 @@ public class PrismaScraper implements Scraper {
         return Store.PRISMA;
     }
 
+    public static void main(String[] args) throws ScraperException{
+        PrismaScraper ps = new PrismaScraper();
+        System.out.println(ps.getProductFromPage("https://www.prismamarket.ee/entry/dallase-sai-2-tk/4740429120243"));
+    }
+
 }
