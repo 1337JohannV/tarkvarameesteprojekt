@@ -14,6 +14,7 @@ import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 @Component
@@ -130,14 +131,16 @@ public class MaximaScraper implements Scraper {
             }
         }
         //GETS QUANTITY FROM NAME
-        if(RegexMatcher.extractQuantity(getName(doc).toLowerCase()) != null) {
-            return RegexMatcher.extractQuantity(getName(doc).toLowerCase());
-        // Gets quantity unit from price value 1
-        } else {
-            return new Quantity(1d,getPrice(doc).getUnitPrice().getPerUnit());
+        try {
+            if (RegexMatcher.extractQuantity(getName(doc).toLowerCase()) != null) {
+                return RegexMatcher.extractQuantity(getName(doc).toLowerCase());
+            }
+        } catch (NumberFormatException e) {
+            return new Quantity(1d, getPrice(doc).getUnitPrice().getPerUnit());
         }
-
+        return new Quantity(1d, getPrice(doc).getUnitPrice().getPerUnit());
     }
+
 
     private ProductPrice getPrice(Document doc) {
         ProductPrice pp = new ProductPrice();
@@ -225,8 +228,4 @@ public class MaximaScraper implements Scraper {
         }
     }
 
-    public static void main(String[] args) {
-        MaximaScraper m = new MaximaScraper();
-        System.out.println(m.createProduct(DocumentManager.getDocument("https://www.barbora.ee/toode/spinat-grune-fee")));
-    }
 }

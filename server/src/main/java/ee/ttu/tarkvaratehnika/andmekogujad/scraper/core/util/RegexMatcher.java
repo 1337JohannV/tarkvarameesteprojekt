@@ -33,9 +33,14 @@ public class RegexMatcher {
                                 (Double.parseDouble(splitString[0]) + Double.parseDouble(splitString[1])) / 2
                         );
                     } else {
-                        quantity.setValue(
-                                Double.parseDouble(m.group(1).replace(",", "."))
-                        );
+                        //for maxima
+                        try {
+                            quantity.setValue(
+                                    Double.parseDouble(m.group(1).replace(",", "."))
+                            );
+                        } catch (NumberFormatException e) {
+                            quantity.setValue(500d);
+                        }
                     }
                 } else {
                     quantity.setValue(1.0);

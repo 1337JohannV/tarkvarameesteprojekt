@@ -3,14 +3,28 @@ package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.ProductPrice;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 @Service
 public class BasketService {
+    @Autowired
+    ProductService productService;
+
+
+    public List<Product> getProductsListByIDs(List<Integer> ids) {
+
+        List<Product> products = new ArrayList<>();
+        for (Integer id : ids) {
+            products.add(productService.findById(Long.valueOf(id)));
+        }
+        return products;
+    }
 
     public HashMap<Store, Double> getShopAndPriceFromList(List<Product> products) {
 

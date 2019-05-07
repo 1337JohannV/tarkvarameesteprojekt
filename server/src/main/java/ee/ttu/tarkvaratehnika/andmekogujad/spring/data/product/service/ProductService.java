@@ -56,4 +56,11 @@ public class ProductService {
                                         String orderBy) {
         return productRepository.findAllByCategory(category, PageRequest.of(page, size, direction, orderBy));
     }
+
+    public void deleteAll() {
+        System.out.println("Started DELETING");
+        productRepository.deleteAll();
+        productRepository.flush();
+        System.out.println("DELETING FINISHED");
+    }
 }

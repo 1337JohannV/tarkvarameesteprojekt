@@ -1,6 +1,7 @@
 package ee.ttu.tarkvaratehnika.andmekogujad.spring.controller;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.scraper.main.ScraperMain;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.ProductService;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.model.ScraperReport;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.service.ScraperService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,18 @@ public class ScraperController {
     @Autowired
     private ScraperService scraperService;
 
+    @Autowired
+    private ProductService productService;
+
 
     @RequestMapping(path = "/update/start", method = RequestMethod.GET)
     public String startUpdate() {
         if (scraperMain.getIsRunning()) {
             return "Scraper is already running";
         }
+        productService.deleteAll();
         scraperMain.startUpdate();
-        return "Scraper started";
+        return "Cleared table product entries and started Scraper";
     }
 
 
