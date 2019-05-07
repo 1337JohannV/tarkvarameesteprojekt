@@ -147,7 +147,6 @@ public class BasketServiceTest {
         HashMap<Store,Double> expected = new HashMap<>();
         expected.put(Store.SELVER,60.5d);
 
-
         assertEquals(expected,bs.getShopAndPriceFromList(Arrays.asList(p3,p2,p4)));
     }
 }
