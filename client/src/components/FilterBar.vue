@@ -1,5 +1,5 @@
 <template>
-  <div id="filterBar" class="container pt-3 pb-3">
+  <div id="filterBar" class="container pt-3 pb-3 mt-3">
     <button
       id="sideButton"
       class="btn btn-primary btn-block"

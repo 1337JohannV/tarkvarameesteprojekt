@@ -1,6 +1,237 @@
 <template>
+    <!--
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&amp;bg=55595c&amp;fg=eceeef&amp;text=Thumbnail" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22348%22%20height%3D%22224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20348%20224%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16a8f9cc06a%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A17pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16a8f9cc06a%22%3E%3Crect%20width%3D%22348%22%20height%3D%22224%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22116.734375%22%20y%3D%22119.33125%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+                <div class="card-body">
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
+                </div>
+              
+    -->
+  <div class="container-fluid">
+    <div class="row equal mt-3" v-for="p in Math.ceil(this.products.length / 4)" :key="p">
+      <div class="col" v-if="(p-1)*4 < products.length" v-on:click.prevent="showInfo((p-1)*4)">
+        <div id="productCard" class="card mb-4 box-shadow h-100"
+          style="max-width: 218px;"
+        >
+        <img 
+          v-if="products[(p-1)*4].imgUrl != null"
+          v-bind:src="products[(p-1)*4].imgUrl" 
+          class="img-fluid"
+          style="width: 100%; height: 220px;" 
+          alt="Toode"
+        >
+        <img
+          v-else
+          src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
+          class="img-fluid" 
+          style="width: 100%; height: 220px;"
+          alt="Toode"
+        >
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th 
+                  scope="col"
+                  style="max-width: 172px;"
+                  >{{products[(p-1)*4].name}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td v-if="products[(p-1)*4].quantity != null">
+                    <b>Kogus:</b>
+                    {{products[(p-1)*4].quantity.value}} {{products[(p-1)*4].quantity.unit}}
+                  </td>
+                  <td v-else>
+                    <b>Kogus: </b>
+                    -
+                  </td>
+                </tr>
+                <td>
+                    <b>Parim hind:</b><br>
+                      {{products[(p-1)*4].productPrices[0].unitPrice.amount}} {{products[(p-1)*4].productPrices[0].unitPrice.currency}} /
+                      {{products[(p-1)*4].productPrices[0].unitPrice.perUnit}}
+                </td>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <div class="col" v-if="(p-1)*4 + 1 < products.length" v-on:click.prevent="showInfo((p-1)*4 + 1) ">
+        <div id="productCard" class="card mb-4 box-shadow h-100"
+          style="max-width: 218px;"
+        >
+        <img 
+          v-if="products[(p-1)*4 + 1].imgUrl != null"
+          v-bind:src="products[(p-1)*4 + 1].imgUrl" 
+          class="img-fluid"
+          style="width: 100%; height: 220px;" 
+          alt="Toode"
+        >
+        <img
+          v-else
+          src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
+          class="img-fluid" 
+          style="width: 100%; height: 220px;"
+          alt="Toode"
+        >
+
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th 
+                  scope="col"
+                  style="max-width: 172px;"
+                  >{{products[(p-1)*4 + 1].name}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td v-if="products[(p-1)*4 + 1].quantity != null">
+                    <b>Kogus:</b>
+                    {{products[(p-1)*4 + 1].quantity.value}} {{products[(p-1)*4 + 1].quantity.unit}}
+                  </td>
+                  <td v-else>
+                    <b>Kogus: </b>
+                    -
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Parim hind:</b><br>
+                      {{products[(p-1)*4 + 1].productPrices[0].unitPrice.amount}} {{products[(p-1)*4 + 1].productPrices[0].unitPrice.currency}} /
+                      {{products[(p-1)*4 + 1].productPrices[0].unitPrice.perUnit}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <div class="col" v-if="(p-1)*4 + 2 < products.length" v-on:click.prevent="showInfo((p-1)*4  + 2)">
+        <div id="productCard" class="card mb-4 box-shadow h-100"
+          style="max-width: 218px;"
+        >
+        <img 
+          v-if="products[(p-1)*4 + 2].imgUrl != null"
+          v-bind:src="products[(p-1)*4 + 2].imgUrl" 
+          class="img-fluid"
+          style="width: 100%; height: 220px;" 
+          alt="Toode"
+        >
+        <img
+          v-else
+          src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
+          class="img-fluid"
+          style="width: 100%; height: 220px;" 
+          alt="Toode"
+        >
+
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th 
+                    scope="col"
+                    style="max-width: 172px;"
+                  >{{products[(p-1)*4 + 2].name}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td v-if="products[(p-1)*4 + 2].quantity != null">
+                    <b>Kogus:</b>
+                    {{products[(p-1)*4 + 2].quantity.value}} {{products[(p-1)*4 + 2].quantity.unit}}
+                  </td>
+                  <td v-else>
+                    <b>Kogus: </b>
+                    -
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Parim hind:</b><br>
+                      {{products[(p-1)*4 + 2].productPrices[0].unitPrice.amount}} {{products[(p-1)*4 + 2].productPrices[0].unitPrice.currency}} /
+                      {{products[(p-1)*4 + 2].productPrices[0].unitPrice.perUnit}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <div class="col" v-if="(p-1)*4 + 3 < products.length" v-on:click.prevent="showInfo((p-1)*4 + 3)">
+        <div 
+           id="productCard" class="card mb-4 box-shadow h-100"
+          style="max-width: 218px;"
+        >
+        <img 
+          v-if="products[(p-1)*4 + 3].imgUrl != null"
+          v-bind:src="products[(p-1)*4 + 3].imgUrl" 
+          class="img-fluid"
+          style="width: 100%; height: 220px;" 
+          alt="Toode"
+        >
+        <img
+          v-else
+          src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
+          class="img-fluid"
+          style="width: 100%; height: 220px;" 
+          alt="Toode"
+        >
+        
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th 
+                    scope="col"
+                    style="max-width: 172px;"
+                  >{{products[(p-1)*4 + 3].name}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td v-if="products[(p-1)*4 + 3].quantity != null"
+                  >
+                    <b>Kogus:</b>
+                    {{products[(p-1)*4 + 3].quantity.value}} {{products[(p-1)*4 + 3].quantity.unit}}
+                  </td>
+                  <td v-else>
+                    <b>Kogus: </b>
+                    -
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <b>Parim hind:</b><br>
+                      {{products[(p-1)*4 + 3].productPrices[0].unitPrice.amount}} {{products[(p-1)*4 + 3].productPrices[0].unitPrice.currency}} /
+                      {{products[(p-1)*4 + 3].productPrices[0].unitPrice.perUnit}}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  <!-- Eraldi screen mis, ilmub toote peale vajutades 
   <div id="productView">
-    <div class="flex-item" v-for="p in this.products.length" :key="p" v-if="p-1 >= start">
+    <div class="flex-item" v-for="p in this.products.length" :key="p">
       <div id="productContainer" v-on:click.prevent="showInfo(p-1)">
         <div id="productInfo">
           <p id="productTitle">{{products[p-1].name}}</p>
@@ -32,8 +263,8 @@
         </div>
       </div>
     </div>
-
-
+  
+  -->
   <!-- Eraldi screen mis, ilmub toote peale vajutades -->
   
   <b-modal ref="my-modal" hide-footer title="Toote informatsioon">
@@ -72,18 +303,18 @@
         <img 
           v-if="products[this.currentProduct].imgUrl != null"
           v-bind:src="products[this.currentProduct].imgUrl" 
-          class="img-fluid middle" 
+          class="img-fluid" 
           alt="Toode">
         <img
             v-else
             src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
-            class="img-fluid align-middle" 
+            class="img-fluid" 
             alt="Toode"
           >
       </div>
 
       <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"></PriceTable>
-      <button v-on:click.prevent="hideInfo" id="menubutton">Close</button>
+      <button v-on:click.prevent="hideInfo" id="menubutton" class="btn btn-primary btn-block">Close</button>
     </div>
     </b-modal>
 
@@ -103,8 +334,6 @@ export default {
       currentCategory: null,
       currentPage: 0,
       products: null,
-      start: 0,
-      end: 24,
       currentProduct: -1,
       currentImage: ""
     };
@@ -140,7 +369,7 @@ export default {
         const response = await fetch(address);
         const json = await response.json();
         this.products = json;
-        this.end = this.products.length;
+
 
         if (this.products.length < 24) {
           this.$emit("stateNext", false);
@@ -181,7 +410,7 @@ export default {
         const json = await response.json();
         this.products = json;
 
-        this.end = this.products.length;
+
         this.$emit("statePrevious", false);
 
         if (this.currentPage == 0) {
@@ -220,9 +449,8 @@ export default {
         const response = await fetch(address);
         const json = await response.json();
         this.products = json;
-        this.end = this.products.length;
 
-        this.end = this.products.length;
+
         this.$emit("statePrevious", false);
         if (this.products.length < 24) {
           this.$emit("stateNext", false);
@@ -243,9 +471,9 @@ export default {
         const response = await fetch(address);
         const json = await response.json();
         this.products = json;
-        this.end = this.products.length;
 
-        this.end = this.products.length;
+
+
         this.$emit("statePrevious", false);
         if (this.products.length < 24) {
           this.$emit("stateNext", false);
@@ -296,7 +524,6 @@ export default {
           const response = await fetch(address);
           const json = await response.json();
           this.products = json;
-          this.end = this.products.length;
           this.$emit("stateNext", true);
           this.$emit("statePrevious", false);
         };
@@ -320,6 +547,12 @@ export default {
 </script>
 
 <style scoped>
+
+#productCard:hover{
+  opacity: 0.9;
+  border: 2px solid #00a896;
+}
+
 .product-info {
   outline: 1px solid black;
 }
@@ -357,7 +590,6 @@ export default {
 }
 
 #menubutton {
-  width: 150px;
   height: 40%;
 
   border-radius: 10px;
