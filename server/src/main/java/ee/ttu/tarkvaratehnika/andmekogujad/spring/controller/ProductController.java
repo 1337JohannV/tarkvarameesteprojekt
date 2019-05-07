@@ -1,5 +1,6 @@
 package ee.ttu.tarkvaratehnika.andmekogujad.spring.controller;
 
+import ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.basket.BasketService;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
@@ -24,6 +25,9 @@ public class ProductController {
 
     @Autowired
     private ProductSearch productSearch;
+
+    @Autowired
+    BasketService basketService;
 
     @GetMapping()
     public List<Product> getAllProducts() {
@@ -92,42 +96,10 @@ public class ProductController {
 
         return customQuery.toString();
     }
+    @RequestMapping(method = RequestMethod.POST, path = "/ostukorv")
+    public HashMap<Store, Double> getBestStore(@RequestBody List<Product> products) {
 
-    @RequestMapping(method = RequestMethod.GET, path = "/ostukorv")
-    public HashMap<Store, Double> getBestStore(@RequestParam List<Product> products) {
-
-        HashMap<Store, Double> storeMap = new HashMap<>();
-        double pricePrisma = 0;
-        double priceSelver = 0;
-        for (Product product : products) {
-
-            for (ProductPrice productPrice : product.getProductPrices()) {
-
-                if (productPrice.getSpecialPrice() == null) {
-                    if (productPrice.getStore().equals(Store.PRISMA)) {
-                        pricePrisma += productPrice.getRegularPrice().getAmount();
-                    }
-                    if (productPrice.getStore().equals(Store.SELVER)) {
-                        priceSelver += productPrice.getRegularPrice().getAmount();
-                    }
-
-                } else if (productPrice.getStore().equals(Store.SELVER) && productPrice.getSpecialPrice() != null) {
-                    priceSelver += productPrice.getSpecialPrice().getAmount();
-                }
-
-
-            }
-
-        }
-
-        if (pricePrisma > priceSelver) {
-            storeMap.put(Store.SELVER, priceSelver);
-            return storeMap;
-
-        } else {
-            storeMap.put(Store.PRISMA, pricePrisma);
-            return storeMap;
-        }
+        return basketService.getShopAndPriceFromList(products);
 
     }
 
