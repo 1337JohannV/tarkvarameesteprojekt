@@ -96,9 +96,9 @@ public class ProductController {
         return customQuery.toString();
     }
     @RequestMapping(method = RequestMethod.POST, path = "/ostukorv")
-    public HashMap<Store, Double> getBestStore(@RequestBody List<Product> products) {
+    public HashMap<Store, Double> getBestStore(@RequestBody List<Integer> ids) {
 
-        return basketService.getShopAndPriceFromList(products);
+        return basketService.getShopAndPriceFromList(basketService.getProductsListByIDs(ids));
 
     }
 
