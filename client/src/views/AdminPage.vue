@@ -1,8 +1,8 @@
 <template>
-  <div class="container-fluid p-0">
+  <div>
     <AdminNavbar/>
-    <div class="container p-3">
-      <b-tabs content-class="mt-4" justified>
+    <div class="container p-0 mt-1">
+      <b-tabs content-class="p-1" justified>
         <b-tab title="Uuendus" active>
           <ScraperControls/>
         </b-tab>

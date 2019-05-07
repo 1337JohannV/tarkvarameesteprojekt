@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt.iml" filepath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_main.iml" filepath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_main.iml" group="tarkvarameesteprojekt" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_test.iml" filepath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt_test.iml" group="tarkvarameesteprojekt" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt.main.iml" filepath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt.test.iml" filepath="$PROJECT_DIR$/.idea/modules/tarkvarameesteprojekt.test.iml" />
     </modules>
   </component>
 </project>

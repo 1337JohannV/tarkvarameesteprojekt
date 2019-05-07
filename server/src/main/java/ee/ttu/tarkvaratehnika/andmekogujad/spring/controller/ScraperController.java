@@ -2,7 +2,7 @@ package ee.ttu.tarkvaratehnika.andmekogujad.spring.controller;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.scraper.main.ScraperMain;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.model.ScraperReport;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.repository.ScraperService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.service.ScraperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

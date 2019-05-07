@@ -4,7 +4,7 @@ import ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.maxima.MaximaRunnable;
 import ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.prisma.PrismaRunnable;
 import ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.selver.SelverRunnable;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.model.ScraperReport;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.repository.ScraperService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.service.ScraperService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;

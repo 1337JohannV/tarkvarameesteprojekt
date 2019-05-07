@@ -1,4 +1,4 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.repository;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.service;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Currency;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
@@ -7,8 +7,9 @@ import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.ProductPrice;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Quantity;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository.ProductRepository;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository.search.ProductSearch;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.search.ProductSearch;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.model.ScraperReport;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.repository.ScraperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

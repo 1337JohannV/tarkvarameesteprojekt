@@ -5,7 +5,7 @@ import ee.ttu.tarkvaratehnika.andmekogujad.scraper.main.exception.ScraperExcepti
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.repository.ScraperService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.service.ScraperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

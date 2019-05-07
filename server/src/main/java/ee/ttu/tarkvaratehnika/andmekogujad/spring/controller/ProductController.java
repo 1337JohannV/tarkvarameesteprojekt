@@ -1,12 +1,11 @@
 package ee.ttu.tarkvaratehnika.andmekogujad.spring.controller;
 
-import ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.basket.BasketService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.BasketService;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.ProductPrice;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository.ProductService;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository.search.ProductSearch;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.ProductService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.search.ProductSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;

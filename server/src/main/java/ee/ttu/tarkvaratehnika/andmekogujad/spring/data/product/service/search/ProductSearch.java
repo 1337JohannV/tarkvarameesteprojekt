@@ -1,4 +1,4 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository.search;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.search;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
 import org.hibernate.search.jpa.FullTextEntityManager;

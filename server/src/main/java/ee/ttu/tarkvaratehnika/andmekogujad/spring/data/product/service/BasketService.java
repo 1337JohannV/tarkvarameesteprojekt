@@ -1,4 +1,4 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.basket;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;

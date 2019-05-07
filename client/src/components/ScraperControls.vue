@@ -1,18 +1,26 @@
 <template>
   <div class="container">
-    <div class="mt-4">
-      <p class="h1">V2rskenda andmeid</p>
+    <div>
+      <p class="h1">Värskenda andmeid</p>
       <div class="p-3">
-        <p class="h6" :key="scraperStatus">{{scraperStatus}}</p>
-        <b-spinner v-if="scraperStatus == 'Scraper is running'" variant="primary" label="Spinning"></b-spinner>
+        <p
+          class="lead d-inline-block mr-3"
+          :key="scraperStatus"
+        >{{formatScraperStatus(scraperStatus)}}</p>
+        <b-spinner
+          v-if="scraperStatus == 'Scraper is running'"
+          variant="danger"
+          small
+          class="mb-1"
+        ></b-spinner>
         <b-button
           v-if="scraperStatus == 'Scraper is not running'"
-          variant="link"
+          variant="outline-success"
+          class="mb-1"
           @click="startScraper()"
         >
-          <p class="small d-inline-block">
-            K2ivita uuendus
-            <b-spinner small type="grow"></b-spinner>
+          <p class="small d-inline-block m-0">
+            <b-spinner small type="grow" class="mr-2"></b-spinner>Käivita uuendus
           </p>
         </b-button>
       </div>
@@ -61,7 +69,14 @@
           </b-table>
         </template>
       </b-table>
-      <b-pagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" class="my-0"></b-pagination>
+      <b-pagination
+        align="center"
+        size="sm"
+        v-model="currentPage"
+        :total-rows="totalRows"
+        :per-page="perPage"
+        class="my-0"
+      ></b-pagination>
     </div>
   </div>
 </template>
@@ -121,6 +136,13 @@ export default {
         .then(response => (this.scraperStopMessage = response.data))
         .catch(error => console.log(error.response));
       this.fetchScraperStatus();
+    },
+    formatScraperStatus: function(status) {
+      if (status == "Scraper is not running") {
+        return "Uuendus on ootel";
+      } else {
+        return "Uuendus käib";
+      }
     }
   },
   data: function() {
@@ -137,7 +159,7 @@ export default {
       fields: [
         { key: "id", label: "ID" },
         { key: "startDate", label: "Alguse aeg" },
-        { key: "endDate", label: "l6pu aeg" },
+        { key: "endDate", label: "lõpu aeg" },
         { key: "exceptions", label: "Veateated" },
         { key: "actions", label: "Tegevused" }
       ],
@@ -145,7 +167,7 @@ export default {
         { key: "time", label: "Aeg" },
         { key: "scraper", label: "Scraper" },
         { key: "url", label: "Url" },
-        { key: "message", label: "S6num" },
+        { key: "message", label: "Sõnum" },
         { key: "causeReport", label: "Vea tekkimise koht" }
       ],
       auth: {

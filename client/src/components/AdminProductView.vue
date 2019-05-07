@@ -3,7 +3,64 @@
     <b-modal id="product-details" title="Toote detailvaade" size="lg" ok-only>
       <ProductDetails v-if="selectedProduct != null" :product="selectedProduct"/>
     </b-modal>
-    <b-form-select v-model="category" :options="categoryOptions" size="sm"></b-form-select>
+    <div class="d-block">
+      <b-button v-b-toggle.options variant="dark" size="sm" class="shadow-sm">
+        <font-awesome-icon icon="bars" class="mr-2"/>Valikud
+      </b-button>
+    </div>
+    <b-collapse id="options" class="border rounded shadow-sm p-1 mt-1">
+      <b-tabs pills small align="center" justified content-class="p-2">
+        <b-tab title="Filtrid">
+          <b-form inline class="mb-2">
+            <b-form-group label="Kategooria" label-for="category">
+              <b-form-select
+                class="ml-2 w-100"
+                id="category"
+                v-model="category"
+                :options="categoryOptions"
+                size="sm"
+              ></b-form-select>
+            </b-form-group>
+          </b-form>
+          <b-form inline class="mb-2">
+            <b-form-group label="Sortreeri" label-for="sort">
+              <b-form-select
+                size="sm"
+                class="ml-2"
+                id="sort"
+                v-model="orderBy"
+                :options="orderOptions"
+              ></b-form-select>
+            </b-form-group>
+            <b-form-group class="ml-2" label="Järjesta" label-for="direction">
+              <b-form-select
+                class="ml-2"
+                id="direction"
+                size="sm"
+                v-model="direction"
+                :options="directionOptions"
+              ></b-form-select>
+            </b-form-group>
+          </b-form>
+          <b-form inline>
+            <b-form-group label="Toodete arv lehel" label-for="page-size">
+              <b-form-input type="number" size="sm" class="ml-2 w-25" v-model="pageSize"></b-form-input>
+            </b-form-group>
+          </b-form>
+          <div class="d-block text-center">
+            <b-button variant="primary" class="shadow" @click="fetchProducts()">
+              <font-awesome-icon icon="redo"/>
+            </b-button>
+          </div>
+        </b-tab>
+        <b-tab title="Otsing">
+          <b-form-input id="search-input" class="d-inline-block" v-model="searchQuery"></b-form-input>
+          <b-button class="ml-2 mb-1" variant="primary">
+            <font-awesome-icon icon="search"/>
+          </b-button>
+        </b-tab>
+      </b-tabs>
+    </b-collapse>
     <div class="d-flex flex-wrap">
       <div v-for="product in products" :key="product.id" class="p-2 product-wrapper">
         <div
@@ -18,6 +75,13 @@
         </div>
       </div>
     </div>
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="messageCount"
+      :per-page="pageSize"
+      align="center"
+      @input="fetchData(); fetchPageCount()"
+    ></b-pagination>
   </div>
 </template>
 
@@ -32,6 +96,9 @@ export default {
     this.fetchProducts();
   },
   methods: {
+    fetchSearchResults: function() {
+      var url = this.$serverBaseUrl + "/products/search/" + this.searchQuery;
+    },
     fetchProducts: function() {
       if (this.category != null) {
         var url =
@@ -65,11 +132,6 @@ export default {
       }).then(response => (this.products = response.data));
     }
   },
-  watch: {
-    selectedProduct: function() {
-      this.fetchProducts();
-    } 
-  },
   data: function() {
     return {
       searchQuery: "",
@@ -96,6 +158,19 @@ export default {
         },
         { value: "KULMUTATUD_TOIDUKAUBAD", text: "Külmutatud toidukaubad" },
         { value: "JOOGID", text: "Joogid" }
+      ],
+      orderOptions: [
+        { value: "id", text: "Vaikeväärtus" },
+        { value: "basePrice", text: "Hind" },
+        { value: "baseWeight", text: "Kaal" },
+        { value: "name", text: "Nimi" },
+        { value: "ean", text: "Tootekood" },
+        { value: "producer", text: "Tootja" },
+        { value: "origin", text: "Päritoluriik" }
+      ],
+      directionOptions: [
+        { value: "asc", text: "Kasvavalt" },
+        { value: "desc", text: "Kahanevalt" }
       ],
       products: [
         {
@@ -149,6 +224,10 @@ export default {
   img {
     transform: scale(1.01);
   }
+}
+
+#search-input {
+  width: calc(100% - 3.15rem);
 }
 </style>
 

@@ -1,4 +1,4 @@
-import ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.basket.BasketService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.BasketService;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Price;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;

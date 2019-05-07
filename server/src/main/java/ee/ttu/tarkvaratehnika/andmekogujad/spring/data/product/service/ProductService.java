@@ -1,8 +1,9 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.PageRequest;

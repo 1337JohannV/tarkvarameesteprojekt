@@ -1,7 +1,7 @@
 package ee.ttu.tarkvaratehnika.andmekogujad.spring.init;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.scraper.main.ScraperMain;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository.ProductService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.ProductService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
