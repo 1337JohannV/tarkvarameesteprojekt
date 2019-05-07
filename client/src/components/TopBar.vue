@@ -1,17 +1,13 @@
 <template>
-  <div id="menucontainer">
-    <div id="welcometextcontainer">
-      <p id="welcometext">Product price locator</p>
-    </div>
-    <div id="textcontainer">
-      <textarea id="textbox" v-model="searchText" placeholder="Sisestage otsitav toode!"></textarea>
-    </div>
-    <div id="buttoncontainer">
-      <button id="menubutton" v-on:click.prevent="searchDb">
-        <p>{{ buttonText[0] }}</p>
-      </button>
-    </div>
-  </div>
+  <nav id="menucontainer" class="navbar">
+    <span id="brand" class="navbar-brand mb-0 h1">Product price locator</span>
+    <form class="form-inline">
+    <input  v-model="searchText" class="form-control mr-sm-2" placeholder="Search" aria-label="Search">
+    <button id="menubutton" v-on:click.prevent="searchDb" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+  </form>
+  <router-link to="/ostukorv" id="menubutton" class="btn btn-success" type="button">Ostukorv</router-link>
+
+  </nav>
 </template>
 
 <script>
@@ -26,7 +22,6 @@ export default {
   },
   methods:{
     searchDb(){
-      console.log(this.searchText);
       this.$emit("search", this.searchText);
       this.searchText = "";
     }
@@ -36,12 +31,12 @@ export default {
 
 <style scoped>
 
+#brand{
+  color: white;
+}
 
 #menucontainer{
   background-color: #05668D;
-  display: flex;
-  width: 100%;
-  height: 150px;
 }
 
 #textcontainer{
@@ -78,21 +73,11 @@ export default {
 }
 
 #menubutton {
-  width: 71.5%;
-  height: 63.2%;
-
-  padding: 0;
-  margin: 0;
-
-  border-radius: 0px;
-  border: 0;
-  outline: 0;
-
   color: white;
   background-color: #02C39A;
   transition-duration: 0.3s;
 
-  font-size: 30px;
+
   font-family: monospace;
 }
 
