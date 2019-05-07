@@ -3,6 +3,7 @@
     <b-modal id="product-details" title="Toote detailvaade" size="lg" ok-only>
       <ProductDetails v-if="selectedProduct != null" :product="selectedProduct"/>
     </b-modal>
+    <b-form-select v-model="category" :options="categoryOptions" size="sm"></b-form-select>
     <div class="d-flex flex-wrap">
       <div v-for="product in products" :key="product.id" class="p-2 product-wrapper">
         <div
@@ -27,12 +28,13 @@ export default {
   components: {
     ProductDetails
   },
-  mounted() {},
+  mounted() {
+    this.fetchProducts();
+  },
   methods: {
     fetchProducts: function() {
-      this.$http({
-        method: "get",
-        url:
+      if (this.category != null) {
+        var url =
           this.$serverBaseUrl +
           "/products/" +
           this.category +
@@ -43,19 +45,58 @@ export default {
           "/" +
           this.orderBy +
           "/" +
-          this.direction
+          this.direction;
+      } else if (this.category == null) {
+        var url =
+          this.$serverBaseUrl +
+          "/products/" +
+          this.page +
+          "/" +
+          this.pageSize +
+          "/" +
+          this.orderBy +
+          "/" +
+          this.direction;
+      }
+      console.log(url);
+      this.$http({
+        method: "get",
+        url: url
       }).then(response => (this.products = response.data));
     }
+  },
+  watch: {
+    selectedProduct: function() {
+      this.fetchProducts();
+    } 
   },
   data: function() {
     return {
       searchQuery: "",
       page: 0,
       pageSize: 20,
-      orderBy: "",
-      direction: "",
-      category: "",
+      orderBy: "id",
+      direction: "asc",
+      category: null,
       selectedProduct: null,
+      categoryOptions: [
+        { value: null, text: "Kõik" },
+        { value: "LIHA_JA_KALA", text: "Liha ja kala" },
+        { value: "PUU_JA_KOOGIVILJAD", text: "Puu ja köögiviljad" },
+        { value: "PIIMATOOTED_MUNAD_VOID", text: "Piimatooted, munad, võid" },
+        {
+          value: "LEIVAD_SAIAD_KONDIITRITOOTED",
+          text: "Leivad, saiad, kondiitritooted"
+        },
+        { value: "KUIVAINED_HOIDISED", text: "Kuivained ja hoidised" },
+        { value: "KASTMED_OLID", text: "Kastmed ja õlid" },
+        {
+          value: "MAIUSTUSED_KUPSISED_NAKSID",
+          text: "Maiustused, küpsised, näksid"
+        },
+        { value: "KULMUTATUD_TOIDUKAUBAD", text: "Külmutatud toidukaubad" },
+        { value: "JOOGID", text: "Joogid" }
+      ],
       products: [
         {
           id: 0,
@@ -96,6 +137,7 @@ export default {
 <style lang="less" scoped>
 .product-wrapper {
   width: 25%;
+  min-width: 12rem;
 }
 
 .product {
