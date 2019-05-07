@@ -6,7 +6,10 @@
         <hr class="my-2">
         <p class="h4 mb-3">{{product.name}}</p>
         <p class="h6">EAN: {{product.ean}}</p>
-        <p class="h6">Kategooria: {{product.category}}</p>
+        <p class="h6">
+          Kategooria:
+          <FormatCategory :category="product.category"/>
+        </p>
         <p class="h6">Tootja: {{product.producer}}</p>
         <p class="h6">P2ritolumaa: {{product.origin}}</p>
         <p class="h6">Kogus: {{product.quantity.value}} {{product.quantity.unit}}</p>
@@ -27,8 +30,13 @@
 </template>
 
 <script>
+import FormatCategory from "@/components/FormatCategory.vue";
+
 export default {
   name: "ProductDetails",
+  components: {
+    FormatCategory
+  },
   props: {
     product: {
       type: Object,
@@ -67,6 +75,7 @@ export default {
     },
     mounted() {
       this.prices = this.product.productPrices;
+      console.log(this.product);
       console.log(this.prices);
       console.log(this.product.productPrices);
     },
