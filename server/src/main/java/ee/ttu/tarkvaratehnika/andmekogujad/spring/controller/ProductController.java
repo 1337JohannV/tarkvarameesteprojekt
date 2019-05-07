@@ -97,7 +97,6 @@ public class ProductController {
     }
     @RequestMapping(method = RequestMethod.POST, path = "/ostukorv")
     public HashMap<Store, Double> getBestStore(@RequestBody List<Integer> ids) {
-
         return basketService.getShopAndPriceFromList(basketService.getProductsListByIDs(ids));
 
     }

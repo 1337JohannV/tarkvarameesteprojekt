@@ -58,6 +58,9 @@ public class ProductService {
     }
 
     public void deleteAll() {
+        System.out.println("Started DELETING");
         productRepository.deleteAll();
+        productRepository.flush();
+        System.out.println("DELETING FINISHED");
     }
 }
