@@ -280,7 +280,7 @@
             alt="Toode"
             >
         </div>
-        <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"></>
+        <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"></PriceTable>
         <button v-on:click.prevent="addToShoppingcart(currentProduct)" id="menubutton" class="btn btn-primary btn-block">Add to shoppingcart</button>
         <button v-on:click.prevent="hideInfo" id="menubutton" class="btn btn-primary btn-block">Close</button>
       </div>
