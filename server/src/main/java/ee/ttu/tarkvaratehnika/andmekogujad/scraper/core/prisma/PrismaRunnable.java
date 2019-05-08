@@ -34,20 +34,27 @@ public class PrismaRunnable implements Runnable {
             try {
                 List<String> links = prismaScraper.getCategoryLinks(c);
                 for (String s : links) {
-                    Product p = prismaScraper.getProductFromPage(s);
-                    if (p == null) {
-                        nullProductLink = s;
-                        throw new NullPointerException();
+                    try {
+                        Product p = prismaScraper.getProductFromPage(s);
+                        if (p == null) {
+                            nullProductLink = s;
+                            throw new NullPointerException();
+                        }
+                        p.setCategory(c);
+                        scraperService.updateProduct(p);
+                    } catch (NullPointerException e) {
+                        scraperMain.getScraperReport()
+                                .addExceptionReport(
+                                        new ScraperException(
+                                                Store.PRISMA, nullProductLink, "Scraped product is null", e
+                                        ).getExceptionReport());
+                    } catch (ScraperException e) {
+                        scraperMain.getScraperReport().addExceptionReport(e.getExceptionReport());
+                        System.out.println("Exception occurred while scraping");
+                        System.out.println(e.getExceptionReport());
                     }
-                    p.setCategory(c);
-                    scraperService.updateProduct(p);
+
                 }
-            } catch (NullPointerException e) {
-                scraperMain.getScraperReport()
-                        .addExceptionReport(
-                                new ScraperException(
-                                        Store.PRISMA, nullProductLink, "Scraped product is null", e
-                                ).getExceptionReport());
             } catch (ScraperException e) {
                 scraperMain.getScraperReport().addExceptionReport(e.getExceptionReport());
                 System.out.println("Exception occurred while scraping");

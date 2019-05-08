@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { setInterval, clearInterval } from "timers";
 import AdminNavbar from "@/components/AdminNavbar.vue";
 import ScraperControls from "@/components/ScraperControls.vue";
 import AdminProductView from "@/components/AdminProductView.vue"

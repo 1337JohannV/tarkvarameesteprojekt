@@ -10,7 +10,8 @@
         <b-spinner v-if="scraperStatus == 'Scraper is running'" variant="danger" small class="mb-1"></b-spinner>
         <b-button
           v-else-if="scraperStatus == 'Scraper is not running' && !errored"
-          variant="outline-success"
+          disabled
+          variant=""
           class="mb-1"
           @click="startScraper()"
         >
