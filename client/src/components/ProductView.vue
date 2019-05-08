@@ -12,19 +12,21 @@
         <div 
           id="productCard" 
           class="card mb-4 box-shadow h-100"
-          style="max-width: 218px;"
+          style="max-width: 218px; overflow: hidden;"
         >
           <img 
             v-if="products[(p-1)*4].imgUrl != null"
             v-bind:src="products[(p-1)*4].imgUrl" 
             class="img-fluid"
             alt="Toode"
+            style="min-height: 150px; min-width: 220px;"
           >
           <img
             v-else
             src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
             class="img-fluid" 
             alt="Toode"
+            style="min-height: 150px; min-width: 220px;"
           >
           <div class="card-body">
             <table class="table">
@@ -66,19 +68,21 @@
         <div 
           id="productCard" 
           class="card mb-4 box-shadow h-100"
-          style="max-width: 218px;"
+          style="max-width: 218px; overflow: hidden;"
         >
           <img 
             v-if="products[(p-1)*4 + 1].imgUrl != null"
             v-bind:src="products[(p-1)*4 + 1].imgUrl" 
             class="img-fluid"
             alt="Toode"
+            style="min-height: 150px; min-width: 220px;"
           >
           <img
             v-else
             src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
             class="img-fluid" 
             alt="Toode"
+            style="min-height: 150px; min-width: 220px;"
           >
           <div class="card-body">
             <table class="table">
@@ -122,19 +126,21 @@
         <div 
           id="productCard" 
           class="card mb-4 box-shadow h-100"
-          style="max-width: 218px;"
+          style="max-width: 218px; overflow: hidden;"
         >
           <img 
             v-if="products[(p-1)*4 + 2].imgUrl != null"
             v-bind:src="products[(p-1)*4 + 2].imgUrl" 
             class="img-fluid"
             alt="Toode"
+            style="min-height: 150px; min-width: 220px;"
           >
           <img
             v-else
             src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
             class="img-fluid"
             alt="Toode"
+            style="min-height: 150px; min-width: 220px;"
           >
           <div class="card-body">
             <table class="table">
@@ -177,19 +183,21 @@
       >
         <div 
           id="productCard" class="card mb-4 box-shadow h-100"
-          style="max-width: 218px;"
+          style="max-width: 218px; overflow: hidden;"
         >
           <img 
             v-if="products[(p-1)*4 + 3].imgUrl != null"
             v-bind:src="products[(p-1)*4 + 3].imgUrl" 
             class="img-fluid"
             alt="Toode"
+            style="min-height: 150px; min-width: 220px;"
           >
           <img
             v-else
             src="https://www.oland.se/en/book//Content/img/missingimage.jpg"
             class="img-fluid"
             alt="Toode"
+            style="min-height: 150px; min-width: 220px;"
           >
           <div class="card-body">
             <table class="table">
@@ -230,17 +238,23 @@
   
     <b-modal 
       ref="my-modal" 
-      hide-footer title="Toote informatsioon"
+      hide-footer
+      hide-header
       >
       <div 
         class="container-fluid m-0 p-0" 
         v-if="currentProduct != -1"
         >
-        <table class="table table-borderless table-striped">
-          <thead>
+        <div 
+          class="jumbotron"
+          style="background-color: white;"
+        >
+        <h1 class="display-4"> Info</h1>  
+        <table class="table table-striped mb-4 mt-4">
+          <thead id="tablehead">
             <tr>
-              <th scope="col">{{products[this.currentProduct].name}}</th>
-              <th scope="col"> </th>
+              <th id="tdhead" scope="col">Toode: </th>
+              <th id="tdhead" scope="col">{{products[this.currentProduct].name}}</th>
             </tr>
           </thead>
           <tbody>
@@ -266,7 +280,7 @@
             </tr>
           </tbody>
         </table>
-        <div class ="container text-center mt-3 mb-3">
+        <div class ="container text-center pt-4 pb-4">
           <img 
             v-if="products[this.currentProduct].imgUrl != null"
             v-bind:src="products[this.currentProduct].imgUrl" 
@@ -280,9 +294,24 @@
             alt="Toode"
             >
         </div>
-        <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"></PriceTable>
-        <button v-on:click.prevent="addToShoppingcart(currentProduct)" id="menubutton" class="btn btn-primary btn-block">Add to shoppingcart</button>
-        <button v-on:click.prevent="hideInfo" id="menubutton" class="btn btn-primary btn-block">Close</button>
+          <h1 class="display-4 mb-3">
+          Hinnad</h1>
+          
+          <PriceTable v-bind:productPrices="products[this.currentProduct].productPrices"></PriceTable>
+          
+          
+
+          
+          
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            
+              <button v-on:click.prevent="hideInfo" id="menubutton" class="btn btn-primary float-left">Tagasi</button>
+              <button v-on:click.prevent="addToShoppingcart(currentProduct)" id="menubutton" class="btn btn-primary float-right">Lisa ostukorvi</button>
+            
+        </div>
+      
       </div>
     </b-modal>
   </div>
@@ -452,7 +481,7 @@ export default {
     },
     addToShoppingcart(id){
       this.$root.$data.sourceOfTruth.push(this.products[id]);
-      console.log(this.$root.$data.sourceOfTruth)
+      this.$refs['my-modal'].hide();
     },
   },
   created: function() {
@@ -548,4 +577,17 @@ export default {
   background-color: #02c39a;
   transition-duration: 0.1s;
 }
+
+#tablehead {
+  background-color: #02c39a;
+}
+
+#tdhead {
+  color: white;
+}
+
+.alert{
+  display:none;
+}
+
 </style>

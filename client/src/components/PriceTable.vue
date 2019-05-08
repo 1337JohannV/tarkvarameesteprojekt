@@ -1,23 +1,25 @@
 <template>
-  <table>
+  <table class="table table-striped">
+  <thead id="tablehead">
     <tr>
-      <th>Pood</th>
-      <th>Hind</th>
-      <th>Hind kliendikaardiga</th>
-      <th>Ühikhind</th>
+      <th id="tdhead" scope="col">Pood</th>
+      <th id="tdhead" scope="col">Hind</th>
+      <th id="tdhead" scope="col">Soodus hind</th>
+      <th id="tdhead" scope="col">Ühikhind</th>
     </tr>
+  </thead>
+  <tbody>
     <tr v-for="(price, index) in prices" :key="index">
-      <td>
-        <a :href="price.url">{{price.store}}</a>
-      </td>
+      <td> <a :href="price.url">{{price.store}}</a> </td>
       <td>{{price.regularPrice.amount}} {{price.regularPrice.currency}}</td>
       <td
         v-if="price.specialPrice != null"
       >{{price.specialPrice.amount}} {{price.specialPrice.currency}}</td>
-      <td v-else>Kliendikaari pakkumist pole</td>
+      <td v-else>Kliendikaardi pakkumist pole</td>
       <td>{{price.unitPrice.amount}} {{price.unitPrice.currency}}/{{price.unitPrice.perUnit}}</td>
     </tr>
-  </table>
+  </tbody>
+</table>
 </template>
 
 <script>
@@ -34,32 +36,14 @@ export default {
 
 <style scoped>
 
-table,
-td,
-th {
-  border: 1px solid #ddd;
-  text-align: left;
+#tablehead {
+  background-color: #02c39a;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-  margin-bottom: 2rem;
-}
-
-th,
-td {
-  padding: 15px;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-th {
-  background-color: #4caf50;
+#tdhead {
   color: white;
 }
+
 </style>
 
 
