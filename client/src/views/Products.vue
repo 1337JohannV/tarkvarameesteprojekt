@@ -4,12 +4,9 @@
     <div class="container-fluid mt-3 mb-3 ">
       <div class="row">
         <div class="col-4 pl-1">
-
           <FilterBar :noFilter="filter" @category="filterByCategory"/>
-
         </div>
         <div class="col-8 pr-1">
-
           <ProductView
           :cycle="currentPage"
           :filter="currentCat"
@@ -17,37 +14,31 @@
           @statePrevious="statePrev"
           @stateNext="stateNext"
           />
-
         </div>
       </div>
     </div>
     <div id="footer" class="navbar">
       <div class="container-fluid">
-
         <div class="col-4 pl-1">
         </div>
-
         <div class="col-8 p-0">
           <button
             id="previous"
             class="btn btn-primary btn-lg"
             v-on:click.prevent="newProduct('previous')"
             v-if="enablePrevious"
-            >Previous</button>
-
+            >Previous
+          </button>
           <button 
             id="next"
             class="btn btn-primary btn-lg float-right" 
             v-on:click.prevent="newProduct('next')" 
             v-if="enableNext"
-            >Next</button>
-
-
+            >Next
+          </button>
         </div>
-
       </div>
     </div>
-
   </div>
 </template>
 
