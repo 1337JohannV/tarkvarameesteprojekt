@@ -1,7 +1,25 @@
 <template>
   <nav id="menucontainer" class="navbar">
-    <span id="brand" class="navbar-brand mb-0 h1">Product price locator</span>
+    <router-link to="/admin" id="brand" class="navbar-brand mb-0 h1">Product price locator</router-link>
+    
     <form class="form-inline">
+
+      <div>
+        <b-dropdown id="dropdown-1" :text="direction" class="sm-md-2">
+        <b-dropdown-item v-on:click.prevent="direct('Kahanev')">Kahanev</b-dropdown-item>
+        <b-dropdown-item v-on:click.prevent="direct('Tõusev')">Tõusev</b-dropdown-item>
+        </b-dropdown>
+      </div>
+
+      <div>
+        <b-dropdown id="dropdown-1" :text="currentFilter" class="sm-md-2">
+        <b-dropdown-item v-on:click.prevent="filter('Nimi')">Nimi</b-dropdown-item>
+        <b-dropdown-item v-on:click.prevent="filter('EAN')">EAN</b-dropdown-item>
+        <b-dropdown-item v-on:click.prevent="filter('Tootja')">Tootja</b-dropdown-item>
+        <b-dropdown-item v-on:click.prevent="filter('Päritolu')">Päritolu</b-dropdown-item>
+        </b-dropdown>
+      </div>
+
       <input  v-model="searchText" class="form-control mr-sm-2" placeholder="Search" aria-label="Search">
       <button id="menubutton" v-on:click.prevent="searchDb" class="btn btn-outline-success my-2 my-sm-0">Search</button>
     </form>
@@ -16,8 +34,9 @@ export default {
   data: function() {
     return {
       searchText: "",
+      currentFilter: "Nimi",
+      direction: "Tõusev",
       buttonText: ["Otsi"],
-      test: "Working!"
     }
   },
   methods:{
@@ -25,12 +44,40 @@ export default {
       this.$emit("search", this.searchText);
       this.searchText = "";
     },
+    filter(filter){
+      
+
+      if(filter == "Nimi"){
+        this.$emit("ordering", "name");
+      } 
+      else if(filter == "EAN"){
+        this.$emit("ordering", "ean");
+      }
+      else if(filter == "Tootja"){
+        this.$emit("ordering", "producer");
+      }
+      else if(filter == "Päritolu"){
+        this.$emit("ordering", "origin");
+      }
+      this.currentFilter = filter;
+    },
+
+    direct(direction){
+      
+
+      if(direction == "Kahanev"){
+        this.$emit("direct", "desc");
+      } 
+      else if(direction == "Tõusev"){
+        this.$emit("direct", "asc");
+      }
+      this.direction = direction;
+    },
   }
 }
 </script>
 
 <style scoped>
-
 #brand{
   font-family: "Comic Sans MS", cursive, sans-serif;
   color: white;

@@ -52,8 +52,8 @@
                 </tr>
                 <td>
                   <b>Parim hind:</b><br>
-                  {{products[(p-1)*4].productPrices[0].unitPrice.amount}} {{products[(p-1)*4].productPrices[0].unitPrice.currency}} /
-                  {{products[(p-1)*4].productPrices[0].unitPrice.perUnit}}
+                  {{products[(p-1)*4].basePrice}} EUR
+
                 </td>
               </tbody>
             </table>
@@ -109,8 +109,7 @@
                 <tr>
                   <td>
                     <b>Parim hind:</b><br>
-                      {{products[(p-1)*4 + 1].productPrices[0].unitPrice.amount}} {{products[(p-1)*4 + 1].productPrices[0].unitPrice.currency}} /
-                      {{products[(p-1)*4 + 1].productPrices[0].unitPrice.perUnit}}
+                      {{products[(p-1)*4 + 1].basePrice}} EUR
                   </td>
                 </tr>
               </tbody>
@@ -167,8 +166,7 @@
                 <tr>
                   <td>
                     <b>Parim hind:</b><br>
-                    {{products[(p-1)*4 + 2].productPrices[0].unitPrice.amount}} {{products[(p-1)*4 + 2].productPrices[0].unitPrice.currency}} /
-                    {{products[(p-1)*4 + 2].productPrices[0].unitPrice.perUnit}}
+                    {{products[(p-1)*4 + 2].basePrice}} EUR
                   </td>
                 </tr>
               </tbody>
@@ -223,8 +221,7 @@
                 <tr>
                   <td>
                     <b>Parim hind:</b><br>
-                      {{products[(p-1)*4 + 3].productPrices[0].unitPrice.amount}} {{products[(p-1)*4 + 3].productPrices[0].unitPrice.currency}} /
-                      {{products[(p-1)*4 + 3].productPrices[0].unitPrice.perUnit}}
+                      {{products[(p-1)*4 + 3].basePrice}} EUR
                   </td>
                 </tr>
               </tbody>
@@ -240,6 +237,7 @@
       ref="my-modal" 
       hide-footer
       hide-header
+      @hide="onModalClose"
       >
       <div 
         class="container-fluid m-0 p-0" 
@@ -308,7 +306,7 @@
         <div class="d-flex justify-content-between align-items-center">
             
               <button v-on:click.prevent="hideInfo" id="menubutton" class="btn btn-primary float-left">Tagasi</button>
-              <button v-on:click.prevent="addToShoppingcart(currentProduct)" id="menubutton" class="btn btn-primary float-right">Lisa ostukorvi</button>
+              <button v-if="products[this.currentProduct].productPrices[0].store != 'MAXIMA'" v-on:click.prevent="addToShoppingcart(currentProduct)" id="menubutton" class="btn btn-primary float-right">Lisa ostukorvi</button>
             
         </div>
       
@@ -319,7 +317,7 @@
 
 <script>
 
-var address = "http://localhost:8080/products/0/24/name/asc";
+var address = "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/0/24/name/asc";
 import PriceTable from "@/components/PriceTable.vue";
 
 export default {
@@ -331,8 +329,9 @@ export default {
       currentPage: 0,
       products: null,
       currentProduct: -1,
-      currentImage: "",
-      shoppingCart: []
+      shoppingCart: [],
+      currentDirection: 'asc',
+      currentSort: 'name' 
     };
   },
   components: {
@@ -344,24 +343,33 @@ export default {
       this.currentPage = this.currentPage + 1;
       if (this.currentCategory != null) {
         address =
-          "http://localhost:8080/products/" +
+          "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/" +
           this.currentCategory +
           "/" +
           this.currentPage +
-          "/24/name/asc";
+          "/24/" +
+          this.currentSort + 
+          "/" +
+          this.currentDirection;
       } else if (this.currentSearch != "") {
         address =
-          "http://localhost:8080/products/search/" +
+          "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/search/" +
           this.currentSearch +
           "/" +
           this.currentPage +
-          "/24/asc";
+          "/24/" + 
+          this.currentDirection;
       } else {
         address =
-          "http://localhost:8080/products/" + 
+          "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/" + 
           this.currentPage + 
-          "/24/name/asc";
+          "/24/" +
+           this.currentSort + 
+           "/" +
+          this.currentDirection;
       }
+
+      console.log(address)
 
       const request = async () => {
         const response = await fetch(address);
@@ -369,15 +377,17 @@ export default {
         this.products = json;
 
         if (this.products.length < 24) {
-          this.$emit("stateNext", false);
           this.$emit("statePrevious", true);
         } else {
           this.$emit("stateNext", true);
           this.$emit("statePrevious", true);
         }
+        console.log(this.products)
       };
 
       request();
+
+      
     },
 
     previous() {
@@ -385,21 +395,30 @@ export default {
 
       if (this.currentCategory != null) {
         address =
-          "http://localhost:8080/products/" +
+          "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/" +
           this.currentCategory +
           "/" +
           this.currentPage +
-          "/24/name/asc";
+          "/24/"+ 
+          this.currentSort + 
+          "/"+
+          this.currentDirection;
       } else if (this.currentSearch != "") {
         address =
-          "http://localhost:8080/products/search/" +
+          "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/search/" +
           this.currentSearch +
           "/" +
           this.currentPage +
-          "/24/asc";
+          "/24/" + 
+          this.currentDirection;
       } else {
         address =
-          "http://localhost:8080/products/" + this.currentPage + "/24/name/asc";
+          "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/" 
+          + this.currentPage 
+          + "/24/" + 
+          this.currentSort + 
+          "/" +
+          this.currentDirection;
       }
 
       const request = async () => {
@@ -429,16 +448,20 @@ export default {
       this.$refs['my-modal'].hide();
     },
     filterbyCategory(category) {
+      this.currentProduct = -1;
       this.currentSearch = "";
       this.currentCategory = category;
       this.currentPage = 0;
 
       address =
-        "http://localhost:8080/products/" +
+        "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/" +
         this.currentCategory +
         "/" +
         this.currentPage +
-        "/24/name/asc";
+        "/24/" + 
+        this.currentSort + 
+        "/" + 
+        this.currentDirection;
 
       const request = async () => {
         const response = await fetch(address);
@@ -461,7 +484,10 @@ export default {
       this.currentSearch = search;
       this.currentPage = 0;
 
-      address = "http://localhost:8080/products/search/" + search + "/0/24/asc";
+      address = "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/search/" 
+                + search 
+                + "/0/24/" + 
+                this.currentDirection;
       const request = async () => {
         const response = await fetch(address);
         const json = await response.json();
@@ -483,6 +509,27 @@ export default {
       this.$root.$data.sourceOfTruth.push(this.products[id]);
       this.$refs['my-modal'].hide();
     },
+    onModalClose(){
+      console.log("works")
+      this.currentProduct = -1;
+    },
+  },
+  mounted: function() {
+    console.log("reset")
+    address = "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/0/24/name/asc";
+    this.currentSearch = "";
+    this.currentCategory = null
+    this.currentPage = 0
+    this.products = null
+    this.currentProduct = -1
+    this.currentDirection = 'asc'
+    this.currentSort = 'name' 
+
+    fetch(address)
+      .then(r => r.json())
+      .then(json => (this.products = json));
+
+    console.log(this.products)
   },
   created: function() {
     fetch(address)
@@ -497,6 +544,12 @@ export default {
       type: String
     },
     search: {
+      type: String
+    },
+    order: {
+      type: String
+    },
+    direct: {
       type: String
     }
   },
@@ -515,7 +568,7 @@ export default {
     filter: function() {
       console.log(this.filter);
       if (this.filter == "KOIK") {
-        address = "http://localhost:8080/products/0/24/name/asc";
+        address = "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/0/24/"+ this.currentSort + "/" + this.currentDirection;
         this.currentCategory = null;
         this.currentPage = 0;
         this.currentSearch = "";
@@ -542,6 +595,13 @@ export default {
           this.filterBySearch(this.search);
         }
       }
+    },
+    order: function(){
+      this.currentSort = this.order;
+    },
+    direct: function(){
+      console.log(this.direct);
+      this.currentDirection = this.direct;
     }
   }
 };

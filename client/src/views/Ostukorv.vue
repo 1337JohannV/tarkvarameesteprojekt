@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #f0f3bd;">
+  <div style="background-color: #f0f3bd; height: 41em;">
     <nav 
       id="topbar" 
       class="navbar"
@@ -23,7 +23,7 @@
     <div 
       id="ostukorv"
       class="container shadow rounded" 
-      style="height:25em; overflow-y: auto;"
+      style="height:24em; overflow-y: auto;"
     >
       <div 
         class="row  m-3 equal" 
@@ -112,7 +112,7 @@
 </template>
 
 <script>
-var aadress = "http://localhost:8080/products/ostukorv"
+var aadress = "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/ostukorv"
 export default {
   name: "Ostukorv",
   data: function(){
@@ -134,7 +134,7 @@ export default {
 
       const request = async () => {
         const response = await fetch(
-          "http://localhost:8080/products/ostukorv",{
+          "http://ec2-184-72-206-167.compute-1.amazonaws.com:8080/products/ostukorv",{
           method: "POST",
           headers: {
             "Content-Type": "application/json",

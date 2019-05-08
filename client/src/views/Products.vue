@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TopBar @search="filterBySearch"/>
+    <TopBar @search="filterBySearch" @ordering="orderByComponent" @direct="orderByDirection"/>
     <div class="container-fluid mt-3 mb-3 ">
       <div class="row">
         <div class="col-4 pl-1">
@@ -8,6 +8,8 @@
         </div>
         <div class="col-8 pr-1">
           <ProductView
+          :direct="direction"
+          :order="orderByComp"
           :cycle="currentPage"
           :filter="currentCat"
           :search="currentSearch"
@@ -56,6 +58,7 @@ export default {
   },
   data: function() {
     return {
+      orderByComp: "Nimi",
       infoShow: false,
       currentSearch: "",
       currentPage: 0,
@@ -63,6 +66,7 @@ export default {
       enablePrevious: false,
       enableNext: true,
       filter: false,
+      direction: 'asc',
     };
   },
   methods: {
@@ -91,9 +95,16 @@ export default {
       this.currentPage = 0;
       this.currentSearch = search;
     },
+    orderByComponent(order) {
+      this.orderByComp = order;
+      this.currentPage = 0;
+    },
+    orderByDirection(direct){
+      this.direction = direct;
+      this.currentPage = 0;
+    },
     show(){
       this.infoShow = true;
-      console.log(this.infoShow);
     }
   }
 };
