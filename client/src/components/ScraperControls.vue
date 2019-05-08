@@ -9,7 +9,7 @@
         >{{formatScraperStatus(scraperStatus)}}</p>
         <b-spinner v-if="scraperStatus == 'Scraper is running'" variant="danger" small class="mb-1"></b-spinner>
         <b-button
-          v-if="scraperStatus == 'Scraper is not running'"
+          v-if="scraperStatus == 'Scraper is not running' && !errored"
           variant="outline-success"
           class="mb-1"
           @click="startScraper()"
@@ -92,6 +92,7 @@ export default {
   },
   methods: {
     fetchReports: function() {
+      this.errored = false;
       this.$http({
         method: "get",
         url: this.$serverBaseUrl + "/scraper/report/all",
@@ -99,9 +100,10 @@ export default {
         auth: this.auth
       })
         .then(response => (this.scraperReports = response.data))
-        .catch(error => console.log(error.response));
+        .catch(error => (this.errored = true));
     },
     fetchScraperStatus: function() {
+      this.errored = false;
       this.$http({
         method: "get",
         url: this.$serverBaseUrl + "/scraper/status",
@@ -109,9 +111,10 @@ export default {
         auth: this.auth
       })
         .then(response => (this.scraperStatus = response.data))
-        .catch(error => console.log(error.response));
+        .catch(error => (this.errored = true));
     },
     startScraper: function() {
+      this.errored = false;
       this.$http({
         method: "get",
         url: this.$serverBaseUrl + "/scraper/update/start",
@@ -119,10 +122,11 @@ export default {
         auth: this.auth
       })
         .then(response => (this.scraperStartMessage = response.data))
-        .catch(error => console.log(error.response));
+        .catch(error => (this.errored = true));
       this.fetchScraperStatus();
     },
     stopScraper: function() {
+      this.errored = false;
       this.$http({
         method: "get",
         url: this.$serverBaseUrl + "/scraper/update/stop",
@@ -130,11 +134,13 @@ export default {
         auth: this.auth
       })
         .then(response => (this.scraperStopMessage = response.data))
-        .catch(error => console.log(error.response));
+        .catch(error => (this.errored = true));
       this.fetchScraperStatus();
     },
     formatScraperStatus: function(status) {
-      if (status == "Scraper is not running") {
+      if (this.errored) {
+        return "Puudub ühendus";
+      } else if (status == "Scraper is not running") {
         return "Uuendus on ootel";
       } else {
         return "Uuendus käib";
@@ -148,6 +154,7 @@ export default {
       perPage: 5,
       sortBy: null,
       sortDesc: false,
+      errored: false,
       sortDirection: "asc",
       scraperStatus: "",
       scraperStartMessage: "",
@@ -172,7 +179,6 @@ export default {
       },
       scraperReports: [
         /*
-
         {
           id: Number,
           startDate: String,
@@ -194,7 +200,6 @@ export default {
             }
           ]
         }
-
         */
       ]
     };

@@ -1,14 +1,16 @@
 <template>
   <div>
     <b-navbar toggleable type="light" variant="faded" class="p-0 border-bottom">
-      <b-nav-text>
-        <b-button variant="link" class="text-dark" @click="exitAdminPage()">
-          <font-awesome-icon icon="sign-out-alt"></font-awesome-icon>
-        </b-button>
-      </b-nav-text>
-      <b-navbar-brand>
-        <font-awesome-icon icon="eye"/>
-      </b-navbar-brand>
+      <div class="container">
+        <b-nav-text>
+          <b-button variant="link" class="text-dark" @click="exitAdminPage()">
+            <font-awesome-icon icon="sign-out-alt"></font-awesome-icon>
+          </b-button>
+        </b-nav-text>
+        <b-navbar-brand>
+          <font-awesome-icon icon="eye"/>
+        </b-navbar-brand>
+      </div>
     </b-navbar>
   </div>
 </template>

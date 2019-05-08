@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    {{search}} {{(rows > pageSize) && !search}}
     <b-modal id="product-details" size="lg" hide-footer>
       <template slot="modal-title">
         <p v-if="selectedProduct != null" class="h3 m-0">{{selectedProduct.name}}</p>
@@ -26,7 +25,7 @@
               ></b-form-select>
             </b-form-group>
           </b-form>
-          <b-form inline class="mb-2">
+          <b-form inline class="mb-2 p-0">
             <b-form-group label="Sortreeri" label-for="sort">
               <b-form-select
                 size="sm"
@@ -68,30 +67,43 @@
     <div v-if="errored" class="d-block text-center my-5">
       <p class="h1 display-4">Päring ebaõnnestus, vabandame</p>
     </div>
+    <div
+      v-else-if="search && products != null && products.length == 0"
+      class="d-block text-center my-5"
+    >
+      <p class="h1 display-4">Tulemused puuduvad</p>
+    </div>
     <div v-else-if="products == null" class="d-block text-center my-5">
       <b-spinner variant="primary"></b-spinner>
-      <p class="m-0 mt-2 text-secondary">Tooteid laetakse, palun oota</p>
+      <p class="m-0 mt-2 lead text-secondary">Tooteid laetakse, palun oota</p>
     </div>
-    <div v-if="products != null" class="d-flex flex-wrap justify-content-center">
-      <div v-for="product in products" :key="product.id" class="p-1 product-wrapper d-inline-block">
+    <div v-else-if="products != null && products.length > 0">
+      <p v-if="search" class="lead m-0 ml-1">Leiti {{products.length}} vastet</p>
+      <div class="d-flex flex-wrap justify-content-center">
         <div
-          class="p-1 shadow-sm product-tile rounded border bg-light text-secondary"
-          v-b-modal.product-details
-          @click="selectedProduct = product"
+          v-for="product in products"
+          :key="product.id"
+          class="p-1 product-wrapper d-inline-block"
         >
-          <b-img :src="getProductImage(product)" class="border rounded shadow-sm bg-white"></b-img>
-          <p class="h5 m-0 mt-1 text-dark text-center">{{product.name}}</p>
-          <hr class="my-1">
-          <p v-if="product.ean != null" class="small m-0">EAN: {{product.ean}}</p>
-          <p class="small m-0">
-            Kategooria:
-            <FormatCategory :category="product.category"/>
-          </p>
+          <div
+            class="p-1 shadow-sm product-tile rounded border bg-light text-secondary"
+            v-b-modal.product-details
+            @click="selectedProduct = product"
+          >
+            <b-img :src="getProductImage(product)" class="border rounded shadow-sm bg-white"></b-img>
+            <p class="h5 m-0 mt-1 text-dark text-center">{{product.name}}</p>
+            <hr class="my-1">
+            <p v-if="product.ean != null" class="small m-0">EAN: {{product.ean}}</p>
+            <p class="small m-0">
+              Kategooria:
+              <FormatCategory :category="product.category"/>
+            </p>
+          </div>
         </div>
       </div>
     </div>
     <b-pagination
-      v-if="(rows > pageSize) && !search"
+      v-if="(rows > pageSize) && !search && !errored"
       v-model="page"
       class="mt-2"
       :total-rows="rows"
@@ -129,19 +141,22 @@ export default {
       }
     },
     fetchSearchResults: function() {
-      this.search = true;
-      this.products = null;
-      this.errored = false;
-      var searchQuery = this.searchQuery.replace(/\s+/g, "-").toLowerCase();
-      var url = this.$serverBaseUrl + "/products/search/" + searchQuery;
-      this.$http({
-        method: "get",
-        url: url
-      })
-        .then(response => (this.products = response.data))
-        .catch(error => (this.errored = true));
+      if (this.searchQuery.length > 0) {
+        this.search = true;
+        this.products = null;
+        this.errored = false;
+        var searchQuery = this.searchQuery.replace(/\s+/g, "-").toLowerCase();
+        var url = this.$serverBaseUrl + "/products/search/" + searchQuery;
+        this.$http({
+          method: "get",
+          url: url
+        })
+          .then(response => (this.products = response.data))
+          .catch(error => (this.errored = true));
+      }
     },
     fetchRowCount() {
+      this.errored = false;
       if (this.category != null) {
         var url = this.$serverBaseUrl + "/products/rows/" + this.category;
       } else {
@@ -151,7 +166,8 @@ export default {
         method: "get",
         url: url
       })
-        .then(response => (this.rows = response.data));
+        .then(response => (this.rows = response.data))
+        .catch(error => (this.errored = true));
     },
     fetchProducts: function() {
       this.search = false;
@@ -185,7 +201,9 @@ export default {
       this.$http({
         method: "get",
         url: url
-      }).then(response => (this.products = response.data)).catch(error => (this.errored = true));
+      })
+        .then(response => (this.products = response.data))
+        .catch(error => (this.errored = true));
     }
   },
   data: function() {
@@ -244,7 +262,7 @@ export default {
   img {
     display: block;
     width: 100%;
-    max-height: 10rem;
+    max-height: 9rem;
     object-fit: cover;
   }
 }
