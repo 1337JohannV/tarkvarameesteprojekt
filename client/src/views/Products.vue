@@ -128,6 +128,7 @@ export default {
   transition-duration: 0.3s;
   font-size: 30px;
   font-family: monospace;
+  box-shadow: none;
 }
 
 #previous:hover,
