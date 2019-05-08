@@ -1,18 +1,19 @@
 package ee.ttu.tarkvaratehnika.andmekogujad.spring.controller;
 
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.BasketStore;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.BasketService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.BasketStore;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.service.product.BasketService;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.ProductService;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.search.ProductSearch;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Product;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.service.product.ProductService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.search.ProductSearch;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.transfer.AdminProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -105,7 +106,12 @@ public class ProductController {
 
     @RequestMapping(path = "/search/{searchQuery}", method = RequestMethod.GET)
     public List<Product> productSearch(@PathVariable String searchQuery) {
-        return productSearch.search(searchQuery);
+        if (searchQuery.length() == 0) {
+            return new ArrayList<>();
+        } else if (searchQuery.chars().allMatch(Character::isDigit)) {
+            return productSearch.search(searchQuery, "ean");
+        }
+        return productSearch.search(searchQuery, "name", "producer", "origin");
     }
 
     @RequestMapping(path = "/search/{searchQuery}/{page}/{size}/{direction}", method = RequestMethod.GET)

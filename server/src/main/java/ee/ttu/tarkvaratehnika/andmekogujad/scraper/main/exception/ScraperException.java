@@ -1,8 +1,8 @@
 package ee.ttu.tarkvaratehnika.andmekogujad.scraper.main.exception;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.model.CauseReport;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.model.ExceptionReport;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.scraper.CauseReport;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.scraper.ExceptionReport;
 import lombok.Getter;
 
 import java.time.LocalTime;

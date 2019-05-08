@@ -1,4 +1,4 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import lombok.AllArgsConstructor;

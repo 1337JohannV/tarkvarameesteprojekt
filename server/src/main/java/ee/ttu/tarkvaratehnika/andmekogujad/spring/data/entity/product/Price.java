@@ -1,6 +1,6 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product;
 
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Unit;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Currency;
 import lombok.*;
 
 import javax.persistence.Embeddable;
@@ -14,12 +14,12 @@ import java.io.Serializable;
 @Setter
 @ToString
 @Embeddable
-public class Quantity implements Serializable {
+public class Price implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Double value;
+    private Double amount;
 
     @Enumerated(EnumType.STRING)
-    private Unit unit;
+    private Currency currency;
 }

@@ -9,7 +9,7 @@
         >{{formatScraperStatus(scraperStatus)}}</p>
         <b-spinner v-if="scraperStatus == 'Scraper is running'" variant="danger" small class="mb-1"></b-spinner>
         <b-button
-          v-if="scraperStatus == 'Scraper is not running' && !errored"
+          v-else-if="scraperStatus == 'Scraper is not running' && !errored"
           variant="outline-success"
           class="mb-1"
           @click="startScraper()"
@@ -18,6 +18,7 @@
             <b-spinner small type="grow" class="mr-2"></b-spinner>Käivita uuendus
           </p>
         </b-button>
+        <p v-if="!errored" class="small" :key="totalProducts">Tooteid andmebaasis: {{totalProducts}}</p>
       </div>
     </div>
     <hr class="my-0">
@@ -88,11 +89,11 @@ export default {
     this.fetchScraperStatus();
     this.timer = setInterval(() => {
       this.fetchScraperStatus();
+      this.fetchRowCount();
     }, 2500);
   },
   methods: {
     fetchReports: function() {
-      this.errored = false;
       this.$http({
         method: "get",
         url: this.$serverBaseUrl + "/scraper/report/all",
@@ -100,10 +101,10 @@ export default {
         auth: this.auth
       })
         .then(response => (this.scraperReports = response.data))
+        .then(() => (this.errored = false))
         .catch(error => (this.errored = true));
     },
     fetchScraperStatus: function() {
-      this.errored = false;
       this.$http({
         method: "get",
         url: this.$serverBaseUrl + "/scraper/status",
@@ -111,10 +112,10 @@ export default {
         auth: this.auth
       })
         .then(response => (this.scraperStatus = response.data))
+        .then(() => (this.errored = false))
         .catch(error => (this.errored = true));
     },
     startScraper: function() {
-      this.errored = false;
       this.$http({
         method: "get",
         url: this.$serverBaseUrl + "/scraper/update/start",
@@ -122,11 +123,11 @@ export default {
         auth: this.auth
       })
         .then(response => (this.scraperStartMessage = response.data))
+        .then(() => (this.errored = false))
         .catch(error => (this.errored = true));
       this.fetchScraperStatus();
     },
     stopScraper: function() {
-      this.errored = false;
       this.$http({
         method: "get",
         url: this.$serverBaseUrl + "/scraper/update/stop",
@@ -134,6 +135,7 @@ export default {
         auth: this.auth
       })
         .then(response => (this.scraperStopMessage = response.data))
+        .then(() => (this.errored = false))
         .catch(error => (this.errored = true));
       this.fetchScraperStatus();
     },
@@ -145,6 +147,16 @@ export default {
       } else {
         return "Uuendus käib";
       }
+    },
+    fetchRowCount() {
+      var url = this.$serverBaseUrl + "/products/rows";
+      this.$http({
+        method: "get",
+        url: url
+      })
+        .then(response => (this.totalProducts = response.data))
+        .then(() => (this.errored = false))
+        .catch(error => (this.errored = true));
     }
   },
   data: function() {
@@ -155,6 +167,7 @@ export default {
       sortBy: null,
       sortDesc: false,
       errored: false,
+      totalProducts: 0,
       sortDirection: "asc",
       scraperStatus: "",
       scraperStartMessage: "",

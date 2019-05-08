@@ -1,4 +1,4 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.model;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.scraper;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import lombok.*;

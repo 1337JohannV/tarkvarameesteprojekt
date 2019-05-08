@@ -1,6 +1,6 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.repository;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.repository.scraper;
 
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.model.ScraperReport;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.scraper.ScraperReport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

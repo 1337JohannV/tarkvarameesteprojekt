@@ -3,7 +3,7 @@ import ee.ttu.tarkvaratehnika.andmekogujad.scraper.main.exception.ScraperExcepti
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Currency;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Unit;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.*;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.*;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

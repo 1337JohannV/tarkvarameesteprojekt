@@ -8,7 +8,7 @@ import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Currency;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Unit;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.*;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;

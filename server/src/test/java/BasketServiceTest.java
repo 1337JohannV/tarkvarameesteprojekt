@@ -1,15 +1,14 @@
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.BasketStore;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.BasketService;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.BasketStore;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.service.product.BasketService;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Price;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.ProductPrice;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Price;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Product;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.ProductPrice;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 

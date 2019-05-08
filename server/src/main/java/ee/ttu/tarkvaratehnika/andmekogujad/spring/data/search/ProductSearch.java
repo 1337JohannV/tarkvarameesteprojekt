@@ -1,6 +1,6 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.search;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.search;
 
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Product;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,28 +34,31 @@ public class ProductSearch {
                     .buildQueryBuilder()
                     .forEntity(Product.class).get();
         } catch (InterruptedException iE) {
-            System.out.println("SEARCH INITIALIZATION FAILED");
-            iE.printStackTrace();
+            throw new RuntimeException(iE);
         }
     }
 
-    private List search(String query, String... fields) {
-        em.getTransaction().begin();
-        org.apache.lucene.search.Query luceneQuery = qb
-                .keyword()
-                .onFields(fields)
-                .matching(query)
-                .createQuery();
-        javax.persistence.Query jpaQuery =
-                ftem.createFullTextQuery(luceneQuery, Product.class);
-        List result = jpaQuery.getResultList();
-        em.getTransaction().commit();
-        return result;
+    public List search(String query, String... fields) {
+        try {
+            em.getTransaction().begin();
+            org.apache.lucene.search.Query luceneQuery = qb
+                    .keyword()
+                    .onFields(fields)
+                    .matching(query)
+                    .createQuery();
+            javax.persistence.Query jpaQuery =
+                    ftem.createFullTextQuery(luceneQuery, Product.class);
+            List result = jpaQuery.getResultList();
+            em.getTransaction().commit();
+            return result;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            return new ArrayList();
+        }
     }
 
     public List search(String query) {
         return search(query, "name", "ean", "producer", "origin");
-
     }
 
     public List searchByName(String query) {
@@ -72,16 +75,9 @@ public class ProductSearch {
 
     public List searchPages(String searchQuery, int page, int size, int dir) {
 
-        em.getTransaction().begin();
-        org.apache.lucene.search.Query luceneQuery = qb
-                .keyword()
-                .onFields("name", "ean", "producer", "origin")
-                .matching(searchQuery)
-                .createQuery();
-        javax.persistence.Query jpaQuery =
-                ftem.createFullTextQuery(luceneQuery, Product.class);
-        List result = jpaQuery.getResultList();
-        em.getTransaction().commit();
+        List result = search(searchQuery
+        );
+
 
         if (dir == 1) {
             Collections.reverse(result);

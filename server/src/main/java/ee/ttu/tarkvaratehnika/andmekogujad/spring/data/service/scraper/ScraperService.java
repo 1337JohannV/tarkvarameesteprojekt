@@ -1,15 +1,15 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.service;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.service.scraper;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Currency;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Price;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.ProductPrice;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Quantity;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository.ProductRepository;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service.search.ProductSearch;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.model.ScraperReport;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.scraper.repository.ScraperRepository;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Price;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Product;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.ProductPrice;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Quantity;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.repository.product.ProductRepository;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.search.ProductSearch;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.scraper.ScraperReport;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.repository.scraper.ScraperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

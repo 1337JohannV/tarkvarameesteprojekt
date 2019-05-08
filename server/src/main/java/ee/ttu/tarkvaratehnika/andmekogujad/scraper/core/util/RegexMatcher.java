@@ -2,9 +2,9 @@ package ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.util;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Currency;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Unit;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Price;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Quantity;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.UnitPrice;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Price;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Quantity;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.UnitPrice;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

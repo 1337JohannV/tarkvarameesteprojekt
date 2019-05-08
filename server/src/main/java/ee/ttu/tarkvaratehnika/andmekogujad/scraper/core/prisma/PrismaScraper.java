@@ -12,9 +12,9 @@ import ee.ttu.tarkvaratehnika.andmekogujad.scraper.main.exception.ScraperExcepti
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Currency;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Price;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.ProductPrice;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Price;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Product;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.ProductPrice;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Component;

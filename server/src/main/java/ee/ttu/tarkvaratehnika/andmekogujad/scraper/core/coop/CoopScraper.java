@@ -3,7 +3,7 @@ package ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.coop;
 import ee.ttu.tarkvaratehnika.andmekogujad.scraper.core.Scraper;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Product;
 
 import java.util.List;
 

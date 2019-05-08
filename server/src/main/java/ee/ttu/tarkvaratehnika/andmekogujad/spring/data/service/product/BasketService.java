@@ -1,15 +1,14 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.service;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.service.product;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.BasketStore;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.ProductPrice;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.BasketStore;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Product;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.ProductPrice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Service

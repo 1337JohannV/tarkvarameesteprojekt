@@ -144,7 +144,6 @@ export default {
       if (this.searchQuery.length > 0) {
         this.search = true;
         this.products = null;
-        this.errored = false;
         var searchQuery = this.searchQuery.replace(/\s+/g, "-").toLowerCase();
         var url = this.$serverBaseUrl + "/products/search/" + searchQuery;
         this.$http({
@@ -152,11 +151,11 @@ export default {
           url: url
         })
           .then(response => (this.products = response.data))
+          .then(() => (this.errored = false))
           .catch(error => (this.errored = true));
       }
     },
     fetchRowCount() {
-      this.errored = false;
       if (this.category != null) {
         var url = this.$serverBaseUrl + "/products/rows/" + this.category;
       } else {
@@ -167,12 +166,12 @@ export default {
         url: url
       })
         .then(response => (this.rows = response.data))
+        .then(() => (this.errored = false))
         .catch(error => (this.errored = true));
     },
     fetchProducts: function() {
       this.search = false;
       this.products = null;
-      this.errored = false;
       if (this.category != null) {
         var url =
           this.$serverBaseUrl +
@@ -203,6 +202,7 @@ export default {
         url: url
       })
         .then(response => (this.products = response.data))
+        .then(() => (this.errored = false))
         .catch(error => (this.errored = true));
     }
   },

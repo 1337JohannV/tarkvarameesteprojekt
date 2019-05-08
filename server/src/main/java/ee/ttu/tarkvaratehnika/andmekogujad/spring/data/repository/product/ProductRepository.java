@@ -1,8 +1,8 @@
-package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.repository;
+package ee.ttu.tarkvaratehnika.andmekogujad.spring.data.repository.product;
 
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Category;
 import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.enums.Store;
-import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.product.model.Product;
+import ee.ttu.tarkvaratehnika.andmekogujad.spring.data.entity.product.Product;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
