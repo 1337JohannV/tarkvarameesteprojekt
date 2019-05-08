@@ -436,8 +436,8 @@ export default {
       request();
     },
     addToShoppingcart(id){
-      this.shoppingCart.push(this.products[id]);
-      this.$root.$data.sourceOfTruth = this.shoppingCart;
+      this.$root.$data.sourceOfTruth.push(this.products[id]);
+      console.log(this.$root.$data.sourceOfTruth)
     },
   },
   created: function() {
