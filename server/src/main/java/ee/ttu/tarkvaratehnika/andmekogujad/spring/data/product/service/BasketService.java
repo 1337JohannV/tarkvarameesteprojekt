@@ -32,31 +32,47 @@ public class BasketService {
         double pricePrisma = 0;
         double priceSelver = 0;
         for (Product product : products) {
+            System.out.println(product);
+            if (product.getProductPrices().size() > 1) {
+                for (ProductPrice productPrice : product.getProductPrices()) {
 
-            for (ProductPrice productPrice : product.getProductPrices()) {
+                    if (productPrice.getSpecialPrice() == null) {
+                        if (productPrice.getStore().equals(Store.PRISMA)) {
+                            pricePrisma += productPrice.getRegularPrice().getAmount();
+                        }
+                        if (productPrice.getStore().equals(Store.SELVER)) {
+                            priceSelver += productPrice.getRegularPrice().getAmount();
+                        }
 
-                if (productPrice.getSpecialPrice() == null) {
-                    if (productPrice.getStore().equals(Store.PRISMA)) {
-                        pricePrisma += productPrice.getRegularPrice().getAmount();
+                    } else if (productPrice.getStore().equals(Store.SELVER) && productPrice.getSpecialPrice() != null) {
+                        priceSelver += productPrice.getSpecialPrice().getAmount();
                     }
-                    if (productPrice.getStore().equals(Store.SELVER)) {
-                        priceSelver += productPrice.getRegularPrice().getAmount();
-                    }
 
-                } else if (productPrice.getStore().equals(Store.SELVER) && productPrice.getSpecialPrice() != null) {
-                    priceSelver += productPrice.getSpecialPrice().getAmount();
                 }
+            } else if (product.getProductPrices().size() == 1) {
+                if (product.getProductPrices().get(0).getStore().equals(Store.SELVER)
+                        || product.getProductPrices().get(0).getStore().equals(Store.PRISMA)) {
+                    if (product.getProductPrices().get(0).getSpecialPrice() == null) {
+                        priceSelver += product.getProductPrices().get(0).getRegularPrice().getAmount();
+                        pricePrisma += product.getProductPrices().get(0).getRegularPrice().getAmount();
+                    } else {
+                        priceSelver += product.getProductPrices().get(0).getSpecialPrice().getAmount();
+                        pricePrisma += product.getProductPrices().get(0).getSpecialPrice().getAmount();
 
+                    }
+
+                }
             }
+
         }
 
         if (pricePrisma > priceSelver) {
-            return new BasketStore(Store.SELVER,priceSelver);
+            return new BasketStore(Store.SELVER, priceSelver);
 
         } else if (pricePrisma == priceSelver) {
-            return null;
+            return new BasketStore(Store.SELVER, priceSelver);
         } else {
-            return new BasketStore(Store.PRISMA,pricePrisma);
+            return new BasketStore(Store.PRISMA, pricePrisma);
         }
     }
 
