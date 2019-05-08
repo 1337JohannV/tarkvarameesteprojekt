@@ -69,7 +69,7 @@ public class BasketService {
             return new BasketStore(Store.SELVER, priceSelver);
 
         } else if (pricePrisma == priceSelver) {
-            return new BasketStore(Store.SELVER, priceSelver);
+            return new BasketStore(Store.PRISMA, pricePrisma);
         } else {
             return new BasketStore(Store.PRISMA, pricePrisma);
         }
