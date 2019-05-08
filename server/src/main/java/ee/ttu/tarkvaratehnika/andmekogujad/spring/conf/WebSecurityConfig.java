@@ -24,26 +24,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .withUser("admin").password("{noop}admin").roles("ADMIN");
     }
 
-  /*  @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-
-
-        http
-            .cors().and().csrf()
-            .and()
-                .authorizeRequests()
-                .antMatchers("/products/**").permitAll()
-                .antMatchers("/scraper/**").permitAll()
-                .anyRequest().authenticated();
-    }*/
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().and().csrf().disable();
-
+            .cors().and().csrf().disable();
     }
+
+    //    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//            .cors().and().csrf()
+//            .and()
+//                .authorizeRequests()
+//                .antMatchers("/products/**").permitAll()
+//                .antMatchers("/scraper/**").permitAll()
+//                .anyRequest().authenticated();
+//    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

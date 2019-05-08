@@ -69,11 +69,13 @@ export default {
       console.log(this.dummy);
 
       fetch("http://localhost:8080/products/ostukorv",{
-        method: 'POST',
-        body: this.dummy
-      })
-      .then(r => r.json())
-      .then(json => (this.products = json));
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(idArray), 
+        }).then(res=>res.json())
+        .then(res => console.log(res));
 
     }
   },
