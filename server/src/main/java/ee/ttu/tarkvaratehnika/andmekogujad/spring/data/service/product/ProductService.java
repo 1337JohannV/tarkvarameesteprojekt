@@ -36,7 +36,7 @@ public class ProductService {
 
     public List<Product> findAll() {
         List<Product> products = new ArrayList<>();
-        productRepository.findAll().forEach(products::add);
+        products.addAll(productRepository.findAll());
         return products;
     }
 

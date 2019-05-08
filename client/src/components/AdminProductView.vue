@@ -65,13 +65,13 @@
       </b-tabs>
     </b-collapse>
     <div v-if="errored" class="d-block text-center my-5">
-      <p class="h1 display-4">Päring ebaõnnestus, vabandame</p>
+      <p class="h1 display-4 p-2">Päring ebaõnnestus, vabandame</p>
     </div>
     <div
       v-else-if="search && products != null && products.length == 0"
       class="d-block text-center my-5"
     >
-      <p class="h1 display-4">Tulemused puuduvad</p>
+      <p class="h1 display-4 p-2">Tulemused puuduvad</p>
     </div>
     <div v-else-if="products == null" class="d-block text-center my-5">
       <b-spinner variant="primary"></b-spinner>
@@ -262,7 +262,7 @@ export default {
   img {
     display: block;
     width: 100%;
-    max-height: 9rem;
+    height: 9rem;
     object-fit: cover;
   }
 }

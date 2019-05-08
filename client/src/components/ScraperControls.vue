@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <p class="h1">Värskenda andmeid</p>
+      <p class="h1 display-4 p-2">Värskenda andmeid</p>
       <div class="p-3">
         <p
           class="lead d-inline-block mr-3"
@@ -18,7 +18,10 @@
             <b-spinner small type="grow" class="mr-2"></b-spinner>Käivita uuendus
           </p>
         </b-button>
-        <p v-if="!errored" class="small" :key="totalProducts">Tooteid andmebaasis: {{totalProducts}}</p>
+        <p v-if="true" class="small text-secondary pl-2" :key="totalProducts">
+          Tooteid andmebaasis: {{totalProducts}}
+          <b-spinner v-if="totalProducts == null" small class="ml-2 mb"></b-spinner>
+        </p>
       </div>
     </div>
     <hr class="my-0">
@@ -167,7 +170,7 @@ export default {
       sortBy: null,
       sortDesc: false,
       errored: false,
-      totalProducts: 0,
+      totalProducts: null,
       sortDirection: "asc",
       scraperStatus: "",
       scraperStartMessage: "",
