@@ -17,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(name="product")
 @ToString
 @Indexed
 @AnalyzerDef(name = "nameAnalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
@@ -43,6 +44,7 @@ public class Product implements Serializable {
     private Category category;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name="product_productprices")
     private List<ProductPrice> productPrices;
 
     @Embedded

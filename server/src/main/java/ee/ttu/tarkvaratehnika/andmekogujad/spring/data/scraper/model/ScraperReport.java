@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
+@Table(name="scraperreport")
 public class ScraperReport implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +24,7 @@ public class ScraperReport implements Serializable {
     private Long id;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name="scraperreport_exceptions")
     private List<ExceptionReport> exceptions;
 
     private LocalDate startDate;
