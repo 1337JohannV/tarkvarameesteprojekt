@@ -12,10 +12,18 @@
       >
       <router-link id="tagasi" to="/" class="btn btn-primary btn-lg">Tagasi</router-link>
     </nav>
+    <div class="container">
+      <div class="jumbotron jumbotron-fluid p-0 pt-3" style="background-color: #f0f3bd;">
+      <div class="container">
+        <h1 class="display-4">TOOTED</h1>
+      </div>
+    </div>
+    </div>
+    
     <div 
       id="ostukorv"
       class="container shadow rounded" 
-      style="height:35em; overflow-y: auto;"
+      style="height:25em; overflow-y: auto;"
     >
       <div 
         class="row  m-3 equal" 
@@ -42,18 +50,19 @@
             <div class="card-body">
               <p class="card-text"><b>{{products[(n-1)*5 + p - 1].name}}</b></p>
             </div>
-            <div class="container mb-2">
+            <div class="container text-middle mb-2">
               <button 
                 type="button" 
-                class="btn btn-danger btn-lg" 
+                class="btn btn-danger btn-lg btn-block" 
                 v-on:click.prevent="remove((n-1)*5 + p - 1)"
-                >Eemalda ostukorvist
+                >Eemalda
               </button>
             </div>
           </div>
         </div>     
       </div>
     </div>
+    <div id="filler"></div>
 
     <!-- modal -->
   
@@ -151,6 +160,10 @@ export default {
 
 ::-webkit-scrollbar {
   width: 30px;
+}
+
+#filler {
+  height: 5em;
 }
 
 #ostukorv {

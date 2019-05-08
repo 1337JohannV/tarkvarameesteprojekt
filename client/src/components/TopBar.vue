@@ -5,7 +5,7 @@
       <input  v-model="searchText" class="form-control mr-sm-2" placeholder="Search" aria-label="Search">
       <button id="menubutton" v-on:click.prevent="searchDb" class="btn btn-outline-success my-2 my-sm-0">Search</button>
     </form>
-    <router-link to="/ostukorv" id="menubutton" class="btn" type="button">Ostukorv</router-link>
+    <router-link to="/ostukorv" id="menubutton" class="btn" type="button">Ostukorv ({{this.$root.$data.sourceOfTruth.length}})</router-link>
   </nav>
 </template>
 
